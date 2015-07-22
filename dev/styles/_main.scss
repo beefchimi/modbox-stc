@@ -1,0 +1,665 @@
+// ==|== primary styles =======================================================
+// Author: Curtis Dulmage
+// ============================================================================
+
+// Foundation
+// ----------------------------------------------------------------------------
+html {
+	font-family: 'aktiv-grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif; // bug in FF causing 2 scrollbars with Helvetica?
+}
+body {
+	position: relative;
+}
+::selection {
+	color: $hsl_L100;
+	background-color: $hsl_pink;
+}
+
+/*
+// + autoprefixer does not recognize placeholder + \\
+::-webkit-input-placeholder {
+	color: $hsl_L0;
+}
+::-moz-placeholder {
+	color: $hsl_L0;
+	opacity: 1;
+}
+:-ms-input-placeholder {
+	color: $hsl_L0;
+}
+*/
+
+// --- Lock Scrolling On Load --- \\
+html[data-overflow="locked"],
+html[data-overflow="locked"] body {
+	overflow-y: hidden;
+}
+html {
+	min-height: 100%;
+	overflow-y: scroll;
+}
+/*
+html[data-ready="waiting"] body {
+	overflow-y: hidden;
+}
+html[data-ready="loaded"] body {
+	overflow-y: visible;
+}
+*/
+
+// Transitions & Animations
+// ----------------------------------------------------------------------------
+a {
+	transition: all 260ms ease-in-out; // reconsider 'all'?
+}
+svg {
+	transition: fill 260ms ease-in-out;
+}
+div.navigation {
+	transition: opacity 360ms ease-in-out, visibility 360ms ease-in-out; // try to avoid using visibility
+}
+a.nav_toggle div.wrap_lines div.nav_line {
+	transition: transform 260ms ease-in-out, background-color 260ms ease-in-out;
+}
+// --- Animations --- \\
+@keyframes anim360 {
+	to { transform: rotate(360deg); }
+}
+@keyframes animOpacity {
+	  0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+// General Styles
+// ----------------------------------------------------------------------------
+.wrap_element {
+	position: relative;
+}
+// + SVGs + \\
+#svgInject {
+	display: none;
+	visibility: hidden;
+}
+.wrap_svg {
+	display: block;
+}
+.wrap_svg svg {
+	width: 100%;
+	height: 100%;
+}
+svg.svg_inline {
+	display: inline; // chrome does not respect the [viewBox] selector
+}
+// --- Containers --- \\
+[data-container] {
+	margin-left: auto;
+	margin-right: auto;
+}
+[data-container="width_1380"] {
+	max-width: 138rem;
+}
+[data-container="width_1330"] {
+	max-width: 133rem;
+}
+[data-container="width_720"] {
+	max-width: 72rem;
+}
+[data-container="width_460"] {
+	max-width: 46rem;
+}
+// --- Buttons --- \\
+.button {
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1rem 1.8rem 1.2rem 1.8rem;
+	font-size: 1.6rem; // 1.9rem;
+}
+.button.btn_brd {
+	border-width: 0.1rem;
+	border-style: solid;
+	border-radius: 0.8rem;
+}
+.button.brd_navy {
+	color: $hsl_navy;
+	border-color: $hsl_navy;
+}
+.button.brd_pink {
+	color: $hsl_navy;
+	border-color: $hsl_navy;
+}
+.button.brd_white {
+	color: $hsl_L100;
+	border-color: $hsl_L100;
+}
+// + interaction + \\
+.button.brd_navy:hover {
+	color: darken($hsl_pink, 10%);
+	border-color: darken($hsl_pink, 10%);
+}
+.button.brd_pink:hover {
+	color: $hsl_navy;
+	border-color: $hsl_navy;
+}
+.button.brd_white:hover {
+	color: $hsl_pink;
+	border-color: $hsl_pink;
+}
+.button.brd_navy:active {
+	color: $hsl_pink;
+	border-color: $hsl_pink;
+}
+.button.brd_pink:active {
+	color: $hsl_navy-D;
+	border-color: $hsl_navy-D;
+}
+.button.brd_white:active {
+	color: darken($hsl_pink, 10%);
+	border-color: darken($hsl_pink, 10%);
+}
+
+// Header
+// ----------------------------------------------------------------------------
+header {
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
+	text-align: center;
+	background: url('../img/bg_header-pattern.png') center center / 20rem 13.3rem repeat,
+				url('../img/bg_header-noise.png') center center / cover no-repeat fixed $hsl_navy-D;
+}
+header div.wrap_section {
+	padding-top: 9rem;
+	padding-bottom: 3.2rem;
+}
+// --- Main Logo --- \\
+div.wrap_logo-wordmark,
+div.wrap_logo-wordmark div.wrap_svg {
+	margin-left: auto;
+	margin-right: auto;
+}
+div.wrap_logo-wordmark,
+div.wrap_logo-wordmark div.wrap_wordmark {
+	max-width: 27.2rem;
+}
+div.wrap_logo-wordmark div.wrap_svg svg {
+	fill: $hsl_L100;
+}
+div.wrap_logo-wordmark {
+	width: 50%;
+	margin-bottom: 4.8rem;
+}
+div.wrap_logo-wordmark div.wrap_logo {
+	margin-bottom: 14%;
+	width: 76%;
+	max-width: 20.6rem;
+}
+// --- Quotation --- \\
+div.wrap_quote-mies {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 4rem;
+	width: 50%;
+	max-width: 21rem;
+}
+div.wrap_quote-mies svg {
+	fill: $hsl_L100;
+}
+// --- Updates Button --- \\
+a.link_updates {
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0.8rem 1.6rem 1rem 1.6rem;
+	color: $hsl_L100;
+	border: 0.1rem solid $hsl_L100;
+	border-radius: 0.8rem;
+}
+a.link_updates span {
+	font-size: 1.5rem;
+}
+
+/*
+a.link_updates {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 13rem;
+	height: 13rem;
+	line-height: 13rem;
+	color: $hsl_L100;
+	background-color: $hsl_navy;
+	border-radius: 50%;
+}
+a.link_updates span {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 1.5rem;
+	line-height: 1.4;
+}
+*/
+
+// + interaction + \\
+a.link_updates:hover {
+	color: $hsl_pink;
+	border-color: $hsl_pink;
+}
+a.link_updates:active {
+	color: darken($hsl_pink, 10%);
+	border-color: darken($hsl_pink, 10%);
+}
+
+// Navigation
+// ----------------------------------------------------------------------------
+div.navigation {
+	@include pos_cover(fixed, 400);
+	@include toggle_visibility(off);
+	background-color: $hsl_navy-D;
+	// required for centering child content
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	// in case we need to allow scrolling on shorter hheights
+	// overflow-y: scroll;
+	// -webkit-overflow-scrolling: touch;
+}
+// --- Nav Toggle --- \\
+a.nav_toggle {
+	display: block;
+	position: absolute;
+	z-index: 401;
+	top: 2rem;
+	left: 0;
+	right: 0;
+	margin: auto;
+	padding: 1rem 0.4rem;
+	width: 4rem; // inner width: 3.2rem
+	height: 4.1rem; // inner height: 2.1rem
+}
+a.nav_toggle div.wrap_lines {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+a.nav_toggle div.wrap_lines div.nav_line {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 0.3rem;
+	background-color: $hsl_L100;
+}
+// + each line + \\
+a.nav_toggle div.wrap_lines div.line-1 {
+	top: 0;
+}
+a.nav_toggle div.wrap_lines div.line-2 {
+	top: 0.9rem;
+}
+a.nav_toggle div.wrap_lines div.line-3 {
+	top: 1.8rem;
+}
+// + interaction + \\
+a.nav_toggle:hover div.wrap_lines div.nav_line {
+	background-color: $hsl_pink;
+}
+a.nav_toggle:active div.wrap_lines div.nav_line {
+	background-color: darken($hsl_pink, 10%);
+}
+// --- Nav Primary --- \\
+nav.nav_primary {
+	margin-bottom: 6rem;
+	padding-top: 6rem;
+}
+nav.nav_primary ul li.link_page {
+	margin-bottom: 3.2rem;
+}
+nav.nav_primary ul li.link_page a {
+	font-size: 2rem;
+	color: $hsl_L100;
+}
+nav.nav_primary ul li.link_lang {
+	margin-top: 6.4rem;
+}
+nav.nav_primary ul li.link_lang a {
+	padding: 0.8rem 1.8rem;
+	font-size: 1.5rem;
+	color: $hsl_L100;
+	border: 0.1rem solid $hsl_L100;
+	border-radius: 0.8rem;
+}
+// + interaction + \\
+nav.nav_primary ul li.link_page a:hover {
+	color: $hsl_pink;
+}
+nav.nav_primary ul li.link_lang a:hover {
+	color: $hsl_pink;
+	border-color: $hsl_pink;
+}
+nav.nav_primary ul li.link_page a:active {
+	color: darken($hsl_pink, 10%);
+}
+nav.nav_primary ul li.link_lang a:active {
+	color: darken($hsl_pink, 10%);
+	border-color: darken($hsl_pink, 10%);
+}
+// --- Nav Social --- \\
+nav.nav_social ul li {
+	display: inline-block;
+	margin-right: 2.2rem;
+}
+nav.nav_social ul li a svg {
+	fill: $hsl_L100;
+}
+// + individual links + \\
+nav.nav_social ul li.social_twitter a {
+	width: 2.4rem;
+}
+nav.nav_social ul li.social_facebook a {
+	width: 1.2rem;
+}
+nav.nav_social ul li.social_instagram a {
+	width: 2.4rem;
+}
+nav.nav_social ul li.social_modbox {
+	margin-right: 0;
+}
+nav.nav_social ul li.social_modbox a {
+	width: 2.5rem;
+}
+// + interaction + \\
+nav.nav_social ul li a:hover svg {
+	fill: $hsl_pink;
+}
+nav.nav_social ul li a:active svg {
+	fill: darken($hsl_pink, 10%);
+}
+// --- Toggled --- \\
+header.nav_toggled a.nav_toggle div.wrap_lines div.line-1 {
+	transform: translate3d(0,0.9rem,0) rotate(-45deg);
+}
+header.nav_toggled a.nav_toggle div.wrap_lines div.line-2 {
+	transform: rotate(45deg);
+}
+header.nav_toggled a.nav_toggle div.wrap_lines div.line-3 {
+	transform: translate3d(0,-0.9rem,0) rotate(-45deg);
+	// opacity: 0;
+}
+header.nav_toggled div.navigation {
+	@include toggle_visibility(on);
+}
+
+// Footer
+// ----------------------------------------------------------------------------
+footer {
+	padding: 6.4rem 1.6rem;
+	text-align: center;
+}
+footer h6 {
+	line-height: 1.2;
+	color: $hsl_navy;
+}
+footer a {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+footer div.footer_developer {
+	margin-bottom: 4.8rem;
+}
+footer div.footer_developer h6 {
+	margin-bottom: 3.2rem;
+	font-size: 1.2rem;
+	letter-spacing: 0.1rem;
+	text-transform: uppercase;
+}
+footer div.footer_developer a {
+	width: 10.4rem;
+}
+footer div.footer_partners h6 {
+	margin-bottom: 2rem;
+	font-size: 1.3rem;
+}
+footer div.footer_partners div.partner_architect {
+	margin-bottom: 4.8rem;
+}
+footer div.footer_partners div.partner_architect a {
+	width: 10rem;
+}
+footer div.footer_partners div.partner_manager h6 {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 16rem;
+}
+footer div.footer_partners div.partner_manager a {
+	width: 7.8rem;
+}
+// + interaction + \\
+footer a:hover {
+	opacity: 0.86;
+}
+footer a:active {
+	opacity: 0.98;
+}
+
+
+// ==|== main styles ==========================================================
+// ============================================================================
+
+// Home
+// ----------------------------------------------------------------------------
+section {
+	padding: 4rem 1.6rem;
+	text-align: center;
+}
+section article div.wrap_svg,
+section article div.wrap_svg-multi {
+	margin-left: auto;
+	margin-right: auto;
+}
+section article div.wrap_content p {
+	margin-bottom: 2rem;
+	font-size: 1.4rem; // 1.6rem;
+	line-height: 1.3;
+}
+section article div.wrap_content p:last-child {
+	margin-bottom: 0;
+}
+// + section odd + \\
+section.sec_odd article div.wrap_svg svg {
+	fill: $hsl_navy;
+}
+section.sec_odd article div.wrap_svg-title {
+	margin-bottom: 4rem;
+}
+section.sec_odd article div.wrap_content p {
+	color: $hsl_navy;
+}
+// + section even + \\
+section.sec_even article div.wrap_svg svg {
+	fill: $hsl_L100;
+}
+section.sec_even article div.wrap_svg-title {
+	margin-bottom: 2rem;
+}
+section.sec_even article div.wrap_content p {
+	color: $hsl_L100;
+}
+// --- Holy --- \\
+section.sec_holy article div.wrap_stc-angel {
+	margin-bottom: 4.8rem;
+	width: 15rem;
+}
+section.sec_holy article div.wrap_txt-holy {
+	height: 5.8rem;
+}
+// --- Sales --- \\
+section.sec_sales {
+	background-color: $hsl_navy;
+	background: repeating-linear-gradient(-45deg, $hsl_navy, $hsl_navy 3.2rem, $hsl_navy-D 3.2rem, $hsl_navy-D 6.4rem); // 6.2rem, 12.4rem
+}
+section.sec_sales article div.wrap_txt-sales {
+	max-width: 43.6rem;
+}
+section.sec_sales article div.wrap_stc-key {
+	margin-top: 3.2rem;
+	margin-bottom: 3.2rem;
+	width: 4.4rem;
+}
+section.sec_sales article p br {
+	display: none;
+}
+section.sec_sales article p a {
+	color: $hsl_blue;
+}
+// + interaction + \\
+section.sec_sales article p a:hover {
+	color: $hsl_pink;
+}
+section.sec_sales article p a:active {
+	color: darken($hsl_pink, 10%);
+}
+// --- Blog --- \\
+section.sec_blog article div.wrap_txt-follow {
+	max-width: 44.2rem;
+}
+// --- Question --- \\
+section.sec_question {
+	background-color: $hsl_pink;
+}
+section.sec_question article div.wrap_svg-multi {
+	margin-bottom: 3.2rem;
+	max-width: 46.3rem;
+}
+section.sec_question article div.wrap_svg-multi div.wrap_txt-question1 {
+	margin-bottom: 0.4rem;
+	max-width: 46.3rem;
+}
+section.sec_question article div.wrap_svg-multi div.wrap_txt-question2 {
+	margin-bottom: 0;
+	width: 81.25%; // 234px / 288px = 0.8125
+	max-width: 37rem;
+}
+// + interaction + \\
+section.sec_question article a.button.brd_white:hover {
+	// color: $hsl_navy;
+	// border-color: $hsl_navy;
+	color: $hsl_pink;
+	background-color: $hsl_L100;
+	border-color: $hsl_pink;
+}
+section.sec_question article a.button.brd_white:active {
+	// color: $hsl_navy-D;
+	// border-color: $hsl_navy-D;
+	color: darken($hsl_pink, 10%);
+	background-color: hsla(0,0%,100%,0.8);
+	border-color: $hsl_pink;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Isotope
+// ----------------------------------------------------------------------------
+section.iso_container {
+	position: relative;
+	z-index: 100;
+	overflow-y: hidden; // required to prevent scrollbar on filter change
+}
+section.iso_container article,
+section.iso_container div.iso_sizer {
+	width: calc(50% - 1rem);
+}
+section.iso_container div.iso_gutter {
+	width: 2rem;
+}
+section.iso_container article {
+	position: relative;
+	z-index: 101;
+	margin-bottom: 2rem;
+}
+section.iso_container article a {
+	display: block;
+}
+// + iso image + \\
+section.iso_container article a div.wrap_iso-image {
+	position: relative;
+}
+// + iso logo + \\
+section.iso_container article a div.iso_logo {
+	position: relative;
+}
+section.iso_container article a div.iso_logo img.iso_logo-on {
+	@include pos_cover(absolute, 102);
+}
+// + interaction + \\
+section.iso_container article a div.iso_logo img.iso_logo-on,
+section.iso_container article a:hover div.iso_logo img.iso_logo-off {
+	opacity: 0;
+}
+section.iso_container article a:hover div.iso_logo img.iso_logo-on {
+	opacity: 1;
+}
+
+// SHOULD I IMPLEMENT A FALLBACK FOR IF ISOTOPE FAILS TO LOAD / LAYOUT?
+
+// Isotope Loader
+// ----------------------------------------------------------------------------
+div.iso_loader {
+	@include pos_cover(absolute, 300);
+	background-color: $hsl_navy;
+	opacity: 0;
+	overflow: hidden;
+}
+div.iso_loader.visible {
+	opacity: 1;
+}
+div.wrap_graphics {
+	@include pos_cover(absolute, 301);
+	padding-top: 2rem;
+}
+div.wrap_graphics div.wrap_svg {
+	margin-left: auto;
+	margin-right: auto;
+	width: 4.4rem;
+	height: 4.4rem;
+	animation: anim360 800ms linear infinite forwards;
+}
+div.wrap_graphics div.wrap_svg svg {
+	fill: $hsl_navy; // default fill
+	animation: animRbow_fill 1600ms linear infinite;
+}
+div.wrap_graphics div.wrap_txt p {
+	margin-top: 2rem;
+	font-size: 1.1rem;
+	font-weight: 800;
+	text-align: center;
+	text-transform: uppercase;
+	color: $hsl_navy; // default color
+	animation: animRbow_color 1600ms linear infinite;
+}
+// + internet explorer + \\
+html.ie9 div.iso_loader {
+	display: none;
+	visibility: hidden;
+}
+
+
+
+
+/*
+// Page Load
+// ----------------------------------------------------------------------------
+// + header + \\
+.logo_main div.wrap_logo-sandwich {
+	animation: animOpacity 800ms ease-in-out 200ms both;
+}
+*/
