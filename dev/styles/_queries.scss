@@ -1,30 +1,12 @@
 // ==|== media queries ========================================================
 // ============================================================================
 
-@media only screen and (min-height: 528px) {
-
-// ==|== primary styles =======================================================
-// ============================================================================
-
-	// Navigation
-	// ----------------------------------------------------------------------------
-
-	// --- Nav Primary --- \\
-	nav.nav_primary {
-		margin-bottom: 8rem;
-	}
-	nav.nav_primary ul li.link_lang {
-		margin-top: 8.4rem;
-	}
-
-}
-
 @media only screen and (min-width: 480px) {
 
 // ==|== main styles ==========================================================
 // ============================================================================
 
-	// Home
+	// Sections
 	// ----------------------------------------------------------------------------
 	// --- Sales --- \\
 	section.sec_sales article p br {
@@ -38,17 +20,27 @@
 // ==|== primary styles =======================================================
 // ============================================================================
 
+	// General Styles
+	// ----------------------------------------------------------------------------
+	// --- Buttons --- \\
+	.button {
+		padding: 1.4rem 2.2rem 1.6rem 2.2rem;
+		font-size: 2rem;
+	}
+
 	// Header
 	// ----------------------------------------------------------------------------
 	header {
-		padding-left: 3.2rem;
-		padding-right: 3.2rem;
-		background-size: 40rem 26.6rem, cover;
-	}
-	header div.wrap_section {
-		position: relative;
 		padding-top: 18rem;
 		padding-bottom: 18rem;
+		// padding-left: 3.2rem;
+		// padding-right: 3.2rem;
+		background-size: 40rem 26.6rem, cover;
+	}
+	div.wrap_pos-abs {
+		top: 0;
+		left: 3.2rem;
+		right: 3.2rem;
 	}
 	// --- Main Logo --- \\
 	div.wrap_logo-wordmark {
@@ -64,79 +56,121 @@
 		position: absolute;
 		top: 4.2rem;
 		left: -0.4rem; // visually compensate for curve
-		margin-left: 0;
-		margin-right: 0;
-		padding: 0;
-		width: 13rem;
-		height: 13rem;
-		line-height: 13rem;
-		color: $hsl_L100;
-		background-color: $hsl_navy;
-		border: none;
-		border-radius: 50%;
-	}
-	a.link_updates span {
-		display: inline-block;
-		vertical-align: middle;
-		line-height: 1.4;
-	}
-	// + interaction + \\
-	a.link_updates:hover {
-		color: $hsl_L100;
-		background-color: $hsl_pink;
-		border-color: transparent;
-	}
-	a.link_updates:active {
-		color: $hsl_L100;
-		background-color: darken($hsl_pink, 10%);
-		border-color: transparent;
-	}
-
-	// Navigation
-	// ----------------------------------------------------------------------------
-	div.navigation {
-		@include pos_cover-reset(static);
-		@include toggle_visibility(on);
-		background-color: transparent;
-		// reset flex styles
-		display: block;
-	}
-	// --- Nav Toggle --- \\
-	a.nav_toggle {
-		display: none;
-	}
-	// --- Nav Primary --- \\
-	nav.nav_primary {
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 5.6rem;
-		margin-bottom: 0;
-		padding-top: 0;
-	}
-	nav.nav_primary ul li.link_page {
-		display: inline-block;
-		margin-right: 2rem;
-		margin-bottom: 0;
-	}
-	nav.nav_primary ul li:nth-last-child(2) {
-		margin-right: 0;
-	}
-	nav.nav_primary ul li.link_page a {
-		font-size: 1.8rem;
-	}
-	nav.nav_primary ul li.link_lang {
-		display: block;
-		position: absolute;
-		top: 0;
-		right: 0;
-		margin-top: 0;
 	}
 	// --- Nav Social --- \\
 	nav.nav_social {
 		position: absolute;
 		top: 5.6rem;
 		right: 0;
+	}
+
+	// Navigation
+	// ----------------------------------------------------------------------------
+	// --- Nav Primary --- \\
+	nav.nav_primary {
+		position: absolute;
+		top: 78rem;
+		left: 0;
+		right: 0;
+		padding: 2.4rem 3.2rem;
+	}
+	nav.nav_primary ul {
+		position: relative;
+	}
+	nav.nav_primary ul li.link_sec {
+		display: inline-block;
+	}
+	nav.nav_primary ul li.link_lang {
+		position: absolute;
+		top: -1rem;
+		right: 0;
+	}
+	nav.nav_primary ul li.link_lang a {
+		padding: 1rem 1.8rem 1.2rem 1.8rem;
+		font-size: 1.5rem;
+	}
+
+
+// ==|== main styles ==========================================================
+// ============================================================================
+
+	// Sections
+	// ----------------------------------------------------------------------------
+	section {
+		padding: 7.2rem 3.2rem;
+	}
+	section article div.wrap_content p {
+		margin-bottom: 3.2rem;
+		font-size: 1.7rem;
+		line-height: 1.5;
+	}
+	// + section odd (white bg) + \\
+	section.sec_odd article div.wrap_svg-title {
+		margin-bottom: 5.2rem;
+	}
+	// + section even (coloured bg) + \\
+	section.sec_even {
+		padding: 7.2rem 1.6rem;
+	}
+	section.sec_even article div.wrap_svg-title {
+		margin-bottom: 3.2rem;
+	}
+	// --- Intro --- \\
+	section.sec_intro article div.wrap_stc-angel {
+		margin-bottom: 6.4rem;
+	}
+	// --- Sales --- \\
+	section.sec_sales {
+		background-image: repeating-linear-gradient(-45deg, $hsl_navy, $hsl_navy 6.2rem, $hsl_navy-D 6.2rem, $hsl_navy-D 12.4rem);
+	}
+	section.sec_sales article div.wrap_stc-key {
+		margin-top: 4rem;
+		margin-bottom: 4rem;
+	}
+	// --- Contact --- \\
+	section.sec_contact article div.wrap_svg-multi {
+		margin-bottom: 4rem;
+	}
+	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
+		margin-bottom: 0.6rem;
+	}
+
+	// Footer
+	// ----------------------------------------------------------------------------
+	footer {
+		padding: 7.2rem 3.2rem;
+	}
+	footer div.footer_developer {
+		margin-bottom: 8rem;
+	}
+	footer div.footer_partners {
+		width: 46rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	footer div.footer_partners div h6,
+	footer div.footer_partners div a {
+		display: inline-block;
+		vertical-align: middle;
+	}
+	footer div.footer_partners div h6 {
+		margin-right: 2rem;
+		margin-bottom: 0;
+		text-align: right;
+	}
+	footer div.footer_partners div a {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	footer div.footer_partners div.partner_architect {
+		float: left;
+		margin-bottom: 0;
+	}
+	footer div.footer_partners div.partner_manager {
+		float: right;
+	}
+	footer div.footer_partners div.partner_manager h6 {
+		margin-right: 2rem; // required to repeat this because of selector heirarchy
 	}
 
 }
@@ -154,10 +188,6 @@
 	// Header
 	// ----------------------------------------------------------------------------
 	header {
-		padding-left: 6.4rem;
-		padding-right: 6.4rem;
-	}
-	header div.wrap_section {
 		padding-top: 24rem;
 		padding-bottom: 24rem;
 	}
@@ -170,13 +200,75 @@
 	// ----------------------------------------------------------------------------
 	// --- Nav Primary --- \\
 	nav.nav_primary {
-		bottom: 8rem;
+		top: 91rem;
 	}
-	nav.nav_primary ul li.link_page {
-		margin-right: 4rem;
+	header.nav_fixed nav.nav_primary {
+		position: fixed;
+		top: 0;
 	}
-	nav.nav_primary ul li:nth-last-child(2) {
-		margin-right: 0;
+	header.nav_fixed-full nav.nav_primary {
+		background-color: hsla(0,0%,100%,0.9);
+	}
+	header.nav_fixed-full nav.nav_primary ul li.link_sec a {
+		color: $hsl_navy;
+	}
+	header.nav_fixed-full nav.nav_primary ul li.link_lang a {
+		color: $hsl_navy;
+		border-color: $hsl_navy;
+	}
+	// + interaction + \\
+	header.nav_fixed-full nav.nav_primary ul li.link_sec a:hover {
+		color: darken($hsl_pink, 10%);
+	}
+	header.nav_fixed-full nav.nav_primary ul li.link_lang a:hover {
+		color: darken($hsl_pink, 10%);
+		border-color: darken($hsl_pink, 10%);
+	}
+	header.nav_fixed-full nav.nav_primary ul li.link_sec a:active {
+		color: $hsl_pink;
+	}
+	header.nav_fixed-full nav.nav_primary ul li.link_lang a:active {
+		color: $hsl_pink;
+		border-color: $hsl_pink;
+	}
+
+// ==|== main styles ==========================================================
+// ============================================================================
+
+	// Sections
+	// ----------------------------------------------------------------------------
+	section {
+		padding-left: 6.4rem;
+		padding-right: 6.4rem;
+	}
+	// + section odd (white bg) + \\
+	section.sec_odd {
+		padding-top: 14rem;
+		padding-bottom: 14rem;
+	}
+	// --- Contact --- \\
+	section.sec_contact article div.wrap_svg-multi {
+		max-width: none;
+	}
+	section.sec_contact article div.wrap_svg-multi div.wrap_svg {
+		display: inline-block;
+		height: 3rem;
+	}
+	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
+		margin-right: 0.8rem;
+		margin-bottom: 0;
+	}
+	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
+		width: auto;
+	}
+
+	// Footer
+	// ----------------------------------------------------------------------------
+	footer {
+		padding: 12rem 6.4rem;
+	}
+	footer div.footer_developer {
+		margin-bottom: 10rem;
 	}
 
 }

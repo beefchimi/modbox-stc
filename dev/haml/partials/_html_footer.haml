@@ -18,3 +18,5 @@
 				%h6 Project Managers &amp; General Contractors
 				%a{:href => "http://www.tlpi.ca/", :title => "Visit The Lake Partnership Website", :target => "_blank"}
 					%img{:src => "assets/img/logo_lake.jpg", :alt => "The Lake Partnership Inc."}
+
+= Haml::Engine.new(File.read("dev/haml/partials/_doc_scripts.haml")).render
