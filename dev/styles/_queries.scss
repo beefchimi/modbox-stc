@@ -33,8 +33,6 @@
 	header {
 		padding-top: 18rem;
 		padding-bottom: 18rem;
-		// padding-left: 3.2rem;
-		// padding-right: 3.2rem;
 		background-size: 40rem 26.6rem, cover;
 	}
 	div.wrap_pos-abs {
@@ -69,10 +67,12 @@
 	// --- Nav Primary --- \\
 	nav.nav_primary {
 		position: absolute;
+		z-index: 200;
 		top: 78rem;
 		left: 0;
 		right: 0;
 		padding: 2.4rem 3.2rem;
+		height: 6.6rem;
 	}
 	nav.nav_primary ul {
 		position: relative;
@@ -121,7 +121,7 @@
 	}
 	// --- Sales --- \\
 	section.sec_sales {
-		background-image: repeating-linear-gradient(-45deg, $hsl_navy, $hsl_navy 6.2rem, $hsl_navy-D 6.2rem, $hsl_navy-D 12.4rem);
+		background-image: repeating-linear-gradient(-45deg, $hsl_navy 0px, $hsl_navy 62px, $hsl_navy-D 62px, $hsl_navy-D 124px);
 	}
 	section.sec_sales article div.wrap_stc-key {
 		margin-top: 4rem;
@@ -173,10 +173,82 @@
 		margin-right: 2rem; // required to repeat this because of selector heirarchy
 	}
 
+// ==|== main styles ==========================================================
+// ============================================================================
+
+	// Sections
+	// ----------------------------------------------------------------------------
+	// --- Blog --- \\
+	section.sec_blog {
+		padding-bottom: 3.2rem; // compensate for margin-bottom of packery elements
+	}
+	section.sec_blog article a.button {
+		margin-bottom: 6.8rem;
+	}
+
+	// Packery
+	// ----------------------------------------------------------------------------
+	div.pkry_container a,
+	div.pkry_container div.pkry_sizer {
+		width: calc(50% - 1.6rem);
+	}
+	div.pkry_container div.pkry_gutter {
+		width: 3.2rem;
+	}
+	div.pkry_container a {
+		margin-bottom: 4rem;
+	}
+	div.pkry_container a div.wrap_pkry-image {
+		margin-bottom: 2rem;
+	}
+	div.pkry_container a div.wrap_pkry-image div.wrap_read-more {
+		display: block;
+	}
+	div.pkry_container a div.wrap_pkry-meta h4 {
+		margin-bottom: 2rem;
+		font-size: 2rem;
+	}
+	div.pkry_container a div.wrap_pkry-meta time {
+		font-size: 1.2rem;
+	}
+	// + interaction + \\
+	div.pkry_container a:hover div.wrap_pkry-image img {
+		opacity: 0.94;
+	}
+	div.pkry_container a:hover div.wrap_pkry-image div.wrap_read-more {
+		opacity: 1;
+	}
+	div.pkry_container a:active div.wrap_pkry-image img {
+		opacity: 1;
+	}
+	div.pkry_container a:active div.wrap_pkry-image div.wrap_read-more {
+		opacity: 0.94;
+	}
+
 }
 
 @media only screen and (min-width: 960px) {
 
+// ==|== main styles ==========================================================
+// ============================================================================
+
+	// Sections
+	// ----------------------------------------------------------------------------
+	// --- Blog --- \\
+	body.home section.sec_blog,
+	body.single section.sec_blog {
+		padding-bottom: 7.2rem; // restore padding-bottom for single rowed packery pages
+	}
+
+	// Packery
+	// ----------------------------------------------------------------------------
+	div.pkry_container a,
+	div.pkry_container div.pkry_sizer {
+		width: calc(25% - 2.4rem);
+	}
+	div.pkry_container.row_single a {
+		margin-bottom: 0;
+	}
 
 }
 
@@ -191,6 +263,10 @@
 		padding-top: 24rem;
 		padding-bottom: 24rem;
 	}
+	div.wrap_pos-abs {
+		left: 6.4rem;
+		right: 6.4rem;
+	}
 	// --- Main Logo --- \\
 	div.wrap_logo-wordmark {
 		margin-bottom: 16rem;
@@ -201,6 +277,8 @@
 	// --- Nav Primary --- \\
 	nav.nav_primary {
 		top: 91rem;
+		padding-left: 6.4rem;
+		padding-right: 6.4rem;
 	}
 	header.nav_fixed nav.nav_primary {
 		position: fixed;
@@ -215,6 +293,12 @@
 	header.nav_fixed-full nav.nav_primary ul li.link_lang a {
 		color: $hsl_navy;
 		border-color: $hsl_navy;
+	}
+	// + section tracking + \\
+	header.nav_fixed-full nav.nav_primary[data-current="intro"] ul li.link_intro a,
+	header.nav_fixed-full nav.nav_primary[data-current="blog"] ul li.link_blog a,
+	header.nav_fixed-full nav.nav_primary[data-current="contact"] ul li.link_contact a {
+		color: darken($hsl_pink, 10%);
 	}
 	// + interaction + \\
 	header.nav_fixed-full nav.nav_primary ul li.link_sec a:hover {
@@ -246,6 +330,17 @@
 		padding-top: 14rem;
 		padding-bottom: 14rem;
 	}
+	// --- Blog --- \\
+	body.home section.sec_blog,
+	body.single section.sec_blog {
+		padding-bottom: 14rem; // restore padding-bottom for single rowed packery pages
+	}
+	body.blog section.sec_blog {
+		padding-bottom: 10rem; // compensate for margin-bottom of packery elements
+	}
+	section.sec_blog article a.button {
+		margin-bottom: 10.8rem;
+	}
 	// --- Contact --- \\
 	section.sec_contact article div.wrap_svg-multi {
 		max-width: none;
@@ -257,9 +352,10 @@
 	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
 		margin-right: 0.8rem;
 		margin-bottom: 0;
+		width: 46.3rem;
 	}
 	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
-		width: auto;
+		width: 37rem;
 	}
 
 	// Footer
@@ -269,6 +365,23 @@
 	}
 	footer div.footer_developer {
 		margin-bottom: 10rem;
+	}
+
+}
+
+@media only screen and (min-width: 1380px) {
+
+// ==|== main styles ==========================================================
+// ============================================================================
+
+	// Packery
+	// ----------------------------------------------------------------------------
+	div.pkry_container a,
+	div.pkry_container div.pkry_sizer {
+		width: calc(25% - 6.8rem);
+	}
+	div.pkry_container div.pkry_gutter {
+		width: 9rem;
 	}
 
 }

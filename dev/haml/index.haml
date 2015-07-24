@@ -6,7 +6,8 @@
 
 	= Haml::Engine.new(File.read("dev/haml/partials/_doc_head.haml")).render
 
-	%body
+	-# classes: 'home', 'blog', and 'single'
+	%body.home
 
 		#svgInject
 			/ inject:svg
@@ -20,5 +21,7 @@
 			= Haml::Engine.new(File.read("dev/haml/partials/_sec_sales.haml")).render
 			= Haml::Engine.new(File.read("dev/haml/partials/_sec_blog.haml")).render
 			= Haml::Engine.new(File.read("dev/haml/partials/_sec_contact.haml")).render
+
+		-# = Haml::Engine.new(File.read("dev/haml/partials/_form_mailchimp.haml")).render
 
 		= Haml::Engine.new(File.read("dev/haml/partials/_html_footer.haml")).render

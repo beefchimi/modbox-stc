@@ -14,21 +14,17 @@ body {
 	color: $hsl_L100;
 	background-color: $hsl_pink;
 }
-
-/*
 // + autoprefixer does not recognize placeholder + \\
 ::-webkit-input-placeholder {
-	color: $hsl_L0;
+	color: $hsl_L66;
 }
 ::-moz-placeholder {
-	color: $hsl_L0;
+	color: $hsl_L66;
 	opacity: 1;
 }
 :-ms-input-placeholder {
-	color: $hsl_L0;
+	color: $hsl_L66;
 }
-*/
-
 // --- Lock Scrolling On Load --- \\
 html[data-overflow="locked"],
 html[data-overflow="locked"] body {
@@ -49,11 +45,28 @@ html[data-ready="loaded"] body {
 
 // Transitions & Animations
 // ----------------------------------------------------------------------------
-a {
+a,
+input {
 	transition: all 260ms ease-in-out; // reconsider 'all'?
 }
 svg {
 	transition: fill 260ms ease-in-out;
+}
+section.sec_sales article p a::before {
+	transition: background-color 260ms ease-in-out;
+}
+div.pkry_container a div.wrap_pkry-image img {
+	backface-visibility: hidden;
+}
+div.pkry_container a div.wrap_pkry-image img,
+div.pkry_container a div.wrap_pkry-image div.wrap_read-more {
+	transition: opacity 260ms ease-in-out;
+}
+div.pkry_container a div.wrap_pkry-meta {
+	transition: color 260ms ease-in-out;
+}
+div.pkry_container a div.wrap_pkry-meta h4 {
+	transition: text-decoration 260ms ease-in-out;
 }
 // --- Animations --- \\
 @keyframes anim360 {
@@ -118,38 +131,20 @@ svg.svg_inline {
 	color: $hsl_navy;
 	border-color: $hsl_navy;
 }
-.button.brd_pink {
-	color: $hsl_navy;
-	border-color: $hsl_navy;
-}
 .button.brd_white {
 	color: $hsl_L100;
 	border-color: $hsl_L100;
 }
 // + interaction + \\
-.button.brd_navy:hover {
-	color: darken($hsl_pink, 10%);
-	border-color: darken($hsl_pink, 10%);
-}
-.button.brd_pink:hover {
-	color: $hsl_navy;
-	border-color: $hsl_navy;
-}
+.button.brd_navy:hover,
 .button.brd_white:hover {
-	color: $hsl_pink;
-	border-color: $hsl_pink;
-}
-.button.brd_navy:active {
-	color: $hsl_pink;
-	border-color: $hsl_pink;
-}
-.button.brd_pink:active {
-	color: $hsl_navy-D;
-	border-color: $hsl_navy-D;
-}
-.button.brd_white:active {
 	color: darken($hsl_pink, 10%);
 	border-color: darken($hsl_pink, 10%);
+}
+.button.brd_navy:active,
+.button.brd_white:active {
+	color: $hsl_pink;
+	border-color: $hsl_pink;
 }
 
 // Header
@@ -158,7 +153,7 @@ header {
 	padding-top: 10rem;
 	padding-bottom: 3.2rem;
 	text-align: center;
-	background: url('../img/bg_header-pattern.png') 50% 50% / 20rem 13.3rem repeat,
+	background: url('../img/bg_header-pattern.png') 50% 50% / 20rem 13.3rem repeat fixed,
 				url('../img/bg_header-noise.png') 50% 50% / cover no-repeat fixed $hsl_navy-D;
 }
 div.wrap_pos-abs {
@@ -261,10 +256,10 @@ nav.nav_social ul li.social_modbox a {
 }
 // + interaction + \\
 nav.nav_social ul li a:hover svg {
-	fill: $hsl_pink;
+	fill: darken($hsl_pink, 10%);
 }
 nav.nav_social ul li a:active svg {
-	fill: darken($hsl_pink, 10%);
+	fill: $hsl_pink;
 }
 // --- Nav Primary --- \\
 nav.nav_primary ul li.link_sec {
@@ -280,10 +275,10 @@ nav.nav_primary ul li.link_sec a {
 }
 // + interaction + \\
 nav.nav_primary ul li.link_sec a:hover {
-	color: $hsl_pink;
+	color: darken($hsl_pink, 10%);
 }
 nav.nav_primary ul li.link_sec a:active {
-	color: darken($hsl_pink, 10%);
+	color: $hsl_pink;
 }
 
 // Footer
@@ -393,7 +388,7 @@ section.sec_intro article div.wrap_txt-holy {
 // --- Sales --- \\
 section.sec_sales {
 	background-color: $hsl_navy;
-	background-image: repeating-linear-gradient(-45deg, $hsl_navy, $hsl_navy 3.2rem, $hsl_navy-D 3.2rem, $hsl_navy-D 6.4rem);
+	background-image: repeating-linear-gradient(-45deg, $hsl_navy 0px, $hsl_navy 32px, $hsl_navy-D 32px, $hsl_navy-D 64px);
 }
 section.sec_sales article div.wrap_txt-sales {
 	max-width: 43.6rem;
@@ -407,18 +402,40 @@ section.sec_sales article p br {
 	display: none;
 }
 section.sec_sales article p a {
-	color: $hsl_blue;
+	position: relative;
+	color: $hsl_L100;
+}
+section.sec_sales article p a::before {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 0.1rem;
+	background-color: $hsl_L100;
 }
 // + interaction + \\
 section.sec_sales article p a:hover {
-	color: $hsl_pink;
-}
-section.sec_sales article p a:active {
 	color: darken($hsl_pink, 10%);
 }
+section.sec_sales article p a:hover::before {
+	background-color: darken($hsl_pink, 10%);
+}
+section.sec_sales article p a:active {
+	color: $hsl_pink;
+}
+section.sec_sales article p a:hover::before {
+	background-color: $hsl_pink;
+}
 // --- Blog --- \\
+section.sec_blog {
+	padding-bottom: 2rem; // compensate for margin-bottom of packery elements
+}
 section.sec_blog article div.wrap_txt-follow {
 	max-width: 44.2rem;
+}
+section.sec_blog article a.button {
+	margin-bottom: 4rem;
 }
 // --- Contact --- \\
 section.sec_contact {
@@ -449,66 +466,213 @@ section.sec_contact article a.button.brd_white:active {
 	border-color: $hsl_pink;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Isotope
+// Packery
 // ----------------------------------------------------------------------------
-section.iso_container {
+div.pkry_container {
 	position: relative;
 	z-index: 100;
-	overflow-y: hidden; // required to prevent scrollbar on filter change
+	// overflow-y: hidden; // required to prevent scrollbar on filter change
 }
-section.iso_container article,
-section.iso_container div.iso_sizer {
+div.pkry_container a,
+div.pkry_container div.pkry_sizer {
 	width: calc(50% - 1rem);
 }
-section.iso_container div.iso_gutter {
+div.pkry_container div.pkry_gutter {
 	width: 2rem;
 }
-section.iso_container article {
+div.pkry_container a {
 	position: relative;
 	z-index: 101;
 	margin-bottom: 2rem;
 }
-section.iso_container article a {
-	display: block;
-}
-// + iso image + \\
-section.iso_container article a div.wrap_iso-image {
+div.pkry_container a div.wrap_pkry-image {
 	position: relative;
+	margin-bottom: 1rem;
 }
-// + iso logo + \\
-section.iso_container article a div.iso_logo {
-	position: relative;
-}
-section.iso_container article a div.iso_logo img.iso_logo-on {
-	@include pos_cover(absolute, 102);
-}
-// + interaction + \\
-section.iso_container article a div.iso_logo img.iso_logo-on,
-section.iso_container article a:hover div.iso_logo img.iso_logo-off {
+div.pkry_container a div.wrap_pkry-image div.wrap_read-more {
+	display: none;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	padding: 1rem 1.8rem 1.2rem 1.8rem;
+	background-color: $hsl_navy-D;
 	opacity: 0;
 }
-section.iso_container article a:hover div.iso_logo img.iso_logo-on {
-	opacity: 1;
+div.pkry_container a div.wrap_pkry-image div.wrap_read-more p {
+	font-size: 1.8rem;
+	color: $hsl_L100;
 }
+div.pkry_container a div.wrap_pkry-meta {
+	text-align: left;
+	color: $hsl_navy-D;
+}
+div.pkry_container a div.wrap_pkry-meta h4 {
+	margin-bottom: 1rem;
+	font-size: 1.3rem;
+	line-height: 1.4;
+	text-decoration-line: underline;
+	text-decoration-color: $hsl_L100;
+}
+div.pkry_container a div.wrap_pkry-meta time {
+	font-size: 1rem;
+}
+// + interaction + \\
+div.pkry_container a:hover div.wrap_pkry-meta h4 {
+	text-decoration-color: $hsl_navy-D;
+}
+div.pkry_container a:active div.wrap_pkry-meta {
+	color: $hsl_navy;
+}
+div.pkry_container a:active div.wrap_pkry-meta h4 {
+	text-decoration-color: $hsl_navy;
+}
+
+
+
+
+
+
+// Mailchimp
+// ----------------------------------------------------------------------------
+div.overlay {
+	@include pos_cover(fixed, 900);
+	background-color: hsla(0,0%,0%,0.12);
+	overflow: hidden;
+}
+aside.mailchimp {
+	@include pos_cover(fixed, 901);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+	background-color: $hsl_L100;
+
+	// border-radius
+	// box-shadow
+}
+
+
+form {
+	padding: 1.6rem;
+}
+form div.wrap_svg {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 3.2rem;
+	width: 6.8rem;
+}
+form div.wrap_svg svg {
+	fill: $hsl_navy;
+}
+form h5 {
+	margin-bottom: 3.2rem;
+	font-size: 1.6rem; // 2rem;
+	line-height: 1.4;
+	color: $hsl_navy;
+}
+form input {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	height: 4.6rem; // 6rem;
+	font-size: 1.6rem; // 2rem;
+	border-radius: 0.8rem;
+}
+
+form input[type="email"] {
+	margin-bottom: 2rem;
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
+	width: 24rem; // 28rem;
+	text-align: center;
+	color: $hsl_L46;
+	border: 0.1rem solid $hsl_L66;
+}
+form input[type="submit"] {
+	width: 14rem; // 19rem;
+	color: $hsl_L100;
+	background-color: $hsl_navy;
+}
+
+
+
+div.wrap_response {
+	display: none;
+}
+div.wrap_response p {
+}
+
+a.modal_close {
+	margin-bottom: 3.2rem;
+	padding: 1rem;
+	width: 4rem;
+	height: 4rem;
+}
+a.modal_close svg {
+	fill: $hsl_navy;
+}
+a.modal_close:hover svg {
+	fill: $hsl_pink;
+}
+a.modal_close:active svg {
+	fill: darken($hsl_pink, 10%);
+}
+
+
+
+
+form input[type="email"]:focus {
+	border-color: $hsl_L46;
+}
+form input[type="submit"]:hover {
+	background-color: $hsl_pink;
+}
+form input[type="submit"]:active {
+	background-color: darken($hsl_pink, 10%);
+}
+
+/*
+#overlay.overlay
+
+%aside#mailchimp{"data-overlay" => "inactive"}
+
+	%form#mc-embedded-subscribe-form.validate{:action => "//modbox.us10.list-manage.com/subscribe/post-json?u=9d04fb276b7023a982943ca3e&amp;id=ac14f0966e&c=?", :method => "get", :name => "mc-embedded-subscribe-form", :novalidate => true}
+
+		.wrap_svg.wrap_stc-key
+			%svg.logo_stc-key{:viewBox => "0 0 155 64"}
+				%use{"xlink:href" => "#logo_stc-key"}
+
+		%h5 Sign up for the St. Charles Market newsletter and we'll keep you posted on all things St. Charles.
+
+		%input#mce-EMAIL.mce-email{:type => "email", :name => "EMAIL", :value => "", :placeholder => "Email", :required => true, :tabindex => "2"}
+
+		#do-not-remove.visuallyhidden
+			%input{:type => "text", :name => "b_9d04fb276b7023a982943ca3e_ac14f0966e", :value => "", :tabindex => "-1"}
+
+		%input#mc-embedded-subscribe{:type => "submit", :value => "Sign me up", :name => "subscribe"}
+
+		.wrap_response
+			%p#mce-response-text
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // SHOULD I IMPLEMENT A FALLBACK FOR IF ISOTOPE FAILS TO LOAD / LAYOUT?
 
+/*
 // Isotope Loader
 // ----------------------------------------------------------------------------
 div.iso_loader {
@@ -549,6 +713,7 @@ html.ie9 div.iso_loader {
 	display: none;
 	visibility: hidden;
 }
+*/
 
 
 

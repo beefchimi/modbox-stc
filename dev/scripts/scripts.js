@@ -3,9 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// Global Variables
 	// ----------------------------------------------------------------------------
-	var elHTML   = document.documentElement,
-		elBody   = document.body,
-		elHeader = document.getElementsByTagName('header')[0];
+	var elHTML       = document.documentElement,
+		elBody       = document.body,
+		elHeader     = document.getElementsByTagName('header')[0],
+		elNavPrimary = document.getElementById('nav_primary'),
+		elIntro      = document.getElementById('sec_intro'),
+		elSales      = document.getElementById('sec_sales'),
+		elBlog       = document.getElementById('sec_blog'),
+		objPkry;
 
 	// window measurement variables
 	var numScrollPos      = window.pageYOffset,
@@ -14,13 +19,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		numScrollbarWidth = numWinWidth - numClientWidth,
 		hasScrollbar      = numScrollbarWidth > 0 ? true : false;
 
-	// parallax header / fixed nav / smoothScroll
-	var boolEnabledSS   = false, // assumes below 1200px by default - smoothScroll is not initialized
-		boolHeaderStop  = true, // assumes below 1200px by default - parallax not executed
-		numHeaderPosX   = 50,
-		numHeaderPosY   = 50,
-		numHeaderHeight = 1040, // height of the header (this should really be grabbed from the element)
-		numNavTopPos    = 910; // top position of nav
+	// parallax header & stripes / fixed nav / smoothScroll
+	var boolEnabledSS  = false, // assumes below 1200px by default - smoothScroll is not initialized
+		numHeaderPosX  = 50,    // default X % position
+		numHeaderPosY  = 50,    // default Y % position
+		numNavTopPos   = 910,   // top position of nav as defined in CSS... should instead be retrieved from computed value
+		numStripeWidth = 62     // width of gradient stripe;
+
+	// declare section heights (only required for 1200px and up... remeasured in window resize event)
+	var numSectionOffset = 65,
+		numBodyHeight,
+		numHeaderHeight,
+		numIntroHeight,
+		numSalesHeight,
+		numBlogHeight,
+		numBeginBlog,
+		numBeginContact,
+		numSalesStart,
+		numSalesMiddle;
 
 
 	// Helper: Lock / Unlock Body Scrolling
@@ -72,51 +88,47 @@ document.addEventListener('DOMContentLoaded', function() {
 	// ----------------------------------------------------------------------------
 	function onPageLoad() {
 
-		fixedHeader();
-		parallaxHeader(); // need to calculate bg positions on page load in case of refresh
-		initSmoothScrollJS();
+		initPkry();
+
+		if (numWinWidth >= 1200) {
+
+			measureSectionHeight();
+			fixedHeader();
+			navTrackSection();
+			scrollParallax(); // need to calculate bg positions on page load in case of refresh
+			initSmoothScrollJS();
+
+		}
 
 	}
 
 
-/*
-	// initIsotope: Initialize Isotope.js
+	// initPkry: Initialize Packery.js + imagesLoaded
 	// ----------------------------------------------------------------------------
-	function initIsotope() {
+	function initPkry() {
 
-		var elIsoContainer = document.getElementById('iso_container');
+		var elPkryContainer = document.getElementById('pkry_container');
 
 		// check if iso_container exists
-		if (elIsoContainer == null) {
+		if (elPkryContainer == null) {
 			return;
 		}
 
-		// lock body on initial page load
-		// (should be doing this only if images are NOT loaded)
-		// lockBody();
-
 		// it does exist! continue on...
-		var elIsoLoader   = document.getElementById('iso_loader'),
-			strCurrentCat = elNavCat.getAttribute('data-current');
+		// var elIsoLoader   = document.getElementById('iso_loader');
 
 		// layout Isotope after all images have loaded
-		imagesLoaded(elIsoContainer, function(instance) {
+		imagesLoaded(elPkryContainer, function(instance) {
 
-			objISO = new Isotope(elIsoContainer, {
+			objPkry = new Packery(elPkryContainer, {
 
-				itemSelector: '.iso_brick',
-				percentPosition: true,
-				masonry: {
-					columnWidth: '.iso_sizer',
-					gutter: '.iso_gutter'
-				},
-				filter: strCurrentCat
+				itemSelector: 'a.pkry_brick',
+				columnWidth: 'div.pkry_sizer',
+				gutter: 'div.pkry_gutter'
 
 			});
 
-			// initalize and pass objISO to categoryDropdown once ready
-			categoryDropdown(objISO);
-
+/*
 			// IE9 does not support animations...
 			if ( !classie.has(elHTML, 'ie9') ) {
 
@@ -127,9 +139,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				classie.remove(elIsoLoader, 'visible');
 
 			}
+*/
 
 		});
 
+/*
 		function removeLoader(e) {
 
 			// only listen for the opacity property
@@ -137,15 +151,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 				// unlockBody();
 
-				elIsoContainer.removeChild(elIsoLoader);
+				elPkryContainer.removeChild(elIsoLoader);
 				elIsoLoader.removeEventListener(transitionEvent, removeLoader);
 
 			}
 
 		}
+*/
 
 	}
-*/
 
 
 /*
@@ -168,14 +182,29 @@ document.addEventListener('DOMContentLoaded', function() {
 */
 
 
+
+
+	// measureSectionHeight: Get the height of each required section
+	// ----------------------------------------------------------------------------
+	function measureSectionHeight() {
+
+		// measure section heights
+		numBodyHeight   = elBody.clientHeight;
+		numHeaderHeight = elHeader.offsetHeight;
+		numIntroHeight  = elIntro.offsetHeight;
+		numSalesHeight  = elSales.offsetHeight;
+		numBlogHeight   = elBlog.offsetHeight;
+		numBeginBlog    = numHeaderHeight + numIntroHeight + numSalesHeight - numSectionOffset;
+		numBeginContact = numBeginBlog + numBlogHeight - numSectionOffset;
+		numSalesStart   = numBodyHeight - numStripeWidth * 2;
+		numSalesMiddle  = numBodyHeight - numStripeWidth;
+
+	}
+
+
 	// fixedNav: Position Fix the nav once scrolled
 	// ----------------------------------------------------------------------------
 	function fixedHeader() {
-
-		// exit function if we are below 1200px wide
-		if (numWinWidth < 1200) {
-			return;
-		}
 
 		// if we have scrolled to or past the top position of .nav_primary
 		if (numScrollPos >= numNavTopPos) {
@@ -194,42 +223,54 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 
-	// parallaxHeader: Update X and Y positions on scroll
+	// navTrackSection: Track 'current' section (scroll distance < distance from top of doc)
 	// ----------------------------------------------------------------------------
-	function parallaxHeader() {
+	function navTrackSection() {
 
-		if (numWinWidth >= 1200) {
+		switch (true) {
+			case (numScrollPos < numHeaderHeight):
+				elNavPrimary.setAttribute('data-current', 'header');
+				break;
+			case (numScrollPos < numBeginBlog):
+				elNavPrimary.setAttribute('data-current', 'intro');
+				break;
+			case (numScrollPos < numBeginContact):
+				elNavPrimary.setAttribute('data-current', 'blog');
+				break;
+			case (numScrollPos < numBodyHeight):
+				elNavPrimary.setAttribute('data-current', 'contact');
+				break;
+			default:
+				elNavPrimary.setAttribute('data-current', 'footer');
+				break;
+		}
 
-			// true by default: set this to false so that we can revert the background pos in case of decreased window width
-			boolHeaderStop = false;
+	}
 
-			// no point in updating the background pos if its off screen
-			if (numScrollPos < numHeaderHeight) {
 
-				// calculate X and Y positions... X needs to be more subtle than Y
-				numHeaderPosX = numScrollPos / 100 + 50;
-				numHeaderPosY = numScrollPos / 30 + 50;
+	// scrollParallax: Update section backgrounds on scroll
+	// ----------------------------------------------------------------------------
+	function scrollParallax() {
 
-				// apply new positions to first background, leave 2nd background centered
-				elHeader.style.backgroundPosition = numHeaderPosX + '% ' + numHeaderPosY + '%, 50% 50%';
+		// no point in updating the <header> background pos if its off screen
+		if (numScrollPos < numHeaderHeight) {
 
-			}
+			// calculate X and Y positions... X needs to be more subtle than Y
+			numHeaderPosX = numScrollPos / 180 + 50;
+			numHeaderPosY = numScrollPos / 80 + 50;
 
-		} else {
-
-			// exit the function on scroll because we dont want it executing below 1200px...
-			// but we do need to reset the bg position first
-			if (boolHeaderStop) {
-				return;
-			}
-
-			// reset background position
-			elHeader.style.backgroundPosition = '50% 50%, 50% 50%';
-
-			// set back to true so background pos isn't continuosly updated
-			boolHeaderStop = true;
+			// apply new positions to first background, leave 2nd background centered
+			elHeader.style.backgroundPosition = numHeaderPosX + '% ' + numHeaderPosY + '%, 50% 50%';
 
 		}
+
+		// update background gradient co-ordinates for #sec_sales
+		elSales.style.backgroundImage = 'repeating-linear-gradient(-45deg,' +
+											'rgb(19,52,92) ' + (numSalesStart  - numScrollPos / 4) + 'px,' +
+											'rgb(19,52,92) ' + (numSalesMiddle - numScrollPos / 4) + 'px,' +
+											'rgb(18,41,69) ' + (numSalesMiddle - numScrollPos / 4) + 'px,' +
+											'rgb(18,41,69) ' + (numBodyHeight   - numScrollPos / 4) + 'px'  +
+										')';
 
 	}
 
@@ -243,19 +284,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			return;
 		}
 
-		// nav is only fixed above 1200px, so no point in initializing smoothScroll if less than that width
-		if (numWinWidth >= 1200) {
+		smoothScroll.init({
+			speed: 900,
+			easing: 'easeInOutQuint',
+			updateURL: false
+		});
 
-			smoothScroll.init({
-				speed: 900,
-				easing: 'easeInOutQuint',
-				updateURL: false
-			});
-
-			// set to true so this doesn't get reinitialized on window resize
-			boolEnabledSS = true;
-
-		}
+		// set to true so this doesn't get reinitialized on window resize
+		boolEnabledSS = true;
 
 	}
 
@@ -270,9 +306,21 @@ document.addEventListener('DOMContentLoaded', function() {
 			// re-measure window width on resize
 			numWinWidth = window.innerWidth;
 
-			fixedHeader();
-			parallaxHeader();
-			initSmoothScrollJS();
+			if (numWinWidth >= 1200) {
+
+				measureSectionHeight();
+				fixedHeader();
+				navTrackSection();
+				scrollParallax(); // need to calculate bg positions on page load in case of refresh
+				initSmoothScrollJS();
+
+			} else {
+
+				// remove style attributes from parallax elements
+				elHeader.removeAttribute('style');
+				elSales.removeAttribute('style');
+
+			}
 
 		}, 500, 'unique string');
 
@@ -283,8 +331,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		// re-measure the window scroll distance
 		numScrollPos = window.pageYOffset;
 
-		fixedHeader();
-		parallaxHeader();
+		if (numWinWidth >= 1200) {
+			fixedHeader();
+			navTrackSection();
+			scrollParallax();
+		}
 
 	});
 
