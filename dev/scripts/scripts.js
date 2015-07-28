@@ -14,10 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// window measurement variables
 	var numScrollPos      = window.pageYOffset,
-		numWinWidth       = window.innerWidth,
-		numClientWidth    = document.documentElement.clientWidth,
-		numScrollbarWidth = numWinWidth - numClientWidth,
-		hasScrollbar      = numScrollbarWidth > 0 ? true : false;
+		numWinWidth       = window.innerWidth;
 
 	// parallax header & stripes / fixed nav / smoothScroll
 	var boolEnabledSS  = false, // assumes below 1200px by default - smoothScroll is not initialized
@@ -39,56 +36,15 @@ document.addEventListener('DOMContentLoaded', function() {
 		numSalesMiddle;
 
 
-	// Helper: Lock / Unlock Body Scrolling
-	// ----------------------------------------------------------------------------
-	function lockBody() {
-
-		// enable overflow-y: hidden on <body>
-		elHTML.setAttribute('data-overflow', 'locked');
-
-		// if necessary, accomodate for scrollbar width
-		if (hasScrollbar) {
-			elBody.style.paddingRight = numScrollbarWidth + 'px';
-		}
-
-	}
-
-	function unlockBody() {
-
-		// disable overflow-y: hidden on <body>
-		elHTML.setAttribute('data-overflow', 'scrollable');
-
-		// if necessary, remove scrollbar width styles
-		// should be expanded to restore original padding if needed
-		if (hasScrollbar) {
-			elBody.style.paddingRight = '0px';
-		}
-
-	}
-
-
-/*
-	// secretMail: Add mailto link to home section
-	// ----------------------------------------------------------------------------
-	function secretMail() {
-
-		var mailLink = document.getElementById('contact'),
-			prefix    = 'mailto',
-			local    = 'curtis',
-			domain   = 'dulmage',
-			suffix    = 'me';
-
-		mailLink.setAttribute('href', prefix + ':' + local + '@' + domain + '.' + suffix);
-
-	}
-*/
-
-
 	// onPageLoad: Main Function To Fire on Window Load
 	// ----------------------------------------------------------------------------
 	function onPageLoad() {
 
+		pageAnimate();
+		secretMail();
 		initPkry();
+		toggleModal();
+		mailchimpAJAX();
 
 		if (numWinWidth >= 1200) {
 
@@ -103,85 +59,256 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 
+	// pageAnimate: Remove our page loader once the animation has finished
+	// ----------------------------------------------------------------------------
+	function pageAnimate() {
+
+		var elPageLoader = document.getElementById('page_loader');
+
+		elPageLoader.addEventListener(animationEvent, removePageLoader);
+
+		function removePageLoader(e) {
+
+			// listening for property name 'opacity' doesn't seem to work here...
+
+			elPageLoader.removeEventListener(animationEvent, removePageLoader);
+			elBody.removeChild(elPageLoader);
+
+			// inform the document we are now ready
+			elHTML.setAttribute('data-ready', 'ready');
+
+		}
+
+	}
+
+
+	// secretMail: Add mailto link to home section
+	// ----------------------------------------------------------------------------
+	function secretMail() {
+
+		var mailLink = document.getElementById('secret_email'),
+			prefix    = 'mailto',
+			local    = 'hello',
+			domain   = 'modbox',
+			suffix    = 'com';
+
+		mailLink.setAttribute('href', prefix + ':' + local + '@' + domain + '.' + suffix);
+
+	}
+
+
 	// initPkry: Initialize Packery.js + imagesLoaded
 	// ----------------------------------------------------------------------------
 	function initPkry() {
 
-		var elPkryContainer = document.getElementById('pkry_container');
+		var elPkryContainer = document.getElementById('pkry_container'),
+			elPkryLoader    = document.getElementById('pkry_loader');
 
-		// check if iso_container exists
+		// check if pkry_container exists
 		if (elPkryContainer == null) {
 			return;
 		}
 
-		// it does exist! continue on...
-		// var elIsoLoader   = document.getElementById('iso_loader');
-
-		// layout Isotope after all images have loaded
+		// layout Packery after all images have loaded
 		imagesLoaded(elPkryContainer, function(instance) {
 
 			objPkry = new Packery(elPkryContainer, {
 
 				itemSelector: 'a.pkry_brick',
-				columnWidth: 'div.pkry_sizer',
+				columnWidth: 'a.pkry_brick',
 				gutter: 'div.pkry_gutter'
 
 			});
 
-/*
+			elPkryContainer.setAttribute('data-images', 'loaded');
+
 			// IE9 does not support animations...
 			if ( !classie.has(elHTML, 'ie9') ) {
 
 				// listen for CSS transitionEnd before removing the element
-				elIsoLoader.addEventListener(transitionEvent, removeLoader);
-
-				// hide loader
-				classie.remove(elIsoLoader, 'visible');
+				elPkryLoader.addEventListener(transitionEvent, removeLoader);
 
 			}
-*/
+
 
 		});
 
-/*
 		function removeLoader(e) {
 
 			// only listen for the opacity property
 			if (e.propertyName == 'opacity') {
 
-				// unlockBody();
-
-				elPkryContainer.removeChild(elIsoLoader);
-				elIsoLoader.removeEventListener(transitionEvent, removeLoader);
+				elPkryLoader.removeEventListener(transitionEvent, removeLoader);
+				elPkryContainer.removeChild(elPkryLoader);
 
 			}
 
 		}
-*/
 
 	}
 
 
-/*
-	// finalAnimate: Inform the document when we have finished our loading animations
+	// toggleModal: Open and Close modal popups
 	// ----------------------------------------------------------------------------
-	function finalAnimate() {
+	function toggleModal() {
 
-		var elFooter = document.getElementsByTagName('footer')[0];
+		var arrModalOpen  = document.getElementsByClassName('modal_open'),
+			arrModalClose = document.getElementsByClassName('modal_close'),
+			elTargetModal;
 
-		elFooter.addEventListener(animationEvent, applyReadyState);
+		// check if arrModalOpen is empty...
+		// assume close links will only be present if there are open links
+		if (arrModalOpen.length <= 0) {
+			return; // array empty... exit function
+		}
 
-		function applyReadyState() {
+		for (var i = 0; i < arrModalOpen.length; i++) {
+			arrModalOpen[i].addEventListener('click', openModal, false);
+		}
 
-			classie.add(elHTML, 'ready');
-			elFooter.removeEventListener(animationEvent, applyReadyState);
+		for (var i = 0; i < arrModalClose.length; i++) {
+			arrModalClose[i].addEventListener('click', closeModal, false);
+		}
+
+		function openModal(e) {
+
+			e.preventDefault();
+
+			var dataTargetModal = this.getAttribute('href').substring(1); // capture the href of the clicked element, remove the # prefix
+
+			elTargetModal = document.getElementById(dataTargetModal); // get the modal we need to open
+
+			// fade in modal
+			elTargetModal.setAttribute('data-modal', 'active');
+
+			document.addEventListener('click', documentClick);
+
+		}
+
+		function closeModal(e) {
+
+			e.preventDefault();
+
+			var dataTargetModal = this.getAttribute('href').substring(1); // capture the href of the clicked element, remove the # prefix
+
+			elTargetModal = document.getElementById(dataTargetModal); // get the modal we need to open
+
+			// once we have found the desired parent element, hide that modal
+			elTargetModal.setAttribute('data-modal', 'inactive');
+
+			document.removeEventListener('click', documentClick);
+
+		}
+
+		function documentClick(e) {
+
+			// if this is not the currently toggled dropdown
+			if (e.target === elTargetModal) {
+
+				// ignore this event if preventDefault has been called
+				if (e.defaultPrevented) {
+					return;
+				}
+
+				// once we have found the desired parent element, hide that modal (copied from closeModal)
+				elTargetModal.setAttribute('data-modal', 'inactive');
+
+			}
 
 		}
 
 	}
-*/
 
 
+	// mailchimpAJAX: Submit newsletter signup with AJAX
+	// ----------------------------------------------------------------------------
+	function mailchimpAJAX() {
+
+		var rgxEmailFilter = /^\w+[\+\.\w-]*@([\w-]+\.)*\w+[\w-]*\.([a-z]{2,4}|\d+)$/i,
+			elForm         = document.getElementById('mc-embedded-subscribe-form'),
+			strFormAction  = elForm.getAttribute('action'),
+			elFormParent   = elForm.parentNode,
+			elInputEmail   = document.getElementById('mce-EMAIL'),
+			elResponse     = document.getElementById('mce-response-text'),
+			isValid        = true,
+			strInputValue;
+
+		elForm.addEventListener('submit', function(e) {
+
+			e.preventDefault();
+
+			strInputValue = elInputEmail.value;
+
+			validateEmail();
+
+			// if text has been entered and the email filter validates...
+			if (strInputValue.length > 0 && isValid) {
+
+				// we may have added an error class, so let's go ahead and remove it
+				classie.remove(elForm, 'submit_error');
+
+				var request = new XMLHttpRequest();
+
+				request.onreadystatechange = function() {
+
+					if (this.readyState == 4) {
+
+						var mailchimpResponse = JSON.parse(this.response);
+
+						if (mailchimpResponse.result === 'success') {
+
+							console.log('SUCCESS!');
+							// update response innerHTML
+							// reset form
+
+						} else {
+
+							console.log('There appears to have been an error.');
+							// update response innerHTML
+
+						}
+
+					}
+
+				}
+
+				request.open('POST', strFormAction, true);
+				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				request.send('EMAIL=' + strInputValue);
+
+			} else {
+
+				classie.add(elForm, 'submit_error');
+
+				if ( !classie.has(elHTML, 'ie9') ) {
+					classie.add(elFormParent, 'animate_shake');
+					elFormParent.addEventListener(animationEvent, removeShake);
+				}
+
+			}
+
+		});
+
+		function validateEmail() {
+
+			// email input validation
+			if (rgxEmailFilter.test(strInputValue) == false) {
+				classie.addClass(elForm, 'submit_error');
+				isValid = false;
+			} else {
+				isValid = true;
+			}
+
+		}
+
+		function removeShake() {
+
+			classie.remove(elFormParent, 'animate_shake');
+			elFormParent.removeEventListener(animationEvent, removeShake);
+
+		}
+
+	}
 
 
 	// measureSectionHeight: Get the height of each required section
@@ -256,20 +383,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (numScrollPos < numHeaderHeight) {
 
 			// calculate X and Y positions... X needs to be more subtle than Y
-			numHeaderPosX = numScrollPos / 180 + 50;
-			numHeaderPosY = numScrollPos / 80 + 50;
+			numHeaderPosX = numScrollPos / 260 + 50;
+			numHeaderPosY = numScrollPos / 160 + 50;
 
 			// apply new positions to first background, leave 2nd background centered
-			elHeader.style.backgroundPosition = numHeaderPosX + '% ' + numHeaderPosY + '%, 50% 50%';
+			elHeader.style.backgroundPosition = numHeaderPosX + '% ' + numHeaderPosY + '%, 0% 0%, 0% 0%';
 
 		}
 
 		// update background gradient co-ordinates for #sec_sales
 		elSales.style.backgroundImage = 'repeating-linear-gradient(-45deg,' +
-											'rgb(19,52,92) ' + (numSalesStart  - numScrollPos / 4) + 'px,' +
-											'rgb(19,52,92) ' + (numSalesMiddle - numScrollPos / 4) + 'px,' +
-											'rgb(18,41,69) ' + (numSalesMiddle - numScrollPos / 4) + 'px,' +
-											'rgb(18,41,69) ' + (numBodyHeight   - numScrollPos / 4) + 'px'  +
+											'rgb(19,52,92) ' + (numSalesStart  - numScrollPos / 3) + 'px,' +
+											'rgb(19,52,92) ' + (numSalesMiddle - numScrollPos / 3) + 'px,' +
+											'rgb(18,41,69) ' + (numSalesMiddle - numScrollPos / 3) + 'px,' +
+											'rgb(18,41,69) ' + (numBodyHeight  - numScrollPos / 3) + 'px'  +
 										')';
 
 	}
@@ -311,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				measureSectionHeight();
 				fixedHeader();
 				navTrackSection();
-				scrollParallax(); // need to calculate bg positions on page load in case of refresh
+				scrollParallax();
 				initSmoothScrollJS();
 
 			} else {

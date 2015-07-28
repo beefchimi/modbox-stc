@@ -19,4 +19,6 @@
 				%a{:href => "http://www.tlpi.ca/", :title => "Visit The Lake Partnership Website", :target => "_blank"}
 					%img{:src => "assets/img/logo_lake.jpg", :alt => "The Lake Partnership Inc."}
 
+#page_loader.page_loader
+
 = Haml::Engine.new(File.read("dev/haml/partials/_doc_scripts.haml")).render

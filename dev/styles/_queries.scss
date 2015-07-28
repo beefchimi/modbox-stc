@@ -15,6 +15,34 @@
 
 }
 
+@media only screen and (min-height: 480px) {
+
+// ==|== main styles ==========================================================
+// ============================================================================
+
+	// Mailchimp
+	// ----------------------------------------------------------------------------
+	// --- Modal Close --- \\
+	a.modal_close {
+		margin-bottom: 6.4rem;
+	}
+
+}
+
+@media only screen and (min-height: 568px) {
+
+// ==|== main styles ==========================================================
+// ============================================================================
+
+	// Mailchimp
+	// ----------------------------------------------------------------------------
+	// --- Modal Close --- \\
+	a.modal_close {
+		margin-bottom: 12rem;
+	}
+
+}
+
 @media only screen and (min-width: 768px) {
 
 // ==|== primary styles =======================================================
@@ -33,7 +61,7 @@
 	header {
 		padding-top: 18rem;
 		padding-bottom: 18rem;
-		background-size: 40rem 26.6rem, cover;
+		background-size: 40rem 26.6rem, auto auto, 16rem 16rem;
 	}
 	div.wrap_pos-abs {
 		top: 0;
@@ -89,7 +117,6 @@
 		padding: 1rem 1.8rem 1.2rem 1.8rem;
 		font-size: 1.5rem;
 	}
-
 
 // ==|== main styles ==========================================================
 // ============================================================================
@@ -188,8 +215,7 @@
 
 	// Packery
 	// ----------------------------------------------------------------------------
-	div.pkry_container a,
-	div.pkry_container div.pkry_sizer {
+	div.pkry_container a {
 		width: calc(50% - 1.6rem);
 	}
 	div.pkry_container div.pkry_gutter {
@@ -225,6 +251,43 @@
 		opacity: 0.94;
 	}
 
+	// Mailchimp
+	// ----------------------------------------------------------------------------
+	[data-modal] {
+		background-color: hsla(0,0%,0%,0.12);
+	}
+	[data-modal] div.wrap_content {
+		width: 58rem;
+		height: 40rem;
+		background-color: $hsl_L100;
+		border-radius: 1.4rem;
+		box-shadow: 0 0 0.8rem hsla(0,0%,0%,0.4);
+	}
+	// --- Modal Close --- \\
+	a.modal_close {
+		display: none;
+	}
+	// --- Form --- \\
+	form {
+		padding-left: 3.2rem;
+		padding-right: 3.2rem;
+	}
+	form h5 {
+		margin-bottom: 4rem;
+		font-size: 2rem;
+	}
+	form input {
+		height: 6rem;
+		font-size: 2rem;
+	}
+	form input[type="email"] {
+		margin-bottom: 2.6rem;
+		width: 28rem;
+	}
+	form input[type="submit"] {
+		width: 19rem;
+	}
+
 }
 
 @media only screen and (min-width: 960px) {
@@ -242,8 +305,7 @@
 
 	// Packery
 	// ----------------------------------------------------------------------------
-	div.pkry_container a,
-	div.pkry_container div.pkry_sizer {
+	div.pkry_container a {
 		width: calc(25% - 2.4rem);
 	}
 	div.pkry_container.row_single a {
@@ -376,8 +438,7 @@
 
 	// Packery
 	// ----------------------------------------------------------------------------
-	div.pkry_container a,
-	div.pkry_container div.pkry_sizer {
+	div.pkry_container a {
 		width: calc(25% - 6.8rem);
 	}
 	div.pkry_container div.pkry_gutter {

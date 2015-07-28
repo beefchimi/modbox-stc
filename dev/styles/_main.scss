@@ -14,34 +14,15 @@ body {
 	color: $hsl_L100;
 	background-color: $hsl_pink;
 }
-// + autoprefixer does not recognize placeholder + \\
-::-webkit-input-placeholder {
-	color: $hsl_L66;
-}
 ::-moz-placeholder {
-	color: $hsl_L66;
 	opacity: 1;
 }
-:-ms-input-placeholder {
-	color: $hsl_L66;
+// + page loader + \\
+div.page_loader {
+	@include pos_cover(fixed, 999);
+	background-color: $hsl_L100;
+	animation: animOpacity 800ms ease-in-out 100ms reverse forwards;
 }
-// --- Lock Scrolling On Load --- \\
-html[data-overflow="locked"],
-html[data-overflow="locked"] body {
-	overflow-y: hidden;
-}
-html {
-	min-height: 100%;
-	overflow-y: scroll;
-}
-/*
-html[data-ready="waiting"] body {
-	overflow-y: hidden;
-}
-html[data-ready="loaded"] body {
-	overflow-y: visible;
-}
-*/
 
 // Transitions & Animations
 // ----------------------------------------------------------------------------
@@ -68,6 +49,12 @@ div.pkry_container a div.wrap_pkry-meta {
 div.pkry_container a div.wrap_pkry-meta h4 {
 	transition: text-decoration 260ms ease-in-out;
 }
+div.pkry_loader {
+	transition: opacity 420ms ease-in-out;
+}
+div.pkry_loader div.wrap_content {
+	transition: transform 420ms ease-in-out;
+}
 // --- Animations --- \\
 @keyframes anim360 {
 	to { transform: rotate(360deg); }
@@ -75,6 +62,25 @@ div.pkry_container a div.wrap_pkry-meta h4 {
 @keyframes animOpacity {
 	  0% { opacity: 0; }
 	100% { opacity: 1; }
+}
+@keyframes animHide {
+	0%   { opacity: 1; left: 0; }
+	99%  { opacity: 0; left: 0; }
+	100% { opacity: 0; left: -200%; }
+}
+@keyframes animShake {
+	0%, 100% {
+		transform: translate3d(0,0,0);
+	}
+	10%, 30%, 50%, 70%, 90% {
+		transform: translate3d(-1rem,0,0);
+	}
+	20%, 40%, 60%, 80% {
+		transform: translate3d(1rem,0,0);
+	}
+}
+.animate_shake {
+	animation: animShake 600ms ease-in-out both;
 }
 
 // General Styles
@@ -153,8 +159,12 @@ header {
 	padding-top: 10rem;
 	padding-bottom: 3.2rem;
 	text-align: center;
-	background: url('../img/bg_header-pattern.png') 50% 50% / 20rem 13.3rem repeat fixed,
-				url('../img/bg_header-noise.png') 50% 50% / cover no-repeat fixed $hsl_navy-D;
+	background: $hsl_navy-D;
+	background-image: url('../img/bg_header-pattern.png'), radial-gradient(hsla(0,0%,100%,0.04), hsla(0,0%,0%,0.04)), url('../img/bg_header-noise.png');
+	background-position: 50% 50%, 0% 0%, 0% 0%;
+	background-size: 20rem 13.3rem, auto auto, 16rem 16rem;
+	background-repeat: repeat, no-repeat, repeat;
+	background-attachment: fixed, scroll, fixed;
 }
 div.wrap_pos-abs {
 	position: absolute;
@@ -473,8 +483,7 @@ div.pkry_container {
 	z-index: 100;
 	// overflow-y: hidden; // required to prevent scrollbar on filter change
 }
-div.pkry_container a,
-div.pkry_container div.pkry_sizer {
+div.pkry_container a {
 	width: calc(50% - 1rem);
 }
 div.pkry_container div.pkry_gutter {
@@ -526,84 +535,85 @@ div.pkry_container a:active div.wrap_pkry-meta {
 div.pkry_container a:active div.wrap_pkry-meta h4 {
 	text-decoration-color: $hsl_navy;
 }
-
-
-
-
-
+// --- Image Loader --- \\
+div.pkry_loader {
+	@include pos_cover(absolute,200);
+	background-color: $hsl_L100;
+	overflow: hidden;
+}
+div.pkry_loader div.wrap_content {
+	transform: translate3d(0,0,0);
+}
+div.pkry_loader div.wrap_content div.wrap_svg {
+	margin-left: auto;
+	margin-right: auto;
+	width: 4.4rem;
+	height: 4.4rem;
+	animation: anim360 800ms linear infinite forwards;
+}
+div.pkry_loader div.wrap_content div.wrap_svg svg {
+	fill: $hsl_navy;
+}
+div.pkry_loader div.wrap_content p {
+	margin-top: 2rem;
+	font-size: 1.4rem;
+	color: $hsl_navy;
+}
+// + ready + \\
+[data-images="loaded"] div.pkry_loader {
+	opacity: 0;
+}
+[data-images="loaded"] div.pkry_loader div.wrap_content {
+	transform: translate3d(0,6rem,0);
+}
+// + internet explorer + \\
+html.ie9 div.pkry_loader {
+	display: none;
+	visibility: hidden;
+}
 
 // Mailchimp
 // ----------------------------------------------------------------------------
-div.overlay {
-	@include pos_cover(fixed, 900);
-	background-color: hsla(0,0%,0%,0.12);
+[data-modal] {
+	position: fixed;
+	z-index: 901;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: $hsl_L100;
 	overflow: hidden;
+	visibility: hidden; // requires visibility in order to hide animation on initial page load... set to 'visible' via JS class 'loaded'
 }
-aside.mailchimp {
-	@include pos_cover(fixed, 901);
-
+[data-modal] div.wrap_content {
+	@include pos_cover(absolute, 901);
+	// centre inner content
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	text-align: center;
-	background-color: $hsl_L100;
-
-	// border-radius
-	// box-shadow
 }
-
-
-form {
-	padding: 1.6rem;
+html[data-ready="ready"] [data-modal] {
+	visibility: visible;
 }
-form div.wrap_svg {
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 3.2rem;
-	width: 6.8rem;
+// + show / hide modal + \\
+[data-modal="active"] {
+	left: 0;
+	animation: animOpacity 0.4s ease-in-out;
 }
-form div.wrap_svg svg {
-	fill: $hsl_navy;
+[data-modal="inactive"] {
+	left: -200%;
+	animation: animHide 0.4s ease-in-out forwards;
 }
-form h5 {
-	margin-bottom: 3.2rem;
-	font-size: 1.6rem; // 2rem;
-	line-height: 1.4;
-	color: $hsl_navy;
-}
-form input {
+html.ie9 [data-modal="active"] {
 	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	height: 4.6rem; // 6rem;
-	font-size: 1.6rem; // 2rem;
-	border-radius: 0.8rem;
+	visibility: visible;
+	left: 0;
 }
-
-form input[type="email"] {
-	margin-bottom: 2rem;
-	padding-left: 1.6rem;
-	padding-right: 1.6rem;
-	width: 24rem; // 28rem;
-	text-align: center;
-	color: $hsl_L46;
-	border: 0.1rem solid $hsl_L66;
-}
-form input[type="submit"] {
-	width: 14rem; // 19rem;
-	color: $hsl_L100;
-	background-color: $hsl_navy;
-}
-
-
-
-div.wrap_response {
+html.ie9 [data-modal="inactive"] {
 	display: none;
 }
-div.wrap_response p {
-}
-
+// --- Modal Close --- \\
 a.modal_close {
 	margin-bottom: 3.2rem;
 	padding: 1rem;
@@ -619,110 +629,75 @@ a.modal_close:hover svg {
 a.modal_close:active svg {
 	fill: darken($hsl_pink, 10%);
 }
-
-
-
-
+// --- Form --- \\
+form {
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
+}
+form div.wrap_svg {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 3.2rem;
+	width: 6.8rem;
+}
+form div.wrap_svg svg {
+	fill: $hsl_navy;
+}
+form h5 {
+	max-width: 52rem;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 3.2rem;
+	font-size: 1.6rem;
+	line-height: 1.4;
+	color: $hsl_navy;
+}
+form input {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	height: 4.6rem;
+	font-size: 1.6rem;
+	border-radius: 0.8rem;
+}
+form input[type="email"] {
+	margin-bottom: 2rem;
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
+	width: 24rem;
+	text-align: center;
+	color: $hsl_L66;
+	border: 0.1rem solid $hsl_L66;
+}
+form input[type="submit"] {
+	width: 14rem;
+	color: $hsl_L100;
+	background-color: $hsl_navy;
+}
+form.submit_error input[type="email"] {
+	color: $hsl_red;
+	border-color: $hsl_red;
+}
+// + interactive + \\
 form input[type="email"]:focus {
+	color: $hsl_L46;
 	border-color: $hsl_L46;
 }
+form.submit_error input[type="email"]:focus {
+	color: darken($hsl_red, 10%);
+	border-color: darken($hsl_red, 10%);
+}
+form input[type="submit"]:focus,
 form input[type="submit"]:hover {
 	background-color: $hsl_pink;
 }
 form input[type="submit"]:active {
 	background-color: darken($hsl_pink, 10%);
 }
+// --- Response --- \\
 
-/*
-#overlay.overlay
-
-%aside#mailchimp{"data-overlay" => "inactive"}
-
-	%form#mc-embedded-subscribe-form.validate{:action => "//modbox.us10.list-manage.com/subscribe/post-json?u=9d04fb276b7023a982943ca3e&amp;id=ac14f0966e&c=?", :method => "get", :name => "mc-embedded-subscribe-form", :novalidate => true}
-
-		.wrap_svg.wrap_stc-key
-			%svg.logo_stc-key{:viewBox => "0 0 155 64"}
-				%use{"xlink:href" => "#logo_stc-key"}
-
-		%h5 Sign up for the St. Charles Market newsletter and we'll keep you posted on all things St. Charles.
-
-		%input#mce-EMAIL.mce-email{:type => "email", :name => "EMAIL", :value => "", :placeholder => "Email", :required => true, :tabindex => "2"}
-
-		#do-not-remove.visuallyhidden
-			%input{:type => "text", :name => "b_9d04fb276b7023a982943ca3e_ac14f0966e", :value => "", :tabindex => "-1"}
-
-		%input#mc-embedded-subscribe{:type => "submit", :value => "Sign me up", :name => "subscribe"}
-
-		.wrap_response
-			%p#mce-response-text
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// SHOULD I IMPLEMENT A FALLBACK FOR IF ISOTOPE FAILS TO LOAD / LAYOUT?
-
-/*
-// Isotope Loader
-// ----------------------------------------------------------------------------
-div.iso_loader {
-	@include pos_cover(absolute, 300);
-	background-color: $hsl_navy;
-	opacity: 0;
-	overflow: hidden;
-}
-div.iso_loader.visible {
-	opacity: 1;
-}
-div.wrap_graphics {
-	@include pos_cover(absolute, 301);
-	padding-top: 2rem;
-}
-div.wrap_graphics div.wrap_svg {
-	margin-left: auto;
-	margin-right: auto;
-	width: 4.4rem;
-	height: 4.4rem;
-	animation: anim360 800ms linear infinite forwards;
-}
-div.wrap_graphics div.wrap_svg svg {
-	fill: $hsl_navy; // default fill
-	animation: animRbow_fill 1600ms linear infinite;
-}
-div.wrap_graphics div.wrap_txt p {
-	margin-top: 2rem;
-	font-size: 1.1rem;
-	font-weight: 800;
-	text-align: center;
-	text-transform: uppercase;
-	color: $hsl_navy; // default color
-	animation: animRbow_color 1600ms linear infinite;
-}
-// + internet explorer + \\
-html.ie9 div.iso_loader {
+div.wrap_response {
 	display: none;
-	visibility: hidden;
 }
-*/
-
-
-
-
-/*
-// Page Load
-// ----------------------------------------------------------------------------
-// + header + \\
-.logo_main div.wrap_logo-sandwich {
-	animation: animOpacity 800ms ease-in-out 200ms both;
+div.wrap_response p {
 }
-*/

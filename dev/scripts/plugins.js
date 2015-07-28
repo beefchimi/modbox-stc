@@ -65,8 +65,32 @@ var waitForFinalEvent = (function() {
 })();
 
 
+// Helper: CSS Fade In / Out
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
+function fadeIn(thisElement) {
+
+	// make the element fully transparent
+	// (don't rely on a predefined CSS style... declare this with JS to getComputedStyle)
+	thisElement.style.opacity = 0;
+
+	// make sure the initial state is applied
+	window.getComputedStyle(thisElement).opacity;
+
+	// set opacity to 1 (CSS transition will handle the fade)
+	thisElement.style.opacity = 1;
+
+}
+
+function fadeOut(thisElement) {
+
+	// set opacity to 0 (CSS transition will handle the fade)
+	thisElement.style.opacity = 0;
+
+}
+
+
 // Helper: Get a random number between a min and max range
-// ----------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
