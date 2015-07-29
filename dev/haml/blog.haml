@@ -6,19 +6,18 @@
 
 	= Haml::Engine.new(File.read("dev/haml/partials/_doc_head.haml")).render
 
-	%body.home
+	%body.blog
 
 		#svgInject
 			/ inject:svg
 			/ endinject
 
-		= Haml::Engine.new(File.read("dev/haml/partials/_html_header-home.haml")).render
+		= Haml::Engine.new(File.read("dev/haml/partials/_html_header-blog.haml")).render
 
 		%main{:role => "main"}
 
-			= Haml::Engine.new(File.read("dev/haml/partials/_sec_intro.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/_sec_blog-blog.haml")).render
 			= Haml::Engine.new(File.read("dev/haml/partials/_sec_sales.haml")).render
-			= Haml::Engine.new(File.read("dev/haml/partials/_sec_blog-home.haml")).render
 			= Haml::Engine.new(File.read("dev/haml/partials/_sec_contact.haml")).render
 
 		= Haml::Engine.new(File.read("dev/haml/partials/_form_mailchimp.haml")).render

@@ -39,7 +39,6 @@ $hsla_bone-L98: hsla(180,50%,99%,0.98);
 	left: auto;
 	margin: 0;
 }
-
 @mixin toggle_visibility($state) {
 
 	@if $state == "off" {

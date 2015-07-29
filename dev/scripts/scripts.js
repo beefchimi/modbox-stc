@@ -6,22 +6,26 @@ document.addEventListener('DOMContentLoaded', function() {
 	var elHTML       = document.documentElement,
 		elBody       = document.body,
 		elHeader     = document.getElementsByTagName('header')[0],
+		elBgAngels   = document.getElementById('bg_angels'),
 		elNavPrimary = document.getElementById('nav_primary'),
 		elIntro      = document.getElementById('sec_intro'),
 		elSales      = document.getElementById('sec_sales'),
+		elBgStripes  = document.getElementById('bg_stripes'),
 		elBlog       = document.getElementById('sec_blog'),
 		objPkry;
 
 	// window measurement variables
-	var numScrollPos      = window.pageYOffset,
-		numWinWidth       = window.innerWidth;
+	var numScrollPos = window.pageYOffset,
+		numWinWidth  = window.innerWidth;
 
 	// parallax header & stripes / fixed nav / smoothScroll
 	var boolEnabledSS  = false, // assumes below 1200px by default - smoothScroll is not initialized
-		numHeaderPosX  = 50,    // default X % position
-		numHeaderPosY  = 50,    // default Y % position
+		numAngelsPosX  = 50,    // default X % position
+		numAngelsPosY  = 50,    // default Y % position
+		numStripesPosX = 50,    // default X % position
+		numStripesPosY = 50,    // default Y % position
 		numNavTopPos   = 910,   // top position of nav as defined in CSS... should instead be retrieved from computed value
-		numStripeWidth = 62     // width of gradient stripe;
+		numStripeWidth = 62;     // width of gradient stripe;
 
 	// declare section heights (only required for 1200px and up... remeasured in window resize event)
 	var numSectionOffset = 65,
@@ -51,7 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			measureSectionHeight();
 			fixedHeader();
 			navTrackSection();
-			scrollParallax(); // need to calculate bg positions on page load in case of refresh
+			parallaxAngels();
+			parallaxStripes();
 			initSmoothScrollJS();
 
 		}
@@ -130,8 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			}
 
-
 		});
+
+		// objPkry.bindResize();
 
 		function removeLoader(e) {
 
@@ -375,29 +381,78 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 
-	// scrollParallax: Update section backgrounds on scroll
+	// parallaxAngels: Update home header background on scroll
 	// ----------------------------------------------------------------------------
-	function scrollParallax() {
+	function parallaxAngels() {
 
-		// no point in updating the <header> background pos if its off screen
-		if (numScrollPos < numHeaderHeight) {
+		// as long as div.bg_angels exists...
+		if (elBgAngels) {
 
-			// calculate X and Y positions... X needs to be more subtle than Y
-			numHeaderPosX = numScrollPos / 260 + 50;
-			numHeaderPosY = numScrollPos / 160 + 50;
+			// no point in updating the <header> background pos if its off screen
+			if (numScrollPos < numHeaderHeight) {
 
-			// apply new positions to first background, leave 2nd background centered
-			elHeader.style.backgroundPosition = numHeaderPosX + '% ' + numHeaderPosY + '%, 0% 0%, 0% 0%';
+/*
+				// calculate X and Y positions... X needs to be more subtle than Y
+				numAngelsPosX = numScrollPos / 260 + 50;
+				numAngelsPosY = numScrollPos / 160 + 50;
+				elBgAngels.style.backgroundPosition = numAngelsPosX + '% ' + numAngelsPosY + '%';
+*/
+
+				// calculate X and Y positions... X needs to be more subtle than Y
+				numAngelsPosX = numScrollPos / 260 - 50;
+				numAngelsPosY = numScrollPos / 80 - 50;
+
+				// safari sucks and still doesn't support unprefixed transforms... so we need to use setProperty()
+				elBgAngels.style.setProperty('-webkit-transform', 'translate3d(' + numAngelsPosX + '%, ' + numAngelsPosY + '%, 0px)');
+				elBgAngels.style.setProperty('transform', 'translate3d(' + numAngelsPosX + '%, ' + numAngelsPosY + '%, 0px)');
+				// elBgAngels.style.transform = 'translate3d(' + numAngelsPosX + '%, ' + numAngelsPosY + '%, 0px)';
+
+			}
 
 		}
 
+	}
+
+
+	// parallaxStripes: Update stripes background on scroll
+	// ----------------------------------------------------------------------------
+	function parallaxStripes() {
+
+/*
 		// update background gradient co-ordinates for #sec_sales
-		elSales.style.backgroundImage = 'repeating-linear-gradient(-45deg,' +
-											'rgb(19,52,92) ' + (numSalesStart  - numScrollPos / 3) + 'px,' +
-											'rgb(19,52,92) ' + (numSalesMiddle - numScrollPos / 3) + 'px,' +
-											'rgb(18,41,69) ' + (numSalesMiddle - numScrollPos / 3) + 'px,' +
-											'rgb(18,41,69) ' + (numBodyHeight  - numScrollPos / 3) + 'px'  +
+		elBgStripes.style.backgroundImage = 'repeating-linear-gradient(-45deg,' +
+											'rgb(19,52,92) ' + (numSalesStart  - numScrollPos / 4) + 'px,' +
+											'rgb(19,52,92) ' + (numSalesMiddle - numScrollPos / 4) + 'px,' +
+											'rgb(18,41,69) ' + (numSalesMiddle - numScrollPos / 4) + 'px,' +
+											'rgb(18,41,69) ' + (numBodyHeight  - numScrollPos / 4) + 'px'  +
 										')';
+*/
+
+		// calculate X and Y positions... X needs to be more subtle than Y
+		numStripesPosX = numScrollPos / 120 - 50;
+		numStripesPosY = numScrollPos / 100 - 50;
+
+		// safari sucks and still doesn't support unprefixed transforms... so we need to use setProperty()
+		elBgStripes.style.setProperty('-webkit-transform', 'translate3d(' + numStripesPosX + '%, ' + numStripesPosY + '%, 0px)');
+		elBgStripes.style.setProperty('transform', 'translate3d(' + numStripesPosX + '%, ' + numStripesPosY + '%, 0px)');
+		// elBgStripes.style.transform = 'translate3d(' + numStripesPosX + '%, ' + numStripesPosY + '%, 0px)';
+
+	}
+
+
+	// parallaxRemove: Remove style attribute from designated parallax elements
+	// ----------------------------------------------------------------------------
+	function parallaxRemove() {
+
+		// should we be using a boolean to determine whether or not to run this function?
+
+		if (elBgAngels) {
+			elBgAngels.removeAttribute('style');
+		}
+
+		if (elBgStripes) {
+			elBgStripes.removeAttribute('style');
+		}
 
 	}
 
@@ -438,16 +493,18 @@ document.addEventListener('DOMContentLoaded', function() {
 				measureSectionHeight();
 				fixedHeader();
 				navTrackSection();
-				scrollParallax();
+				parallaxAngels();
+				parallaxStripes();
 				initSmoothScrollJS();
 
 			} else {
 
-				// remove style attributes from parallax elements
-				elHeader.removeAttribute('style');
-				elSales.removeAttribute('style');
+				parallaxRemove();
 
 			}
+
+			// re-layout packery items on resize... only way to be sure it doesn't crap the bed
+			objPkry.layout();
 
 		}, 500, 'unique string');
 
@@ -461,7 +518,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (numWinWidth >= 1200) {
 			fixedHeader();
 			navTrackSection();
-			scrollParallax();
+			parallaxAngels();
+			parallaxStripes();
 		}
 
 	});

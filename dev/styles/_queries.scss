@@ -56,25 +56,16 @@
 		font-size: 2rem;
 	}
 
-	// Header
+	// Header - Common
 	// ----------------------------------------------------------------------------
 	header {
 		padding-top: 18rem;
 		padding-bottom: 18rem;
-		background-size: 40rem 26.6rem, auto auto, 16rem 16rem;
 	}
 	div.wrap_pos-abs {
 		top: 0;
 		left: 3.2rem;
 		right: 3.2rem;
-	}
-	// --- Main Logo --- \\
-	div.wrap_logo-wordmark {
-		margin-bottom: 12rem;
-	}
-	// --- Quotation --- \\
-	div.wrap_quote-mies {
-		margin-bottom: 0;
 	}
 	// --- Updates Button --- \\
 	a.link_updates {
@@ -90,8 +81,19 @@
 		right: 0;
 	}
 
-	// Navigation
+	// Header - Home
 	// ----------------------------------------------------------------------------
+	div.bg_angels {
+		background-size: 40rem 26.6rem;
+	}
+	// --- Main Logo --- \\
+	header.header_home div.wrap_logo-wordmark {
+		margin-bottom: 12rem;
+	}
+	// --- Quotation --- \\
+	div.wrap_quote-mies {
+		margin-bottom: 0;
+	}
 	// --- Nav Primary --- \\
 	nav.nav_primary {
 		position: absolute;
@@ -147,8 +149,10 @@
 		margin-bottom: 6.4rem;
 	}
 	// --- Sales --- \\
-	section.sec_sales {
+	// section.sec_sales {
+	div.bg_stripes {
 		background-image: repeating-linear-gradient(-45deg, $hsl_navy 0px, $hsl_navy 62px, $hsl_navy-D 62px, $hsl_navy-D 124px);
+		// transform: translate3d(0,0,0);
 	}
 	section.sec_sales article div.wrap_stc-key {
 		margin-top: 4rem;
@@ -319,7 +323,7 @@
 // ==|== primary styles =======================================================
 // ============================================================================
 
-	// Header
+	// Header - Common
 	// ----------------------------------------------------------------------------
 	header {
 		padding-top: 24rem;
@@ -329,18 +333,24 @@
 		left: 6.4rem;
 		right: 6.4rem;
 	}
+
+	// Header - Home
+	// ----------------------------------------------------------------------------
+	div.bg_angels {
+		width: 200%;
+		height: 200%;
+		transform: translate3d(-50%,-50%,0);
+	}
 	// --- Main Logo --- \\
-	div.wrap_logo-wordmark {
+	header.header_home div.wrap_logo-wordmark {
 		margin-bottom: 16rem;
 	}
-
-	// Navigation
-	// ----------------------------------------------------------------------------
 	// --- Nav Primary --- \\
 	nav.nav_primary {
 		top: 91rem;
 		padding-left: 6.4rem;
 		padding-right: 6.4rem;
+		backface-visibility: hidden;
 	}
 	header.nav_fixed nav.nav_primary {
 		position: fixed;
@@ -391,6 +401,13 @@
 	section.sec_odd {
 		padding-top: 14rem;
 		padding-bottom: 14rem;
+	}
+	// --- Sales --- \\
+	// section.sec_sales {
+	div.bg_stripes {
+		width: 200%;
+		height: 200%;
+		transform: translate3d(-50%,-50%,0);
 	}
 	// --- Blog --- \\
 	body.home section.sec_blog,

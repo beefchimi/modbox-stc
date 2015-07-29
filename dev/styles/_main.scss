@@ -153,18 +153,20 @@ svg.svg_inline {
 	border-color: $hsl_pink;
 }
 
-// Header
+
+
+
+
+
+
+// Header - Common
 // ----------------------------------------------------------------------------
 header {
+	position: relative;
+	// z-index: 1;
 	padding-top: 10rem;
 	padding-bottom: 3.2rem;
 	text-align: center;
-	background: $hsl_navy-D;
-	background-image: url('../img/bg_header-pattern.png'), radial-gradient(hsla(0,0%,100%,0.04), hsla(0,0%,0%,0.04)), url('../img/bg_header-noise.png');
-	background-position: 50% 50%, 0% 0%, 0% 0%;
-	background-size: 20rem 13.3rem, auto auto, 16rem 16rem;
-	background-repeat: repeat, no-repeat, repeat;
-	background-attachment: fixed, scroll, fixed;
 }
 div.wrap_pos-abs {
 	position: absolute;
@@ -182,28 +184,14 @@ div.wrap_logo-wordmark,
 div.wrap_logo-wordmark div.wrap_wordmark {
 	max-width: 27.2rem;
 }
-div.wrap_logo-wordmark div.wrap_svg svg {
-	fill: $hsl_L100;
-}
 div.wrap_logo-wordmark {
-	width: 50%;
 	margin-bottom: 4.8rem;
+	width: 50%;
 }
 div.wrap_logo-wordmark div.wrap_logo {
 	margin-bottom: 14%;
 	width: 76%;
 	max-width: 20.6rem;
-}
-// --- Quotation --- \\
-div.wrap_quote-mies {
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 4rem;
-	width: 50%;
-	max-width: 21rem;
-}
-div.wrap_quote-mies svg {
-	fill: $hsl_L100;
 }
 // --- Updates Button --- \\
 a.link_updates {
@@ -271,6 +259,59 @@ nav.nav_social ul li a:hover svg {
 nav.nav_social ul li a:active svg {
 	fill: $hsl_pink;
 }
+
+// Header - Home
+// ----------------------------------------------------------------------------
+header.header_home {
+	background-image: url('../img/bg_header-noise.png'), radial-gradient(hsla(0,0%,100%,0.04), hsla(0,0%,0%,0.04));
+	background-size: 16rem 16rem, auto auto;
+	background-repeat: repeat, no-repeat;
+	overflow: hidden;
+}
+div.bg_angels {
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: $hsl_navy-D;
+	background-image: url('../img/bg_header-pattern.png');
+	background-position: 50% 50%;
+	background-size: 20rem 13.3rem;
+	background-repeat: repeat;
+	transform: translate3d(0,0,0);
+}
+// --- Main Logo --- \\
+/*
+header.header_home div.wrap_logo-wordmark {
+	margin-bottom: 4.8rem;
+}
+*/
+header.header_home div.wrap_logo-wordmark div.wrap_svg svg {
+	fill: $hsl_L100;
+}
+// --- Quotation --- \\
+div.wrap_quote-mies {
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 4rem;
+	width: 50%;
+	max-width: 21rem;
+}
+div.wrap_quote-mies svg {
+	fill: $hsl_L100;
+}
+// --- Nav Social --- \\
+header.header_home nav.nav_social ul li a svg {
+	fill: $hsl_L100;
+}
+header.header_home nav.nav_social ul li a:hover svg {
+	fill: darken($hsl_pink, 10%);
+}
+header.header_home nav.nav_social ul li a:active svg {
+	fill: $hsl_pink;
+}
 // --- Nav Primary --- \\
 nav.nav_primary ul li.link_sec {
 	display: none;
@@ -291,11 +332,78 @@ nav.nav_primary ul li.link_sec a:active {
 	color: $hsl_pink;
 }
 
+// Header - Blog
+// ----------------------------------------------------------------------------
+header.header_blog {
+}
+// --- Main Logo --- \\
+/*
+header.header_blog div.wrap_logo-wordmark {
+	margin-bottom: 4.8rem;
+}
+*/
+header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
+	margin-bottom: 10%;
+}
+header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+	width: 42%;
+	max-width: 8.2rem;
+}
+header.header_blog div.wrap_logo-wordmark div.wrap_logo svg,
+header.header_blog div.wrap_logo-wordmark div.wrap_wordmark svg {
+	fill: $hsl_navy;
+}
+header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog svg {
+	fill: $hsl_pink;
+}
+// --- Nav Social --- \\
+header.header_blog nav.nav_social ul li a svg {
+	fill: $hsl_navy;
+}
+header.header_blog nav.nav_social ul li a:hover svg {
+	fill: darken($hsl_pink, 10%);
+}
+header.header_blog nav.nav_social ul li a:active svg {
+	fill: $hsl_pink;
+}
+
+
+
+// --- Nav Blog --- \\
+
+nav.nav_blog {
+}
+nav.nav_blog ul {
+}
+nav.nav_blog ul li {
+}
+
+
+nav.nav_blog ul li.link_top {
+	display: none;
+}
+nav.nav_blog ul li.link_top {
+	display: none;
+}
+
+/*
+	%nav#nav_blog.nav_blog
+		%ul{"data-container" => "width_1380"}
+			%li
+				%a{:href => "#header_blog", :title => "Back to top", "data-scroll" => true} Back to top
+			%li
+				%a{:href => "index.html", :title => "St. Charles Market website"} St. Charles Market website
+*/
+
+
+
+
 // Footer
 // ----------------------------------------------------------------------------
 footer {
 	padding: 6.4rem 1.6rem;
 	text-align: center;
+	background-color: $hsl_L100;
 }
 footer h6 {
 	line-height: 1.2;
@@ -368,6 +476,9 @@ section article div.wrap_content p:last-child {
 	margin-bottom: 0;
 }
 // + section odd (white bg) + \\
+section.sec_odd {
+	background-color: $hsl_L100;
+}
 section.sec_odd article div.wrap_svg svg {
 	fill: $hsl_navy;
 }
@@ -397,6 +508,17 @@ section.sec_intro article div.wrap_txt-holy {
 }
 // --- Sales --- \\
 section.sec_sales {
+	position: relative;
+	// z-index: 2;
+	overflow: hidden;
+}
+div.bg_stripes {
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	background-color: $hsl_navy;
 	background-image: repeating-linear-gradient(-45deg, $hsl_navy 0px, $hsl_navy 32px, $hsl_navy-D 32px, $hsl_navy-D 64px);
 }
@@ -481,7 +603,7 @@ section.sec_contact article a.button.brd_white:active {
 div.pkry_container {
 	position: relative;
 	z-index: 100;
-	// overflow-y: hidden; // required to prevent scrollbar on filter change
+	overflow: hidden; // was getting a horizontal scrollbar in iOS... keep an eye on this
 }
 div.pkry_container a {
 	width: calc(50% - 1rem);
