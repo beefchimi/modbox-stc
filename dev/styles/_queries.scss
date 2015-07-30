@@ -6,11 +6,30 @@
 // ==|== main styles ==========================================================
 // ============================================================================
 
+	// Header - Blog
+	// ----------------------------------------------------------------------------
+	// --- Nav Blog --- \\
+	nav.nav_blog ul li.link_blog,
+	nav.nav_blog ul li.link_home {
+		display: inline-block;
+	}
+	nav.nav_blog ul li.link_blog {
+		margin-right: 1.6rem;
+		margin-bottom: 0;
+	}
+
 	// Sections
 	// ----------------------------------------------------------------------------
 	// --- Sales --- \\
 	section.sec_sales article p br {
 		display: block;
+	}
+
+	// Packery
+	// ----------------------------------------------------------------------------
+	// --- Row: Multi --- \\
+	div.pkry_container.row_multi a {
+		width: calc(33.3333333% - 1.4rem);
 	}
 
 }
@@ -58,10 +77,6 @@
 
 	// Header - Common
 	// ----------------------------------------------------------------------------
-	header {
-		padding-top: 18rem;
-		padding-bottom: 18rem;
-	}
 	div.wrap_pos-abs {
 		top: 0;
 		left: 3.2rem;
@@ -83,6 +98,10 @@
 
 	// Header - Home
 	// ----------------------------------------------------------------------------
+	header.header_home {
+		padding-top: 18rem;
+		padding-bottom: 18rem;
+	}
 	div.bg_angels {
 		background-size: 40rem 26.6rem;
 	}
@@ -120,13 +139,58 @@
 		font-size: 1.5rem;
 	}
 
+	// Header - Blog
+	// ----------------------------------------------------------------------------
+	header.header_blog {
+		padding-top: 16rem;
+		padding-bottom: 0;
+	}
+	// --- Main Logo --- \\
+	header.header_blog div.wrap_logo-wordmark {
+		margin-bottom: 0;
+	}
+	// --- Updates Button --- \\
+	header.header_blog a.link_updates {
+		top: 14.2rem;
+	}
+	// --- Nav Blog --- \\
+	nav.nav_blog {
+		position: absolute;
+		z-index: 200;
+		top: 3.6rem;
+		left: 0;
+		right: 0;
+		padding: 2.4rem 3.2rem;
+		height: 6.6rem;
+		text-align: left;
+		background-color: hsla(0,0%,100%,0.9);
+	}
+	nav.nav_blog ul li a {
+		font-size: 1.8rem;
+	}
+	nav.nav_blog ul li.link_top,
+	nav.nav_blog ul li.link_blog {
+		margin-right: 4.2rem;
+	}
+	nav.nav_blog ul li.link_blog a,
+	nav.nav_blog ul li.link_home a {
+		display: inline;
+		padding: 0;
+		border: none;
+	}
+
 // ==|== main styles ==========================================================
 // ============================================================================
 
 	// Sections
 	// ----------------------------------------------------------------------------
 	section {
-		padding: 7.2rem 3.2rem;
+		padding-top: 7.2rem;
+		padding-bottom: 7.2rem;
+	}
+	section:not(.sec_post) {
+		padding-left: 3.2rem;
+		padding-right: 3.2rem;
 	}
 	section article div.wrap_content p {
 		margin-bottom: 3.2rem;
@@ -152,7 +216,6 @@
 	// section.sec_sales {
 	div.bg_stripes {
 		background-image: repeating-linear-gradient(-45deg, $hsl_navy 0px, $hsl_navy 62px, $hsl_navy-D 62px, $hsl_navy-D 124px);
-		// transform: translate3d(0,0,0);
 	}
 	section.sec_sales article div.wrap_stc-key {
 		margin-top: 4rem;
@@ -164,6 +227,31 @@
 	}
 	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
 		margin-bottom: 0.6rem;
+	}
+	// --- Single Post --- \\
+	section.sec_post article div.wrap_headlines,
+	section.sec_post article div.wrap_content {
+		padding-left: 3.2rem;
+		padding-right: 3.2rem;
+	}
+	section.sec_post article div.wrap_headlines,
+	section.sec_post article div.wrap_image,
+	section.sec_post article div.wrap_content {
+		margin-bottom: 6.4rem;
+	}
+	section.sec_post article div.wrap_headlines h2 {
+		margin-bottom: 3.2rem;
+		font-size: 4.8rem;
+	}
+	section.sec_post article div.wrap_headlines p {
+		font-size: 1.9rem;
+	}
+	section.sec_post article div.wrap_content p {
+		margin-bottom: 3.2rem;
+		font-size: 1.7rem;
+	}
+	section.sec_post article a.link_blog {
+		font-size: 1.9rem;
 	}
 
 	// Footer
@@ -219,40 +307,54 @@
 
 	// Packery
 	// ----------------------------------------------------------------------------
-	div.pkry_container a {
-		width: calc(50% - 1.6rem);
-	}
 	div.pkry_container div.pkry_gutter {
 		width: 3.2rem;
 	}
 	div.pkry_container a {
 		margin-bottom: 4rem;
 	}
-	div.pkry_container a div.wrap_pkry-image {
-		margin-bottom: 2rem;
-	}
-	div.pkry_container a div.wrap_pkry-image div.wrap_read-more {
-		display: block;
-	}
-	div.pkry_container a div.wrap_pkry-meta h4 {
-		margin-bottom: 2rem;
-		font-size: 2rem;
-	}
 	div.pkry_container a div.wrap_pkry-meta time {
 		font-size: 1.2rem;
 	}
+	// --- Row: Single --- \\
+	div.pkry_container.row_single a {
+		width: calc(50% - 1.6rem);
+	}
+	// --- Row: Multi --- \\
+	div.pkry_container.row_multi a {
+		width: calc(33.3333333% - 2.2rem);
+	}
+	// --- Brick Image --- \\
+	div.pkry_container a.brick_image div.wrap_pkry-image {
+		margin-bottom: 2rem;
+	}
+	div.pkry_container a.brick_image div.wrap_pkry-image div.wrap_read-more {
+		display: block;
+	}
+	div.pkry_container a.brick_image div.wrap_pkry-meta h4 {
+		margin-bottom: 2rem;
+		font-size: 2rem;
+	}
 	// + interaction + \\
-	div.pkry_container a:hover div.wrap_pkry-image img {
+	div.pkry_container a.brick_image:hover div.wrap_pkry-image img {
 		opacity: 0.94;
 	}
-	div.pkry_container a:hover div.wrap_pkry-image div.wrap_read-more {
+	div.pkry_container a.brick_image:hover div.wrap_pkry-image div.wrap_read-more {
 		opacity: 1;
 	}
-	div.pkry_container a:active div.wrap_pkry-image img {
+	div.pkry_container a.brick_image:active div.wrap_pkry-image img {
 		opacity: 1;
 	}
-	div.pkry_container a:active div.wrap_pkry-image div.wrap_read-more {
+	div.pkry_container a.brick_image:active div.wrap_pkry-image div.wrap_read-more {
 		opacity: 0.94;
+	}
+	// --- Brick Text --- \\
+	div.pkry_container a.brick_text {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+	}
+	div.pkry_container a.brick_text div.wrap_pkry-text p {
+		font-size: 2.6rem;
 	}
 
 	// Mailchimp
@@ -309,7 +411,8 @@
 
 	// Packery
 	// ----------------------------------------------------------------------------
-	div.pkry_container a {
+	div.pkry_container.row_single a,
+	div.pkry_container.row_multi a {
 		width: calc(25% - 2.4rem);
 	}
 	div.pkry_container.row_single a {
@@ -325,10 +428,6 @@
 
 	// Header - Common
 	// ----------------------------------------------------------------------------
-	header {
-		padding-top: 24rem;
-		padding-bottom: 24rem;
-	}
 	div.wrap_pos-abs {
 		left: 6.4rem;
 		right: 6.4rem;
@@ -336,6 +435,10 @@
 
 	// Header - Home
 	// ----------------------------------------------------------------------------
+	header.header_home {
+		padding-top: 24rem;
+		padding-bottom: 24rem;
+	}
 	div.bg_angels {
 		width: 200%;
 		height: 200%;
@@ -370,15 +473,15 @@
 	header.nav_fixed-full nav.nav_primary[data-current="intro"] ul li.link_intro a,
 	header.nav_fixed-full nav.nav_primary[data-current="blog"] ul li.link_blog a,
 	header.nav_fixed-full nav.nav_primary[data-current="contact"] ul li.link_contact a {
-		color: darken($hsl_pink, 10%);
+		color: $hsl_pink-D;
 	}
 	// + interaction + \\
 	header.nav_fixed-full nav.nav_primary ul li.link_sec a:hover {
-		color: darken($hsl_pink, 10%);
+		color: $hsl_pink-D;
 	}
 	header.nav_fixed-full nav.nav_primary ul li.link_lang a:hover {
-		color: darken($hsl_pink, 10%);
-		border-color: darken($hsl_pink, 10%);
+		color: $hsl_pink-D;
+		border-color: $hsl_pink-D;
 	}
 	header.nav_fixed-full nav.nav_primary ul li.link_sec a:active {
 		color: $hsl_pink;
@@ -388,12 +491,45 @@
 		border-color: $hsl_pink;
 	}
 
+	// Header - Blog
+	// ----------------------------------------------------------------------------
+	header.header_blog {
+		padding-top: 18rem;
+	}
+	// --- Updates Button --- \\
+	header.header_blog a.link_updates {
+		top: 16.8rem;
+	}
+	// --- Nav Blog --- \\
+	nav.nav_blog {
+		padding-left: 6.4rem;
+		padding-right: 6.4rem;
+		text-align: center;
+	}
+	nav.nav_blog ul li.link_top {
+		display: inline-block;
+	}
+	nav.nav_blog ul li.link_top a {
+		color: $hsl_navy;
+	}
+	nav.nav_blog ul li.link_top a:hover {
+		color: $hsl_pink-D;
+	}
+	nav.nav_blog ul li.link_top a:active {
+		color: $hsl_pink;
+	}
+	// --- Nav Blog --- \\
+	header.nav_fixed nav.nav_blog {
+		position: fixed;
+		top: 0;
+	}
+
 // ==|== main styles ==========================================================
 // ============================================================================
 
 	// Sections
 	// ----------------------------------------------------------------------------
-	section {
+	section:not(.sec_post) {
 		padding-left: 6.4rem;
 		padding-right: 6.4rem;
 	}
@@ -436,6 +572,10 @@
 	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
 		width: 37rem;
 	}
+	// --- Single Post --- \\
+	section.sec_post article div.wrap_headlines h2 {
+		font-size: 6.4rem;
+	}
 
 	// Footer
 	// ----------------------------------------------------------------------------
@@ -455,11 +595,16 @@
 
 	// Packery
 	// ----------------------------------------------------------------------------
-	div.pkry_container a {
+	div.pkry_container.row_single a,
+	div.pkry_container.row_multi a {
 		width: calc(25% - 6.8rem);
 	}
 	div.pkry_container div.pkry_gutter {
 		width: 9rem;
+	}
+	// --- Brick Text --- \\
+	div.pkry_container a.brick_text div.wrap_pkry-text p {
+		font-size: 3.4rem;
 	}
 
 }

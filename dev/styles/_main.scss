@@ -36,18 +36,19 @@ svg {
 section.sec_sales article p a::before {
 	transition: background-color 260ms ease-in-out;
 }
-div.pkry_container a div.wrap_pkry-image img {
-	backface-visibility: hidden;
-}
-div.pkry_container a div.wrap_pkry-image img,
-div.pkry_container a div.wrap_pkry-image div.wrap_read-more {
-	transition: opacity 260ms ease-in-out;
-}
 div.pkry_container a div.wrap_pkry-meta {
 	transition: color 260ms ease-in-out;
 }
-div.pkry_container a div.wrap_pkry-meta h4 {
+div.pkry_container a.brick_text div.wrap_pkry-text p,
+div.pkry_container a.brick_image div.wrap_pkry-meta h4 {
 	transition: text-decoration 260ms ease-in-out;
+}
+div.pkry_container a.brick_image div.wrap_pkry-image img {
+	backface-visibility: hidden;
+}
+div.pkry_container a.brick_image div.wrap_pkry-image img,
+div.pkry_container a.brick_image div.wrap_pkry-image div.wrap_read-more {
+	transition: opacity 260ms ease-in-out;
 }
 div.pkry_loader {
 	transition: opacity 420ms ease-in-out;
@@ -114,8 +115,14 @@ svg.svg_inline {
 [data-container="width_1330"] {
 	max-width: 133rem;
 }
+[data-container="width_1000"] {
+	max-width: 100rem;
+}
 [data-container="width_700"] {
 	max-width: 70rem;
+}
+[data-container="width_620"] {
+	max-width: 62rem;
 }
 [data-container="width_460"] {
 	max-width: 46rem;
@@ -144,8 +151,8 @@ svg.svg_inline {
 // + interaction + \\
 .button.brd_navy:hover,
 .button.brd_white:hover {
-	color: darken($hsl_pink, 10%);
-	border-color: darken($hsl_pink, 10%);
+	color: $hsl_pink-D;
+	border-color: $hsl_pink-D;
 }
 .button.brd_navy:active,
 .button.brd_white:active {
@@ -154,22 +161,16 @@ svg.svg_inline {
 }
 
 
-
-
-
-
-
 // Header - Common
 // ----------------------------------------------------------------------------
 header {
 	position: relative;
-	// z-index: 1;
 	padding-top: 10rem;
-	padding-bottom: 3.2rem;
 	text-align: center;
 }
 div.wrap_pos-abs {
 	position: absolute;
+	z-index: 300;
 	top: 2rem;
 	left: 0;
 	right: 0;
@@ -180,10 +181,6 @@ div.wrap_logo-wordmark div.wrap_svg {
 	margin-left: auto;
 	margin-right: auto;
 }
-div.wrap_logo-wordmark,
-div.wrap_logo-wordmark div.wrap_wordmark {
-	max-width: 27.2rem;
-}
 div.wrap_logo-wordmark {
 	margin-bottom: 4.8rem;
 	width: 50%;
@@ -191,7 +188,6 @@ div.wrap_logo-wordmark {
 div.wrap_logo-wordmark div.wrap_logo {
 	margin-bottom: 14%;
 	width: 76%;
-	max-width: 20.6rem;
 }
 // --- Updates Button --- \\
 a.link_updates {
@@ -223,7 +219,7 @@ a.link_updates div.wrap_centre span {
 }
 // + interaction + \\
 a.link_updates:hover {
-	background-color: darken($hsl_pink, 10%);
+	background-color: $hsl_pink-D;
 }
 a.link_updates:active {
 	background-color: $hsl_pink;
@@ -254,7 +250,7 @@ nav.nav_social ul li.social_modbox a {
 }
 // + interaction + \\
 nav.nav_social ul li a:hover svg {
-	fill: darken($hsl_pink, 10%);
+	fill: $hsl_pink-D;
 }
 nav.nav_social ul li a:active svg {
 	fill: $hsl_pink;
@@ -263,6 +259,7 @@ nav.nav_social ul li a:active svg {
 // Header - Home
 // ----------------------------------------------------------------------------
 header.header_home {
+	padding-bottom: 3.2rem;
 	background-image: url('../img/bg_header-noise.png'), radial-gradient(hsla(0,0%,100%,0.04), hsla(0,0%,0%,0.04));
 	background-size: 16rem 16rem, auto auto;
 	background-repeat: repeat, no-repeat;
@@ -283,11 +280,16 @@ div.bg_angels {
 	transform: translate3d(0,0,0);
 }
 // --- Main Logo --- \\
-/*
-header.header_home div.wrap_logo-wordmark {
-	margin-bottom: 4.8rem;
+header.header_blog {
+	padding-bottom: 1rem;
 }
-*/
+header.header_home div.wrap_logo-wordmark,
+header.header_home div.wrap_logo-wordmark div.wrap_wordmark {
+	max-width: 27.2rem;
+}
+header.header_home div.wrap_logo-wordmark div.wrap_logo {
+	max-width: 20.6rem;
+}
 header.header_home div.wrap_logo-wordmark div.wrap_svg svg {
 	fill: $hsl_L100;
 }
@@ -307,7 +309,7 @@ header.header_home nav.nav_social ul li a svg {
 	fill: $hsl_L100;
 }
 header.header_home nav.nav_social ul li a:hover svg {
-	fill: darken($hsl_pink, 10%);
+	fill: $hsl_pink-D;
 }
 header.header_home nav.nav_social ul li a:active svg {
 	fill: $hsl_pink;
@@ -326,7 +328,7 @@ nav.nav_primary ul li.link_sec a {
 }
 // + interaction + \\
 nav.nav_primary ul li.link_sec a:hover {
-	color: darken($hsl_pink, 10%);
+	color: $hsl_pink-D;
 }
 nav.nav_primary ul li.link_sec a:active {
 	color: $hsl_pink;
@@ -337,66 +339,57 @@ nav.nav_primary ul li.link_sec a:active {
 header.header_blog {
 }
 // --- Main Logo --- \\
-/*
-header.header_blog div.wrap_logo-wordmark {
-	margin-bottom: 4.8rem;
-}
-*/
 header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
 	margin-bottom: 10%;
-}
-header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
-	width: 42%;
-	max-width: 8.2rem;
 }
 header.header_blog div.wrap_logo-wordmark div.wrap_logo svg,
 header.header_blog div.wrap_logo-wordmark div.wrap_wordmark svg {
 	fill: $hsl_navy;
 }
 header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog svg {
-	fill: $hsl_pink;
+	fill: $hsl_pink-D;
+}
+// --- Main Logo Blog --- \\
+body.blog header.header_blog div.wrap_logo-wordmark,
+body.blog header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
+	max-width: 20.6rem;
+}
+body.blog header.header_blog div.wrap_logo-wordmark div.wrap_logo {
+	max-width: 15.6rem;
+}
+body.blog header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+	width: 42%;
+	max-width: 8.2rem;
+}
+// --- Main Logo Single --- \\
+body.single header.header_blog div.wrap_logo-wordmark,
+body.single header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
+	max-width: 11rem;
+}
+body.single header.header_blog div.wrap_logo-wordmark div.wrap_logo {
+	max-width: 8.4rem;
+}
+body.single header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+	max-width: 4.8rem;
 }
 // --- Nav Social --- \\
 header.header_blog nav.nav_social ul li a svg {
 	fill: $hsl_navy;
 }
 header.header_blog nav.nav_social ul li a:hover svg {
-	fill: darken($hsl_pink, 10%);
+	fill: $hsl_pink-D;
 }
 header.header_blog nav.nav_social ul li a:active svg {
 	fill: $hsl_pink;
 }
-
-
-
 // --- Nav Blog --- \\
-
-nav.nav_blog {
-}
-nav.nav_blog ul {
-}
-nav.nav_blog ul li {
-}
-
-
-nav.nav_blog ul li.link_top {
+nav.nav_blog ul li.link_top,
+body.blog nav.nav_blog ul li.link_blog {
 	display: none;
 }
-nav.nav_blog ul li.link_top {
-	display: none;
+nav.nav_blog ul li.link_blog {
+	margin-bottom: 2rem;
 }
-
-/*
-	%nav#nav_blog.nav_blog
-		%ul{"data-container" => "width_1380"}
-			%li
-				%a{:href => "#header_blog", :title => "Back to top", "data-scroll" => true} Back to top
-			%li
-				%a{:href => "index.html", :title => "St. Charles Market website"} St. Charles Market website
-*/
-
-
-
 
 // Footer
 // ----------------------------------------------------------------------------
@@ -459,8 +452,13 @@ footer a:active {
 // Sections
 // ----------------------------------------------------------------------------
 section {
-	padding: 4rem 1.6rem;
+	padding-top: 4rem;
+	padding-bottom: 4rem;
 	text-align: center;
+}
+section:not(.sec_post) {
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
 }
 section article div.wrap_svg,
 section article div.wrap_svg-multi {
@@ -548,10 +546,10 @@ section.sec_sales article p a::before {
 }
 // + interaction + \\
 section.sec_sales article p a:hover {
-	color: darken($hsl_pink, 10%);
+	color: $hsl_pink-D;
 }
 section.sec_sales article p a:hover::before {
-	background-color: darken($hsl_pink, 10%);
+	background-color: $hsl_pink-D;
 }
 section.sec_sales article p a:active {
 	color: $hsl_pink;
@@ -565,6 +563,10 @@ section.sec_blog {
 }
 section.sec_blog article div.wrap_txt-follow {
 	max-width: 44.2rem;
+}
+section.sec_blog article div.wrap_txt-recent {
+	width: 50%;
+	max-width: 18rem;
 }
 section.sec_blog article a.button {
 	margin-bottom: 4rem;
@@ -593,9 +595,55 @@ section.sec_contact article a.button.brd_white:hover {
 	border-color: $hsl_pink;
 }
 section.sec_contact article a.button.brd_white:active {
-	color: darken($hsl_pink, 10%);
+	color: $hsl_pink-D;
 	background-color: hsla(0,0%,100%,0.8);
 	border-color: $hsl_pink;
+}
+// --- Single Post --- \\
+section.sec_post {
+	border-bottom: 0.2rem solid $hsl_navy;
+}
+section.sec_post article div.wrap_headlines,
+section.sec_post article div.wrap_content {
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
+}
+section.sec_post article div.wrap_headlines,
+section.sec_post article div.wrap_image,
+section.sec_post article div.wrap_content {
+	margin-bottom: 3.2rem;
+}
+section.sec_post article div.wrap_headlines h2 {
+	margin-bottom: 2rem;
+	font-size: 2.2rem;
+	line-height: 1.4;
+	color: $hsl_navy;
+}
+section.sec_post article div.wrap_headlines p {
+	font-size: 1.4rem;
+	color: $hsl_navy;
+}
+section.sec_post article div.wrap_headlines cite {
+	font-style: normal;
+}
+section.sec_post article div.wrap_content p {
+	margin-bottom: 2rem;
+	font-size: 1.3rem;
+	line-height: 1.5;
+}
+section.sec_post article div.wrap_content p:last-child {
+	margin-bottom: 0;
+}
+section.sec_post article a.link_blog {
+	font-size: 1.6rem;
+	text-decoration: underline;
+	color: $hsl_navy;
+}
+section.sec_post article a.link_blog:hover {
+	color: $hsl_pink-D;
+}
+section.sec_post article a.link_blog:active {
+	color: $hsl_pink;
 }
 
 // Packery
@@ -616,11 +664,15 @@ div.pkry_container a {
 	z-index: 101;
 	margin-bottom: 2rem;
 }
-div.pkry_container a div.wrap_pkry-image {
+div.pkry_container a div.wrap_pkry-meta time {
+	font-size: 1rem;
+}
+// --- Brick Image --- \\
+div.pkry_container a.brick_image div.wrap_pkry-image {
 	position: relative;
 	margin-bottom: 1rem;
 }
-div.pkry_container a div.wrap_pkry-image div.wrap_read-more {
+div.pkry_container a.brick_image div.wrap_pkry-image div.wrap_read-more {
 	display: none;
 	position: absolute;
 	left: 0;
@@ -629,33 +681,53 @@ div.pkry_container a div.wrap_pkry-image div.wrap_read-more {
 	background-color: $hsl_navy-D;
 	opacity: 0;
 }
-div.pkry_container a div.wrap_pkry-image div.wrap_read-more p {
+div.pkry_container a.brick_image div.wrap_pkry-image div.wrap_read-more p {
 	font-size: 1.8rem;
 	color: $hsl_L100;
 }
-div.pkry_container a div.wrap_pkry-meta {
+div.pkry_container a.brick_image div.wrap_pkry-meta {
 	text-align: left;
 	color: $hsl_navy-D;
 }
-div.pkry_container a div.wrap_pkry-meta h4 {
+div.pkry_container a.brick_image div.wrap_pkry-meta h4 {
 	margin-bottom: 1rem;
 	font-size: 1.3rem;
 	line-height: 1.4;
 	text-decoration-line: underline;
 	text-decoration-color: $hsl_L100;
 }
-div.pkry_container a div.wrap_pkry-meta time {
-	font-size: 1rem;
-}
 // + interaction + \\
-div.pkry_container a:hover div.wrap_pkry-meta h4 {
+div.pkry_container a.brick_image:hover div.wrap_pkry-meta h4 {
 	text-decoration-color: $hsl_navy-D;
 }
-div.pkry_container a:active div.wrap_pkry-meta {
+div.pkry_container a.brick_image:active div.wrap_pkry-meta {
 	color: $hsl_navy;
 }
-div.pkry_container a:active div.wrap_pkry-meta h4 {
+div.pkry_container a.brick_image:active div.wrap_pkry-meta h4 {
 	text-decoration-color: $hsl_navy;
+}
+// --- Brick Text --- \\
+div.pkry_container a.brick_text {
+	color: $hsl_pink-D;
+}
+div.pkry_container a.brick_text div.wrap_pkry-text {
+	margin-bottom: 2rem;
+}
+div.pkry_container a.brick_text div.wrap_pkry-text p {
+	font-size: 1.8rem;
+	line-height: 1.4;
+	text-decoration-line: underline;
+	text-decoration-color: $hsl_L100;
+}
+// + interaction + \\
+div.pkry_container a.brick_text:hover div.wrap_pkry-text p {
+	text-decoration-color: $hsl_pink-D;
+}
+div.pkry_container a.brick_text:active {
+	color: $hsl_pink;
+}
+div.pkry_container a.brick_text:active div.wrap_pkry-text p {
+	text-decoration-color: $hsl_pink;
 }
 // --- Image Loader --- \\
 div.pkry_loader {
@@ -749,7 +821,7 @@ a.modal_close:hover svg {
 	fill: $hsl_pink;
 }
 a.modal_close:active svg {
-	fill: darken($hsl_pink, 10%);
+	fill: $hsl_pink-D;
 }
 // --- Form --- \\
 form {
@@ -814,7 +886,7 @@ form input[type="submit"]:hover {
 	background-color: $hsl_pink;
 }
 form input[type="submit"]:active {
-	background-color: darken($hsl_pink, 10%);
+	background-color: $hsl_pink-D;
 }
 // --- Response --- \\
 

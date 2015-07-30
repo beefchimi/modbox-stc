@@ -7,7 +7,7 @@
 			%svg.txt_follow{:viewBox => "0 0 442 128"}
 				%use{"xlink:href" => "#txt_follow"}
 
-		%a.button.btn_brd.brd_navy{:href => "#", :title => "Visit the St. Charles Market Blog"} Visit the St. Charles Market Blog
+		%a.button.btn_brd.brd_navy{:href => "blog.html", :title => "Visit the St. Charles Market Blog"} Visit the St. Charles Market Blog
 
 		-# home & single post page use class 'row_single', blog uses 'row_multi'
 		#pkry_container.pkry_container.row_single{"data-images" => "waiting"}
@@ -18,7 +18,7 @@
 			- strCurrentTitle = arrTitles[numPosts]
 
 			- (1..4).each do |i|
-				%a.pkry_brick{:id => "post_#{i}", :href => "#", :title => "#{strCurrentTitle}"}
+				%a.pkry_brick.brick_image{:id => "post_#{i}", :href => "single.html", :title => "#{strCurrentTitle}"}
 					.wrap_pkry-image
 						%img.pkry_image{:src => "assets/img/thumb_#{i}.jpg", :alt => ""}
 						.wrap_read-more

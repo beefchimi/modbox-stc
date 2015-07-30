@@ -2,31 +2,28 @@
 
 	%article{"data-container" => "width_1330"}
 
+		%h2.visuallyhidden Recent Posts
+		.wrap_svg.wrap_svg-title.wrap_txt-recent
+			%svg.txt_recent{:viewBox => "0 0 180 24"}
+				%use{"xlink:href" => "#txt_recent"}
+
 		-# home & single post page use class 'row_single', blog uses 'row_multi'
-		#pkry_container.pkry_container.row_multi{"data-images" => "waiting"}
+		#pkry_container.pkry_container.row_single{"data-images" => "waiting"}
 
 			- arrTitles = ['The Beacon is back. Here’s a timeline of events.', 'A new brand for a new beginning.', 'Vendors confirmed, and the list is growing.', 'Need a reason to move in? Here’s our 10 favourite late-night haunts.']
 			- numPosts = 0
 			- numAdjustedLength = arrTitles.length - 1
 			- strCurrentTitle = arrTitles[numPosts]
 
-			- (1..12).each do |i|
-
-				- if i == 7
-					%a.pkry_brick.brick_text{:id => "post_7", :href => "single.html", :title => "We have been waiting"}
-						.wrap_pkry-text
-							%p &ldquo;We&rsquo;ve been waiting for this a long time.&rdquo; &ndash; Tim Ventura
-						.wrap_pkry-meta
-							%time{:datetime => "2016-08-13T23:59:59-02:00"} July 13, 2016
-				- else
-					%a.pkry_brick.brick_image{:id => "post_#{i}", :href => "single.html", :title => "#{strCurrentTitle}"}
-						.wrap_pkry-image
-							%img.pkry_image{:src => "assets/img/thumb_#{i}.jpg", :alt => ""}
-							.wrap_read-more
-								%p Read on
-						.wrap_pkry-meta
-							%h4 #{strCurrentTitle}
-							%time{:datetime => "2016-08-13T23:59:59-02:00"} July 13, 2016
+			- (1..4).each do |i|
+				%a.pkry_brick.brick_image{:id => "post_#{i}", :href => "single.html", :title => "#{strCurrentTitle}"}
+					.wrap_pkry-image
+						%img.pkry_image{:src => "assets/img/thumb_#{i}.jpg", :alt => ""}
+						.wrap_read-more
+							%p Read on
+					.wrap_pkry-meta
+						%h4 #{strCurrentTitle}
+						%time{:datetime => "2016-08-13T23:59:59-02:00"} July 13, 2016
 
 				- if numPosts < numAdjustedLength
 					- numPosts += 1

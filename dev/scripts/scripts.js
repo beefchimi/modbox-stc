@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		elBlog       = document.getElementById('sec_blog'),
 		objPkry;
 
+	// page booleans
+	var boolHomePage = classie.has(elBody, 'home') ? true : false;
+
 	// window measurement variables
 	var numScrollPos = window.pageYOffset,
 		numWinWidth  = window.innerWidth;
@@ -24,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		numAngelsPosY  = 50,    // default Y % position
 		numStripesPosX = 50,    // default X % position
 		numStripesPosY = 50,    // default Y % position
-		numNavTopPos   = 910,   // top position of nav as defined in CSS... should instead be retrieved from computed value
-		numStripeWidth = 62;     // width of gradient stripe;
+		numStripeWidth = 62,    // width of gradient stripe
+		numNavTopPos   = boolHomePage ? 910 : 36; // top position of nav as defined in CSS (should instead be retrieved from computed value instead)
 
 	// declare section heights (only required for 1200px and up... remeasured in window resize event)
 	var numSectionOffset = 65,
@@ -324,13 +327,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		// measure section heights
 		numBodyHeight   = elBody.clientHeight;
 		numHeaderHeight = elHeader.offsetHeight;
-		numIntroHeight  = elIntro.offsetHeight;
-		numSalesHeight  = elSales.offsetHeight;
-		numBlogHeight   = elBlog.offsetHeight;
-		numBeginBlog    = numHeaderHeight + numIntroHeight + numSalesHeight - numSectionOffset;
-		numBeginContact = numBeginBlog + numBlogHeight - numSectionOffset;
-		numSalesStart   = numBodyHeight - numStripeWidth * 2;
-		numSalesMiddle  = numBodyHeight - numStripeWidth;
+
+		// the rest of the sections only matter if on the home page
+		if (boolHomePage) {
+			numIntroHeight  = elIntro.offsetHeight;
+			numSalesHeight  = elSales.offsetHeight;
+			numBlogHeight   = elBlog.offsetHeight;
+			numBeginBlog    = numHeaderHeight + numIntroHeight + numSalesHeight - numSectionOffset;
+			numBeginContact = numBeginBlog + numBlogHeight - numSectionOffset;
+			numSalesStart   = numBodyHeight - numStripeWidth * 2;
+			numSalesMiddle  = numBodyHeight - numStripeWidth;
+		}
 
 	}
 
@@ -346,11 +353,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			classie.remove(elHeader, 'nav_fixed');
 		}
 
-		// if we have scrolled to or past the full height of the <header>
-		if (numScrollPos >= numHeaderHeight) {
-			classie.add(elHeader, 'nav_fixed-full');
-		} else {
-			classie.remove(elHeader, 'nav_fixed-full');
+		if (boolHomePage) {
+
+			// if we have scrolled to or past the full height of the <header>
+			if (numScrollPos >= numHeaderHeight) {
+				classie.add(elHeader, 'nav_fixed-full');
+			} else {
+				classie.remove(elHeader, 'nav_fixed-full');
+			}
+
 		}
 
 	}
@@ -359,6 +370,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	// navTrackSection: Track 'current' section (scroll distance < distance from top of doc)
 	// ----------------------------------------------------------------------------
 	function navTrackSection() {
+
+		// exit if not the home page
+		if (!boolHomePage) {
+			return;
+		}
 
 		switch (true) {
 			case (numScrollPos < numHeaderHeight):
@@ -385,18 +401,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	// ----------------------------------------------------------------------------
 	function parallaxAngels() {
 
-		// as long as div.bg_angels exists...
-		if (elBgAngels) {
+		// if on the home page
+		if (boolHomePage) {
 
 			// no point in updating the <header> background pos if its off screen
 			if (numScrollPos < numHeaderHeight) {
-
-/*
-				// calculate X and Y positions... X needs to be more subtle than Y
-				numAngelsPosX = numScrollPos / 260 + 50;
-				numAngelsPosY = numScrollPos / 160 + 50;
-				elBgAngels.style.backgroundPosition = numAngelsPosX + '% ' + numAngelsPosY + '%';
-*/
 
 				// calculate X and Y positions... X needs to be more subtle than Y
 				numAngelsPosX = numScrollPos / 260 - 50;
@@ -417,16 +426,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	// parallaxStripes: Update stripes background on scroll
 	// ----------------------------------------------------------------------------
 	function parallaxStripes() {
-
-/*
-		// update background gradient co-ordinates for #sec_sales
-		elBgStripes.style.backgroundImage = 'repeating-linear-gradient(-45deg,' +
-											'rgb(19,52,92) ' + (numSalesStart  - numScrollPos / 4) + 'px,' +
-											'rgb(19,52,92) ' + (numSalesMiddle - numScrollPos / 4) + 'px,' +
-											'rgb(18,41,69) ' + (numSalesMiddle - numScrollPos / 4) + 'px,' +
-											'rgb(18,41,69) ' + (numBodyHeight  - numScrollPos / 4) + 'px'  +
-										')';
-*/
 
 		// calculate X and Y positions... X needs to be more subtle than Y
 		numStripesPosX = numScrollPos / 120 - 50;

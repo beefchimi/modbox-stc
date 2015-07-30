@@ -18,33 +18,7 @@
 		%svg.txt_quote-mies{:viewBox => "0 0 210 44"}
 			%use{"xlink:href" => "#txt_quote-mies"}
 
-	.wrap_pos-abs{"data-container" => "width_1380"}
-
-		%a.link_updates.modal_open{:href => "#mailchimp", :title => "Get monthly updates"}
-			.wrap_centre
-				.wrap_svg.wrap_stc-key
-					%svg.logo_stc-key{:viewBox => "0 0 155 64"}
-						%use{"xlink:href" => "#logo_stc-key"}
-				%span.wrap_txt Get monthly updates!
-
-		%nav.nav_social
-			%ul
-				%li.social_twitter
-					%a.wrap_svg{:href => "https://twitter.com/modboxottawa", :title => "Follow us on Twitter", :target => "_blank"}
-						%svg.social_twitter{:viewBox => "0 0 64 64"}
-							%use{"xlink:href" => "#social_twitter"}
-				%li.social_facebook
-					%a.wrap_svg{:href => "https://www.facebook.com/modboxottawa", :title => "Like us on Facebook", :target => "_blank"}
-						%svg.social_facebook{:viewBox => "0 0 32 64"}
-							%use{"xlink:href" => "#social_facebook"}
-				%li.social_instagram
-					%a.wrap_svg{:href => "https://instagram.com/stcharlesmarket", :title => "See us on Instagram", :target => "_blank"}
-						%svg.social_instagram{:viewBox => "0 0 64 64"}
-							%use{"xlink:href" => "#social_instagram"}
-				%li.social_modbox
-					%a.wrap_svg{:href => "http://modbox.ca/", :title => "Visit Modbox.ca", :target => "_blank"}
-						%svg.logo_modbox{:viewBox => "0 0 61 64"}
-							%use{"xlink:href" => "#logo_modbox"}
+	= Haml::Engine.new(File.read("dev/haml/partials/_html_header-social.haml")).render
 
 	%nav#nav_primary.nav_primary{"data-current" => "header"}
 		%ul{"data-container" => "width_1380"}
