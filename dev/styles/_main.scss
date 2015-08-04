@@ -36,6 +36,9 @@ svg {
 section.sec_sales article p a::before {
 	transition: background-color 260ms ease-in-out;
 }
+div.wrap_response {
+	transition: opacity 420ms ease-in-out, visibility 420ms ease-in-out;
+}
 div.pkry_container a div.wrap_pkry-meta {
 	transition: color 260ms ease-in-out;
 }
@@ -588,6 +591,9 @@ section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
 	width: 81.25%; // 234px / 288px = 0.8125
 	max-width: 37rem;
 }
+section.sec_contact article a.link_tel {
+	margin-bottom: 2rem;
+}
 // + interaction + \\
 section.sec_contact article a.button.brd_white:hover {
 	color: $hsl_pink;
@@ -825,6 +831,7 @@ a.modal_close:active svg {
 }
 // --- Form --- \\
 form {
+	position: relative;
 	padding-left: 1.6rem;
 	padding-right: 1.6rem;
 }
@@ -837,14 +844,17 @@ form div.wrap_svg {
 form div.wrap_svg svg {
 	fill: $hsl_navy;
 }
-form h5 {
+form h5,
+div.wrap_response p {
 	max-width: 52rem;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 3.2rem;
 	font-size: 1.6rem;
 	line-height: 1.4;
 	color: $hsl_navy;
+}
+form h5 {
+	margin-bottom: 3.2rem;
 }
 form input {
 	display: block;
@@ -889,9 +899,18 @@ form input[type="submit"]:active {
 	background-color: $hsl_pink-D;
 }
 // --- Response --- \\
-
 div.wrap_response {
-	display: none;
+	@include pos_cover(absolute, 902);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
+	background-color: $hsl_L100;
+	@include toggle_visibility(off);
 }
-div.wrap_response p {
+form.form_response div.wrap_response {
+	@include toggle_visibility(on);
 }

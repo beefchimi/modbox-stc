@@ -234,19 +234,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	function mailchimpAJAX() {
 
 		var rgxEmailFilter = /^\w+[\+\.\w-]*@([\w-]+\.)*\w+[\w-]*\.([a-z]{2,4}|\d+)$/i,
-			elForm         = document.getElementById('mc-embedded-subscribe-form'),
-			strFormAction  = elForm.getAttribute('action'),
-			elFormParent   = elForm.parentNode,
-			elInputEmail   = document.getElementById('mce-EMAIL'),
-			elResponse     = document.getElementById('mce-response-text'),
+			$elForm        = $('#mc-embedded-subscribe-form'),
+			strFormAction  = $elForm.attr('action'),
+			elFormParent   = document.getElementById('wrap_shake'),
+			$elInputEmail  = $('#mce-EMAIL'),
+			$elResponse    = $('#mce-response-text'),
 			isValid        = true,
 			strInputValue;
 
-		elForm.addEventListener('submit', function(e) {
+		$elForm.submit(function(e) {
 
 			e.preventDefault();
 
-			strInputValue = elInputEmail.value;
+			strInputValue = $elInputEmail.val();
 
 			validateEmail();
 
@@ -254,40 +254,36 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (strInputValue.length > 0 && isValid) {
 
 				// we may have added an error class, so let's go ahead and remove it
-				classie.remove(elForm, 'submit_error');
+				// classie.remove(elForm, 'submit_error');
+				$elForm.removeClass('submit_error');
 
-				var request = new XMLHttpRequest();
+				$.ajax({
 
-				request.onreadystatechange = function() {
+					type: 'GET',
+					url: strFormAction,
+					data: $(this).serialize(),
+					dataType: 'json',
+					contentType: 'application/json; charset=utf-8',
+					error: function(jqXHR, textStatus, errorThrown) {
 
-					if (this.readyState == 4) {
+						$elResponse.html(data.msg);
+						$elForm.addClass('form_response');
 
-						var mailchimpResponse = JSON.parse(this.response);
+					},
+					success: function(data) {
 
-						if (mailchimpResponse.result === 'success') {
-
-							console.log('SUCCESS!');
-							// update response innerHTML
-							// reset form
-
-						} else {
-
-							console.log('There appears to have been an error.');
-							// update response innerHTML
-
-						}
+						$elResponse.html(data.msg);
+						$elForm.addClass('form_response');
+						// $(this)[0].reset();
 
 					}
 
-				}
-
-				request.open('POST', strFormAction, true);
-				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				request.send('EMAIL=' + strInputValue);
+				});
 
 			} else {
 
-				classie.add(elForm, 'submit_error');
+				// classie.add(elForm, 'submit_error');
+				$elForm.addClass('submit_error');
 
 				if ( !classie.has(elHTML, 'ie9') ) {
 					classie.add(elFormParent, 'animate_shake');
@@ -302,10 +298,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			// email input validation
 			if (rgxEmailFilter.test(strInputValue) == false) {
-				classie.addClass(elForm, 'submit_error');
+
+				// classie.addClass(elForm, 'submit_error');
+				$elForm.addClass('submit_error');
 				isValid = false;
+
 			} else {
+
 				isValid = true;
+
 			}
 
 		}
