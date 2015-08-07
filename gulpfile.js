@@ -98,7 +98,7 @@ gulp.task('scripts', function() { // ['copy-scripts'],
 	return gulp.src(paths.scripts.src)
 		// .pipe(plugins.sourcemaps.init())
 			.pipe(plugins.concat('scripts.min.js'))
-			// .pipe(plugins.uglify())
+			.pipe(plugins.uglify())
 /*
 		.pipe(plugins.sourcemaps.write('../maps', {
 			includeContent: false,
