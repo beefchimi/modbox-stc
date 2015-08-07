@@ -1,0 +1,22 @@
+%header#header_blog.header_blog
+
+	%h1.visuallyhidden March&eacute; Saint Charles Market
+
+	.wrap_logo-wordmark
+		.wrap_svg.wrap_logo
+			%svg.logo_stc-angel.svg_inline{:viewBox => "0 0 206 134"}
+				%use{"xlink:href" => "#logo_stc-angel"}
+		.wrap_svg.wrap_wordmark
+			%svg.logo_stc-wordmark.svg_inline{:viewBox => "0 0 272 183"}
+				%use{"xlink:href" => "#logo_stc-wordmark"}
+
+	= Haml::Engine.new(File.read("dev/haml/partials/en/_html_header-social.haml")).render
+
+	%nav#nav_blog.nav_blog
+		%ul{"data-container" => "width_1380"}
+			%li.link_lang
+				%a.button.btn_brd.brd_navy{:href => "404-fr.html", :title => "En Fran&ccedil;ais"} En Fran&ccedil;ais
+			%li.link_top
+				%a{:href => "#header_blog", :title => "Back to top", "data-scroll" => true} Back to top
+			%li.link_home
+				%a{:href => "index.html", :title => "St. Charles Market website"} St. Charles Market website

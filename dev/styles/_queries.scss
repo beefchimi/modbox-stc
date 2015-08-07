@@ -14,7 +14,7 @@
 		display: inline-block;
 	}
 	nav.nav_blog ul li.link_blog {
-		margin-right: 1.6rem;
+		margin-right: 2rem;
 		margin-bottom: 0;
 	}
 
@@ -23,6 +23,10 @@
 	// --- Sales --- \\
 	section.sec_sales article p br {
 		display: block;
+	}
+	// --- Blog --- \\
+	section.sec_blog article a.button br {
+		display: none;
 	}
 	// --- Contact --- \\
 	section.sec_contact article a.link_tel {
@@ -158,6 +162,13 @@
 	header.header_blog a.link_updates {
 		top: 14.2rem;
 	}
+	// --- Nav Social --- \\
+	html[lang="en-US"] header.header_blog nav.nav_social {
+		right: 14rem;
+	}
+	html[lang="fr-FR"] header.header_blog nav.nav_social {
+		right: 11rem;
+	}
 	// --- Nav Blog --- \\
 	nav.nav_blog {
 		position: absolute;
@@ -170,18 +181,36 @@
 		text-align: left;
 		background-color: hsla(0,0%,100%,0.9);
 	}
-	nav.nav_blog ul li a {
-		font-size: 1.8rem;
+	nav.nav_blog ul {
+		position: relative;
 	}
-	nav.nav_blog ul li.link_top,
-	nav.nav_blog ul li.link_blog {
+	nav.nav_blog ul li:nth-child(n+2) a {
+		text-decoration: none;
+	}
+	html[lang="en-US"] nav.nav_blog ul li:nth-child(n+2) a {
+		font-size: 1.5rem;
+	}
+	html[lang="fr-FR"] nav.nav_blog ul li:nth-child(n+2) a {
+		font-size: 1.3rem;
+	}
+	// + individual + \\
+	nav.nav_blog ul li.link_lang {
+		position: absolute;
+		top: -1rem;
+		right: 0;
+		margin-bottom: 0;
+	}
+	nav.nav_blog ul li.link_lang a.button {
+		padding: 0.8rem 1.6rem 1rem 1.6rem;
+		font-size: 1.4rem;
+	}
+	html[lang="en-US"] nav.nav_blog ul li.link_top,
+	html[lang="en-US"] nav.nav_blog ul li.link_blog {
 		margin-right: 4.2rem;
 	}
-	nav.nav_blog ul li.link_blog a,
-	nav.nav_blog ul li.link_home a {
-		display: inline;
-		padding: 0;
-		border: none;
+	html[lang="fr-FR"] nav.nav_blog ul li.link_top,
+	html[lang="fr-FR"] nav.nav_blog ul li.link_blog {
+		margin-right: 3.2rem;
 	}
 
 // ==|== main styles ==========================================================
@@ -271,6 +300,12 @@
 		width: 46rem;
 		margin-left: auto;
 		margin-right: auto;
+	}
+	html[lang="en-US"] footer div.footer_partners {
+		width: 46rem;
+	}
+	html[lang="fr-FR"] footer div.footer_partners {
+		width: 48rem;
 	}
 	footer div.footer_partners div h6,
 	footer div.footer_partners div a {
@@ -513,11 +548,26 @@
 	header.header_blog a.link_updates {
 		top: 16.8rem;
 	}
+	// --- Nav Social --- \\
+	html[lang="en-US"] header.header_blog nav.nav_social {
+		right: 16rem;
+	}
+	html[lang="fr-FR"] header.header_blog nav.nav_social {
+		right: 14rem;
+	}
 	// --- Nav Blog --- \\
 	nav.nav_blog {
 		padding-left: 6.4rem;
 		padding-right: 6.4rem;
-		text-align: center;
+	}
+	html[lang="en-US"] nav.nav_blog ul li:nth-child(n+2) a,
+	html[lang="fr-FR"] nav.nav_blog ul li:nth-child(n+2) a {
+		font-size: 1.8rem;
+	}
+	// + individual + \\
+	nav.nav_blog ul li.link_lang a.button {
+		padding: 1rem 1.8rem 1.2rem 1.8rem;
+		font-size: 1.5rem;
 	}
 	nav.nav_blog ul li.link_top {
 		display: inline-block;
@@ -531,10 +581,13 @@
 	nav.nav_blog ul li.link_top a:active {
 		color: $hsl_pink;
 	}
-	// --- Nav Blog --- \\
+	// + fixed header + \\
 	header.nav_fixed nav.nav_blog {
 		position: fixed;
 		top: 0;
+	}
+	header.nav_scrolled-social div.wrap_pos-abs {
+		z-index: 100;
 	}
 
 // ==|== main styles ==========================================================
@@ -570,20 +623,29 @@
 		margin-bottom: 10.8rem;
 	}
 	// --- Contact --- \\
-	section.sec_contact article div.wrap_svg-multi {
-		max-width: none;
-	}
+	section.sec_contact article div.wrap_svg-multi,
 	section.sec_contact article div.wrap_svg-multi div.wrap_svg {
+		max-width: none !important;
+	}
+	html[lang="en-US"] section.sec_contact article div.wrap_svg-multi div.wrap_svg {
 		display: inline-block;
 		height: 3rem;
 	}
-	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
+	html[lang="en-US"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
 		margin-right: 0.8rem;
 		margin-bottom: 0;
+	}
+	html[lang="en-US"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
 		width: 46.3rem;
 	}
-	section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
+	html[lang="en-US"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
 		width: 37rem;
+	}
+	html[lang="fr-FR"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
+		width: 88.3rem;
+	}
+	html[lang="fr-FR"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
+		width: 54.3rem;
 	}
 	// --- Single Post --- \\
 	section.sec_post article div.wrap_headlines h2 {

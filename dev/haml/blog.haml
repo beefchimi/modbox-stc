@@ -1,24 +1,23 @@
 !!!
 /[if IE 9] <html class="ie9" lang="en">
 <!--[if gt IE 9]><!-->
-%html{:lang => "en", "data-ready" => "waiting"}<>
+%html{:lang => "en-US", "data-ready" => "waiting"}<>
 	<!--<![endif]-->
 
-	= Haml::Engine.new(File.read("dev/haml/partials/_doc_head.haml")).render
+	= Haml::Engine.new(File.read("dev/haml/partials/cmn/_doc_head.haml")).render
 
 	%body.blog
 
-		#svgInject
+		#svgInject.visuallyhidden
 			/ inject:svg
 			/ endinject
 
-		= Haml::Engine.new(File.read("dev/haml/partials/_html_header-blog.haml")).render
+		= Haml::Engine.new(File.read("dev/haml/partials/en/_html_header-blog.haml")).render
 
 		%main{:role => "main"}
 
-			= Haml::Engine.new(File.read("dev/haml/partials/_sec_blog-blog.haml")).render
-			= Haml::Engine.new(File.read("dev/haml/partials/_sec_sales.haml")).render
-			= Haml::Engine.new(File.read("dev/haml/partials/_sec_contact.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/en/_sec_blog-blog.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/en/_sec_sales.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/en/_sec_contact.haml")).render
 
-		= Haml::Engine.new(File.read("dev/haml/partials/_form_mailchimp.haml")).render
-		= Haml::Engine.new(File.read("dev/haml/partials/_html_footer.haml")).render
+		= Haml::Engine.new(File.read("dev/haml/partials/en/_html_footer.haml")).render

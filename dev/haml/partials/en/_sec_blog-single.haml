@@ -1,0 +1,42 @@
+%section#sec_blog.sec_blog.sec_odd
+
+	%article{"data-container" => "width_1330"}
+
+		%h2.visuallyhidden Recent Posts
+		.wrap_svg.wrap_svg-title.wrap_txt-recent
+			%svg.txt_recent{:viewBox => "0 0 180 24"}
+				%use{"xlink:href" => "#txt_recent_en"}
+
+		-# home & single post page use class 'row_single', blog uses 'row_multi'
+		#pkry_container.pkry_container.row_single{"data-images" => "waiting"}
+
+			- arrTitles = ['The Beacon is back. Here’s a timeline of events.', 'A new brand for a new beginning.', 'Vendors confirmed, and the list is growing.', 'Need a reason to move in? Here’s our 10 favourite late-night haunts.']
+			- numPosts = 0
+			- numAdjustedLength = arrTitles.length - 1
+			- strCurrentTitle = arrTitles[numPosts]
+
+			- (1..4).each do |i|
+				%a.pkry_brick.brick_image{:id => "post_#{i}", :href => "single.html", :title => "#{strCurrentTitle}"}
+					.wrap_pkry-image
+						%img.pkry_image{:src => "assets/img/thumb_#{i}.jpg", :alt => ""}
+						.wrap_read-more
+							%p Read on
+					.wrap_pkry-meta
+						%h4 #{strCurrentTitle}
+						%time{:datetime => "2016-08-13T23:59:59-02:00"} July 13, 2016
+
+				- if numPosts < numAdjustedLength
+					- numPosts += 1
+				- else
+					- numPosts = 0
+
+				- strCurrentTitle = arrTitles[numPosts]
+
+			.pkry_gutter
+
+			#pkry_loader.pkry_loader
+				.wrap_content
+					.wrap_svg.wrap_ui-loader
+						%svg.ui_loader{:viewBox => "0 0 64 64"}
+							%use{"xlink:href" => "#ui_loader"}
+					%p Loading Posts

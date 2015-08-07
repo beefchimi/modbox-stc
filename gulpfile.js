@@ -3,6 +3,7 @@
 
 // gulp requires
 var gulp       = require('gulp'),
+	argv       = require('yargs').argv,
 	pngcrush   = require('imagemin-pngcrush'),
 	secrets    = require('./secrets.json'),
 	plugins    = require('gulp-load-plugins')({
@@ -34,7 +35,10 @@ var paths = {
 		dest: 'build/assets/img/'
 	},
 	svg: {
-		src : 'dev/media/svg/*.svg'
+		src : 'dev/media/svg/**/*.svg', // 'dev/media/svg/*.svg'
+		cmn : 'dev/media/svg/cmn/*.svg',
+		en  : 'dev/media/svg/en/*.svg',
+		fr  : 'dev/media/svg/fr/*.svg'
 	},
 	extra: {
 		root : 'dev/extra/root/',
@@ -42,6 +46,16 @@ var paths = {
 	}
 
 };
+
+var svgType = paths.svg.src;
+
+if (argv.cmn) {
+	svgType = paths.svg.cmn;
+} else if (argv.en) {
+	svgType = paths.svg.en;
+} else if (argv.fr) {
+	svgType = paths.svg.fr;
+}
 
 
 // Gulp Tasks
@@ -71,7 +85,7 @@ gulp.task('styles', function() {
 		}))
 */
 		.pipe(gulp.dest(paths.styles.dest))
-		.pipe(plugins.livereload());
+		// .pipe(plugins.livereload());
 
 });
 
@@ -92,7 +106,7 @@ gulp.task('scripts', function() { // ['copy-scripts'],
 		}))
 */
 		.pipe(gulp.dest(paths.scripts.dest))
-		.pipe(plugins.livereload());
+		// .pipe(plugins.livereload());
 
 });
 
@@ -136,7 +150,7 @@ gulp.task('images', function() {
 // Compress and built SVG sprite, then inject into build .html files (only after running HAML task)
 gulp.task('svg', function() {
 
-	return gulp.src(paths.svg.src)
+	return gulp.src(svgType)
 		.pipe(plugins.imagemin({
 			svgoPlugins: [{
 				removeViewBox: false,
@@ -146,7 +160,7 @@ gulp.task('svg', function() {
 		.pipe(plugins.svgstore({
 			inlineSvg: true
 		}))
-		.pipe(gulp.dest(paths.images.dest));
+		.pipe(gulp.dest(paths.images.dest + 'svg/'));
 
 });
 
@@ -155,7 +169,7 @@ gulp.task('svg', function() {
 gulp.task('haml', function() {
 
 	// should use an if statement to skip the injection if no SVGs are found
-	var svgSource = gulp.src(paths.images.dest + 'svg.svg');
+	var svgSource = gulp.src(paths.images.dest + 'svg/svg.svg');
 
 	function fileContents(filePath, file) {
 		return file.contents.toString();
@@ -167,7 +181,7 @@ gulp.task('haml', function() {
 			transform: fileContents
 		}))
 		.pipe(gulp.dest(paths.haml.dest))
-		.pipe(plugins.livereload());
+		// .pipe(plugins.livereload());
 
 });
 
@@ -204,7 +218,7 @@ gulp.task('deploy', function() {
 // Watch over specified files and run corresponding tasks...
 gulp.task('watch', function() {
 
-	plugins.livereload.listen(); // start livereload server
+	// plugins.livereload.listen(); // start livereload server
 
 	// watch dev files, rebuild when changed
 	gulp.watch(paths.haml.src + '**/*.haml', ['haml']);  // watch all HAML files, including partials (recursively)

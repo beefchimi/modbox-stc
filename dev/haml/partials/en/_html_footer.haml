@@ -1,0 +1,26 @@
+%footer
+
+	%div.wrap_section{"data-container" => "width_460"}
+
+		.footer_developer
+			%h6 A Modbox Development
+			%a{:href => "http://modbox.ca/", :title => "Visit Modbox.ca", :target => "_blank"}
+				%img{:src => "assets/img/logo_modbox.jpg", :alt => "Modbox Developments"}
+
+		.footer_partners.clearfix
+
+			.partner_architect
+				%h6 Architect
+				%a{:href => "http://www.linebox.ca/", :title => "Visit Linebox.ca", :target => "_blank"}
+					%img{:src => "assets/img/logo_linebox.jpg", :alt => "Linebox Studio"}
+
+			.partner_manager
+				%h6 Project Managers &amp; General Contractors
+				%a{:href => "http://www.tlpi.ca/", :title => "Visit The Lake Partnership Website", :target => "_blank"}
+					%img{:src => "assets/img/logo_lake.jpg", :alt => "The Lake Partnership Inc."}
+
+= Haml::Engine.new(File.read("dev/haml/partials/en/_form_mailchimp.haml")).render
+
+#page_loader.page_loader
+
+= Haml::Engine.new(File.read("dev/haml/partials/cmn/_doc_scripts.haml")).render

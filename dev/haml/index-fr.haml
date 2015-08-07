@@ -1,0 +1,24 @@
+!!!
+/[if IE 9] <html class="ie9" lang="en">
+<!--[if gt IE 9]><!-->
+%html{:lang => "fr-FR", "data-ready" => "waiting"}<>
+	<!--<![endif]-->
+
+	= Haml::Engine.new(File.read("dev/haml/partials/cmn/_doc_head.haml")).render
+
+	%body.home
+
+		#svgInject.visuallyhidden
+			/ inject:svg
+			/ endinject
+
+		= Haml::Engine.new(File.read("dev/haml/partials/fr/_html_header-home.haml")).render
+
+		%main{:role => "main"}
+
+			= Haml::Engine.new(File.read("dev/haml/partials/fr/_sec_intro.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/fr/_sec_sales.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/fr/_sec_blog-home.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/fr/_sec_contact.haml")).render
+
+		= Haml::Engine.new(File.read("dev/haml/partials/fr/_html_footer.haml")).render

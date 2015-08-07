@@ -1,0 +1,34 @@
+%header#header_home.header_home
+
+	%h1.visuallyhidden March&eacute; Saint Charles Market
+
+	.wrap_logo-wordmark
+		.wrap_svg.wrap_logo
+			%svg.logo_stc-angel.svg_inline{:viewBox => "0 0 206 134"}
+				%use{"xlink:href" => "#logo_stc-angel"}
+		.wrap_svg.wrap_wordmark
+			%svg.logo_stc-wordmark.svg_inline{:viewBox => "0 0 272 183"}
+				%use{"xlink:href" => "#logo_stc-wordmark"}
+
+	%blockquote.visuallyhidden
+		%p &laquo; Dieu r&eacute;side dans les d&eacute;tails. &raquo;
+		%cite &ndash; Mies van der Rohe
+
+	.wrap_svg.wrap_quote-mies
+		%svg.txt_quote-mies{:viewBox => "0 0 292 44"}
+			%use{"xlink:href" => "#txt_quote-mies_fr"}
+
+	= Haml::Engine.new(File.read("dev/haml/partials/fr/_html_header-social.haml")).render
+
+	%nav#nav_primary.nav_primary{"data-current" => "header"}
+		%ul{"data-container" => "width_1380"}
+			%li.link_sec.link_intro
+				%a{:href => "#sec_intro", :title => "Introduction", "data-scroll" => true, "data-options" => '{"offset":-2}'} Introduction
+			%li.link_sec.link_blog
+				%a{:href => "#sec_blog", :title => "Le blogue", "data-scroll" => true, "data-options" => '{"offset":65}'} Le blogue
+			%li.link_sec.link_contact
+				%a{:href => "#sec_contact", :title => "Communiquez avec nous", "data-scroll" => true, "data-options" => '{"offset":65}'} Communiquez avec nous
+			%li.link_lang
+				%a.button.btn_brd.brd_white{:href => "index.html", :title => "English"} English
+
+	#bg_angels.bg_angels

@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		numStripesPosX = 50,    // default X % position
 		numStripesPosY = 50,    // default Y % position
 		numStripeWidth = 62,    // width of gradient stripe
+		numNavSocial   = 100,   // internal pages: distance to scroll until social nav is off-screen
 		numNavTopPos   = boolHomePage ? 910 : 36; // top position of nav as defined in CSS (should instead be retrieved from computed value instead)
 
 	// declare section heights (only required for 1200px and up... remeasured in window resize event)
@@ -363,6 +364,16 @@ document.addEventListener('DOMContentLoaded', function() {
 				classie.remove(elHeader, 'nav_fixed-full');
 			}
 
+		} else {
+
+			// if we have scrolled enough distance for the social nav to be off screen...
+			// change the z-index on the div.wrap_pos-abs so our 'updates' button will pass underneath the nav bar
+			if (numScrollPos >= numNavSocial) {
+				classie.add(elHeader, 'nav_scrolled-social');
+			} else {
+				classie.remove(elHeader, 'nav_scrolled-social');
+			}
+
 		}
 
 	}
@@ -482,6 +493,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	// ----------------------------------------------------------------------------
 	window.addEventListener('resize', function(e) {
 
+		// console.log('begin resize');
+
 		// do not fire resize event for every pixel... wait until finished
 		waitForFinalEvent(function() {
 
@@ -504,7 +517,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 
 			// re-layout packery items on resize... only way to be sure it doesn't crap the bed
-			objPkry.layout();
+			if (objPkry) {
+				objPkry.layout();
+			}
+
+			// console.log('end resize');
 
 		}, 500, 'unique string');
 

@@ -93,10 +93,6 @@ div.pkry_loader div.wrap_content {
 	position: relative;
 }
 // + SVGs + \\
-#svgInject {
-	display: none;
-	visibility: hidden;
-}
 .wrap_svg {
 	display: block;
 }
@@ -163,7 +159,6 @@ svg.svg_inline {
 	border-color: $hsl_pink;
 }
 
-
 // Header - Common
 // ----------------------------------------------------------------------------
 header {
@@ -212,6 +207,12 @@ a.link_updates div.wrap_centre div.wrap_svg {
 	margin-bottom: 1rem;
 	width: 4.4rem;
 }
+html[lang="en-US"] a.link_updates div.wrap_centre div.wrap_svg {
+	display: inline-block;
+}
+html[lang="fr-FR"] a.link_updates div.wrap_centre div.wrap_svg {
+	display: none;
+}
 a.link_updates div.wrap_centre div.wrap_svg svg {
 	fill: $hsl_L100;
 }
@@ -219,6 +220,15 @@ a.link_updates div.wrap_centre span {
 	display: inline-block;
 	font-size: 1.5rem;
 	line-height: 1.3;
+}
+html[lang="en-US"] a.link_updates div.wrap_centre span {
+	font-size: 1.5rem;
+}
+html[lang="fr-FR"] a.link_updates div.wrap_centre span {
+	padding-left: 1rem;
+	padding-right: 1rem;
+	font-size: 1.4rem;
+	transform: translateY(-0.2rem);
 }
 // + interaction + \\
 a.link_updates:hover {
@@ -283,9 +293,6 @@ div.bg_angels {
 	transform: translate3d(0,0,0);
 }
 // --- Main Logo --- \\
-header.header_blog {
-	padding-bottom: 1rem;
-}
 header.header_home div.wrap_logo-wordmark,
 header.header_home div.wrap_logo-wordmark div.wrap_wordmark {
 	max-width: 27.2rem;
@@ -301,8 +308,14 @@ div.wrap_quote-mies {
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 4rem;
+}
+html[lang="en-US"] div.wrap_quote-mies {
 	width: 50%;
 	max-width: 21rem;
+}
+html[lang="fr-FR"] div.wrap_quote-mies {
+	width: 70%;
+	max-width: 29.2rem;
 }
 div.wrap_quote-mies svg {
 	fill: $hsl_L100;
@@ -337,12 +350,13 @@ nav.nav_primary ul li.link_sec a:active {
 	color: $hsl_pink;
 }
 
-// Header - Blog
+// Header - Blog / Error 404
 // ----------------------------------------------------------------------------
 header.header_blog {
+	padding-bottom: 1rem;
 }
 // --- Main Logo --- \\
-header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
+body:not(.error_404) header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
 	margin-bottom: 10%;
 }
 header.header_blog div.wrap_logo-wordmark div.wrap_logo svg,
@@ -353,16 +367,20 @@ header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog svg {
 	fill: $hsl_pink-D;
 }
 // --- Main Logo Blog --- \\
-body.blog header.header_blog div.wrap_logo-wordmark,
-body.blog header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
+body:not(.single) header.header_blog div.wrap_logo-wordmark,
+body:not(.single) header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
 	max-width: 20.6rem;
 }
-body.blog header.header_blog div.wrap_logo-wordmark div.wrap_logo {
+body:not(.single) header.header_blog div.wrap_logo-wordmark div.wrap_logo {
 	max-width: 15.6rem;
 }
-body.blog header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+html[lang="en-US"] body:not(.single) header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
 	width: 42%;
 	max-width: 8.2rem;
+}
+html[lang="fr-FR"] body:not(.single) header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+	width: 60%;
+	max-width: 13.2rem;
 }
 // --- Main Logo Single --- \\
 body.single header.header_blog div.wrap_logo-wordmark,
@@ -372,8 +390,11 @@ body.single header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
 body.single header.header_blog div.wrap_logo-wordmark div.wrap_logo {
 	max-width: 8.4rem;
 }
-body.single header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+html[lang="en-US"] body.single header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
 	max-width: 4.8rem;
+}
+html[lang="fr-FR"] body.single header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+	max-width: 7.2rem;
 }
 // --- Nav Social --- \\
 header.header_blog nav.nav_social ul li a svg {
@@ -386,12 +407,27 @@ header.header_blog nav.nav_social ul li a:active svg {
 	fill: $hsl_pink;
 }
 // --- Nav Blog --- \\
-nav.nav_blog ul li.link_top,
-body.blog nav.nav_blog ul li.link_blog {
-	display: none;
+nav.nav_blog ul li:nth-child(n+2) a {
+	font-size: 1.4rem;
+	text-decoration: underline;
+	color: $hsl_navy;
+}
+nav.nav_blog ul li a:hover {
+	color: $hsl_pink-D;
+}
+nav.nav_blog ul li a:active {
+	color: $hsl_pink;
+}
+// + individual + \\
+nav.nav_blog ul li.link_lang {
+	margin-bottom: 3.2rem;
 }
 nav.nav_blog ul li.link_blog {
 	margin-bottom: 2rem;
+}
+nav.nav_blog ul li.link_top,
+body.blog nav.nav_blog ul li.link_blog {
+	display: none;
 }
 
 // Footer
@@ -489,6 +525,16 @@ section.sec_odd article div.wrap_svg-title {
 section.sec_odd article div.wrap_content p {
 	color: $hsl_navy;
 }
+section.sec_odd article div.wrap_content p a {
+	color: $hsl_navy;
+	text-decoration: underline;
+}
+section.sec_odd article div.wrap_content p a:hover {
+	color: $hsl_pink-D;
+}
+section.sec_odd article div.wrap_content p a:active {
+	color: $hsl_pink;
+}
 // + section even (coloured bg) + \\
 section.sec_even article div.wrap_svg svg {
 	fill: $hsl_L100;
@@ -510,7 +556,6 @@ section.sec_intro article div.wrap_txt-holy {
 // --- Sales --- \\
 section.sec_sales {
 	position: relative;
-	// z-index: 2;
 	overflow: hidden;
 }
 div.bg_stripes {
@@ -523,8 +568,11 @@ div.bg_stripes {
 	background-color: $hsl_navy;
 	background-image: repeating-linear-gradient(-45deg, $hsl_navy 0px, $hsl_navy 32px, $hsl_navy-D 32px, $hsl_navy-D 64px);
 }
-section.sec_sales article div.wrap_txt-sales {
+html[lang="en-US"] section.sec_sales article div.wrap_txt-sales {
 	max-width: 43.6rem;
+}
+html[lang="fr-FR"] section.sec_sales article div.wrap_txt-sales {
+	max-width: 65.6rem;
 }
 section.sec_sales article div.wrap_stc-key {
 	margin-top: 3.2rem;
@@ -564,8 +612,11 @@ section.sec_sales article p a:hover::before {
 section.sec_blog {
 	padding-bottom: 2rem; // compensate for margin-bottom of packery elements
 }
-section.sec_blog article div.wrap_txt-follow {
+html[lang="en-US"] section.sec_blog article div.wrap_txt-follow {
 	max-width: 44.2rem;
+}
+html[lang="fr-FR"] section.sec_blog article div.wrap_txt-follow {
+	max-width: 62.6rem;
 }
 section.sec_blog article div.wrap_txt-recent {
 	width: 50%;
@@ -580,16 +631,28 @@ section.sec_contact {
 }
 section.sec_contact article div.wrap_svg-multi {
 	margin-bottom: 3.2rem;
-	max-width: 46.3rem;
 }
 section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
 	margin-bottom: 0.4rem;
-	max-width: 46.3rem;
 }
 section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
 	margin-bottom: 0;
+}
+html[lang="en-US"] section.sec_contact article div.wrap_svg-multi,
+html[lang="en-US"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
+	max-width: 46.3rem;
+}
+html[lang="en-US"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
 	width: 81.25%; // 234px / 288px = 0.8125
 	max-width: 37rem;
+}
+html[lang="fr-FR"] section.sec_contact article div.wrap_svg-multi,
+html[lang="fr-FR"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question1 {
+	max-width: 88.3rem;
+}
+html[lang="fr-FR"] section.sec_contact article div.wrap_svg-multi div.wrap_txt-question2 {
+	width: 64%;
+	max-width: 54.3rem;
 }
 section.sec_contact article a.link_tel {
 	margin-bottom: 2rem;
@@ -650,6 +713,10 @@ section.sec_post article a.link_blog:hover {
 }
 section.sec_post article a.link_blog:active {
 	color: $hsl_pink;
+}
+// --- Error 404 --- \\
+section.sec_404 article div.wrap_txt-error {
+	width: 26rem;
 }
 
 // Packery

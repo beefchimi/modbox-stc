@@ -1,35 +1,23 @@
 !!!
 /[if IE 9] <html class="ie9" lang="en">
 <!--[if gt IE 9]><!-->
-%html{:lang => "en"}<>
+%html{:lang => "en-US", "data-ready" => "waiting"}<>
 	<!--<![endif]-->
 
-	%head
-
-		%meta{:charset => "utf-8"}
-		%meta{"http-equiv" => "X-UA-Compatible", :content => "IE=edge"}
-
-		%title Error 404 | Gulp Config
-
-		%meta{:name => "description", :content => "you have encountered a catastrophic error. please evacuate the internet. thank you."}
-		%meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
-
-		%link{:rel => "stylesheet", :href => "assets/css/styles.min.css?v=0"}
-
-		%script
-			= Haml::Engine.new(File.read("dev/haml/partials/_js_fonts.haml")).render
+	= Haml::Engine.new(File.read("dev/haml/partials/cmn/_doc_head.haml")).render
 
 	%body.error_404
 
+		#svgInject.visuallyhidden
+			/ inject:svg
+			/ endinject
+
+		= Haml::Engine.new(File.read("dev/haml/partials/en/_html_header-404.haml")).render
+
 		%main{:role => "main"}
 
-			%section#error.error
+			= Haml::Engine.new(File.read("dev/haml/partials/en/_sec_error-404.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/en/_sec_sales.haml")).render
+			= Haml::Engine.new(File.read("dev/haml/partials/en/_sec_contact.haml")).render
 
-				%article{"data-container" => ""}
-
-					.project_content
-
-						%h1 Error 404
-						%h2 Nothing to see here
-
-		= Haml::Engine.new(File.read("dev/haml/partials/_js_analytics.haml")).render
+		= Haml::Engine.new(File.read("dev/haml/partials/en/_html_footer.haml")).render

@@ -1,0 +1,27 @@
+%header#header_blog.header_blog
+
+	%h1.visuallyhidden March&eacute; Saint Charles Market
+
+	.wrap_logo-wordmark
+		.wrap_svg.wrap_logo
+			%svg.logo_stc-angel.svg_inline{:viewBox => "0 0 206 134"}
+				%use{"xlink:href" => "#logo_stc-angel"}
+		.wrap_svg.wrap_wordmark
+			%svg.logo_stc-wordmark.svg_inline{:viewBox => "0 0 272 183"}
+				%use{"xlink:href" => "#logo_stc-wordmark"}
+		.wrap_svg.wrap_txt-blog
+			%svg.txt_blog.svg_inline{:viewBox => "0 0 82 43"}
+				%use{"xlink:href" => "#txt_blog_en"}
+
+	= Haml::Engine.new(File.read("dev/haml/partials/en/_html_header-social.haml")).render
+
+	%nav#nav_blog.nav_blog
+		%ul{"data-container" => "width_1380"}
+			%li.link_lang
+				%a.button.btn_brd.brd_navy{:href => "blog-fr.html", :title => "En Fran&ccedil;ais"} En Fran&ccedil;ais
+			%li.link_top
+				%a{:href => "#header_blog", :title => "Back to top", "data-scroll" => true} Back to top
+			%li.link_blog
+				%a{:href => "blog.html", :title => "See all blog posts"} See all blog posts
+			%li.link_home
+				%a{:href => "index.html", :title => "St. Charles Market website"} St. Charles Market website

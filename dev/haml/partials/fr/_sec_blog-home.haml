@@ -1,0 +1,47 @@
+%section#sec_blog.sec_blog.sec_odd
+
+	%article{"data-container" => "width_1330"}
+
+		%h2.visuallyhidden Suivez la construction, lisez le blogue.
+		.wrap_svg.wrap_svg-title.wrap_txt-follow
+			%svg.txt_follow{:viewBox => "0 0 626 128"}
+				%use{"xlink:href" => "#txt_follow_fr"}
+
+		%a.button.btn_brd.brd_navy{:href => "blog-fr.html", :title => "Lisez le blogue du March&eacute; St-Charles."}
+			Lisez le blogue du
+			%br
+			March&eacute; St-Charles.
+
+		-# home & single post page use class 'row_single', blog uses 'row_multi'
+		#pkry_container.pkry_container.row_single{"data-images" => "waiting"}
+
+			- arrTitles = ['Le Beacon est de retour. Voici une chronologie des &eacute;v&eacute;nements.', 'Une nouvelle marque pour un nouveau d&eacute;part.', 'Les vendeurs confirm&eacute;s, et la liste est en croissance.', 'Besoin d\'une raison de se d&eacute;placer dans? Voici nos 10 pr&eacute;f&eacute;r&eacute;s repaires nocturnes.']
+			- numPosts = 0
+			- numAdjustedLength = arrTitles.length - 1
+			- strCurrentTitle = arrTitles[numPosts]
+
+			- (1..4).each do |i|
+				%a.pkry_brick.brick_image{:id => "post_#{i}", :href => "single-fr.html", :title => "#{strCurrentTitle}"}
+					.wrap_pkry-image
+						%img.pkry_image{:src => "assets/img/thumb_#{i}.jpg", :alt => ""}
+						.wrap_read-more
+							%p Read on
+					.wrap_pkry-meta
+						%h4 #{strCurrentTitle}
+						%time{:datetime => "2016-08-13T23:59:59-02:00"} 13 juillet 2016
+
+				- if numPosts < numAdjustedLength
+					- numPosts += 1
+				- else
+					- numPosts = 0
+
+				- strCurrentTitle = arrTitles[numPosts]
+
+			.pkry_gutter
+
+			#pkry_loader.pkry_loader
+				.wrap_content
+					.wrap_svg.wrap_ui-loader
+						%svg.ui_loader{:viewBox => "0 0 64 64"}
+							%use{"xlink:href" => "#ui_loader"}
+					%p Chargement messages
