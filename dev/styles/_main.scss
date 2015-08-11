@@ -356,7 +356,7 @@ header.header_blog {
 	padding-bottom: 1rem;
 }
 // --- Main Logo --- \\
-body:not(.error_404) header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
+body:not(.error404) header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
 	margin-bottom: 10%;
 }
 header.header_blog div.wrap_logo-wordmark div.wrap_logo svg,
@@ -668,7 +668,13 @@ section.sec_contact article a.button.brd_white:active {
 	background-color: hsla(0,0%,100%,0.8);
 	border-color: $hsl_pink;
 }
-// --- Single Post --- \\
+// --- Error 404 --- \\
+section.sec_404 article div.wrap_txt-error {
+	width: 26rem;
+}
+
+// Single Post
+// ----------------------------------------------------------------------------
 section.sec_post {
 	border-bottom: 0.2rem solid $hsl_navy;
 }
@@ -695,14 +701,7 @@ section.sec_post article div.wrap_headlines p {
 section.sec_post article div.wrap_headlines cite {
 	font-style: normal;
 }
-section.sec_post article div.wrap_content p {
-	margin-bottom: 2rem;
-	font-size: 1.3rem;
-	line-height: 1.5;
-}
-section.sec_post article div.wrap_content p:last-child {
-	margin-bottom: 0;
-}
+// --- Blog Link --- \\
 section.sec_post article a.link_blog {
 	font-size: 1.6rem;
 	text-decoration: underline;
@@ -714,9 +713,179 @@ section.sec_post article a.link_blog:hover {
 section.sec_post article a.link_blog:active {
 	color: $hsl_pink;
 }
-// --- Error 404 --- \\
-section.sec_404 article div.wrap_txt-error {
-	width: 26rem;
+// --- Wrap Content: Headings --- \\
+section.sec_post article div.wrap_content h1,
+section.sec_post article div.wrap_content h2,
+section.sec_post article div.wrap_content h3,
+section.sec_post article div.wrap_content h4,
+section.sec_post article div.wrap_content h5,
+section.sec_post article div.wrap_content h6 {
+	margin-bottom: 2rem;
+	color: $hsl_navy;
+}
+section.sec_post article div.wrap_content h1 a,
+section.sec_post article div.wrap_content h2 a,
+section.sec_post article div.wrap_content h3 a,
+section.sec_post article div.wrap_content h4 a,
+section.sec_post article div.wrap_content h5 a,
+section.sec_post article div.wrap_content h6 a {
+	color: $hsl_navy;
+	text-decoration: underline;
+}
+section.sec_post article div.wrap_content h1 a:hover,
+section.sec_post article div.wrap_content h2 a:hover,
+section.sec_post article div.wrap_content h3 a:hover,
+section.sec_post article div.wrap_content h4 a:hover,
+section.sec_post article div.wrap_content h5 a:hover,
+section.sec_post article div.wrap_content h6 a:hover {
+	color: $hsl_pink-D;
+}
+section.sec_post article div.wrap_content h1 a:active,
+section.sec_post article div.wrap_content h2 a:active,
+section.sec_post article div.wrap_content h3 a:active,
+section.sec_post article div.wrap_content h4 a:active,
+section.sec_post article div.wrap_content h5 a:active,
+section.sec_post article div.wrap_content h6 a:active {
+	color: $hsl_pink;
+}
+section.sec_post article div.wrap_content h1 {
+	font-size: 2rem;
+}
+section.sec_post article div.wrap_content h2 {
+	font-size: 1.8rem;
+}
+section.sec_post article div.wrap_content h3 {
+	font-size: 1.6rem;
+}
+section.sec_post article div.wrap_content h4 {
+	font-size: 1.4rem;
+}
+section.sec_post article div.wrap_content h5 {
+	font-size: 1.2rem;
+}
+section.sec_post article div.wrap_content h6 {
+	font-size: 1rem;
+}
+// --- Wrap Content: Other --- \\
+section.sec_post article div.wrap_content p,
+section.sec_post article div.wrap_content ol,
+section.sec_post article div.wrap_content ul,
+section.sec_post article div.wrap_content hr,
+section.sec_post article div.wrap_content img,
+section.sec_post article div.wrap_content div,
+section.sec_post article div.wrap_content table,
+section.sec_post article div.wrap_content blockquote {
+	margin-bottom: 2rem;
+}
+section.sec_post article div.wrap_content p {
+	line-height: 1.5;
+}
+section.sec_post article div.wrap_content p,
+section.sec_post article div.wrap_content li,
+section.sec_post article div.wrap_content table tbody tr th,
+section.sec_post article div.wrap_content table tbody tr td {
+	font-size: 1.3rem;
+}
+section.sec_post article div.wrap_content li,
+section.sec_post article div.wrap_content table tbody tr th,
+section.sec_post article div.wrap_content table tbody tr td {
+	line-height: 1.2;
+}
+section.sec_post article div.wrap_content hr {
+	border-color: $hsl_navy;
+}
+section.sec_post article div.wrap_content div.wrap_video {
+	position: relative;
+	padding-bottom: 56.25%; // 16:9
+	padding-top: 2.5rem;
+	height: 0;
+}
+section.sec_post article div.wrap_content div.wrap_video iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+section.sec_post article div.wrap_content blockquote {
+	opacity: 0.8;
+}
+section.sec_post article div.wrap_content blockquote p {
+	font-style: italic;
+}
+section.sec_post article div.wrap_content blockquote p cite {
+	display: block;
+	position: relative;
+	padding-top: 1rem;
+	font-weight: 700;
+}
+section.sec_post article div.wrap_content blockquote p cite::before {
+	content: '\2014 ';
+}
+// + lists + \\
+section.sec_post article div.wrap_content li > ol,
+section.sec_post article div.wrap_content li > ul {
+	margin-top: 2rem;
+}
+section.sec_post article div.wrap_content li {
+	position: relative;
+	margin-bottom: 1rem;
+	padding: 1rem 1rem 1rem 3.2rem;
+	color: $hsl_navy;
+	border: 0.1rem solid $hsl_L86;
+}
+section.sec_post article div.wrap_content ol {
+	counter-reset: ordered-counter;
+}
+section.sec_post article div.wrap_content ol li::before {
+	content: counter(ordered-counter, decimal) ".";
+	counter-increment: ordered-counter;
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+}
+section.sec_post article div.wrap_content ul li::before {
+	content: "\2022"; // bullet
+	position: absolute;
+	top: 0.6rem;
+	left: 1rem;
+	font-size: 1.8rem;
+}
+// + tables + \\
+section.sec_post article div.wrap_content table {
+	table-layout: fixed;
+	width: 100%;
+}
+section.sec_post article div.wrap_content table tbody tr th,
+section.sec_post article div.wrap_content table tbody tr td {
+	vertical-align: top;
+	padding: 1rem;
+	text-align: left;
+	border: 0.1rem solid $hsl_navy;
+}
+section.sec_post article div.wrap_content table tbody tr th {
+	font-weight: 700;
+	color: $hsl_L46;
+}
+section.sec_post article div.wrap_content table tbody tr td {
+	color: $hsl_L26;
+}
+section.sec_post article div.wrap_content table tbody tr:first-child th {
+	text-transform: uppercase;
+	color: $hsl_L100;
+	background-color: $hsl_navy;
+}
+// + margin-bottom reset + \\
+section.sec_post article div.wrap_content p:last-child,
+section.sec_post article div.wrap_content ol:last-child,
+section.sec_post article div.wrap_content ul:last-child,
+section.sec_post article div.wrap_content li:last-child,
+section.sec_post article div.wrap_content hr:last-child,
+section.sec_post article div.wrap_content img:last-child,
+section.sec_post article div.wrap_content div:last-child,
+section.sec_post article div.wrap_content table:last-child,
+section.sec_post article div.wrap_content blockquote:last-child {
+	margin-bottom: 0;
 }
 
 // Packery

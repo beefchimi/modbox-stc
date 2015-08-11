@@ -46,7 +46,7 @@ svg:not(:root) { overflow: hidden; }
 // Grouping Content
 // ----------------------------------------------------------------------------
 figure { margin: 0; }
-hr { box-sizing: content-box; height: 0; }
+hr { display: block; box-sizing: content-box; height: 0.1rem; border: 0; border-top: 0.1rem solid #ccc; margin: 0; padding: 0; }
 pre { overflow: auto; }
 code, pre { font-family: monospace, monospace; font-size: 1em; }
 
