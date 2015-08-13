@@ -720,6 +720,7 @@ section.sec_post article div.wrap_content h3,
 section.sec_post article div.wrap_content h4,
 section.sec_post article div.wrap_content h5,
 section.sec_post article div.wrap_content h6 {
+	margin-top: 3.2rem;
 	margin-bottom: 2rem;
 	color: $hsl_navy;
 }
@@ -770,12 +771,14 @@ section.sec_post article div.wrap_content h6 {
 section.sec_post article div.wrap_content p,
 section.sec_post article div.wrap_content ol,
 section.sec_post article div.wrap_content ul,
-section.sec_post article div.wrap_content hr,
 section.sec_post article div.wrap_content img,
 section.sec_post article div.wrap_content div,
-section.sec_post article div.wrap_content table,
-section.sec_post article div.wrap_content blockquote {
+section.sec_post article div.wrap_content table {
 	margin-bottom: 2rem;
+}
+section.sec_post article div.wrap_content hr {
+	margin-top: 3.2rem;
+	margin-bottom: 3.2rem;
 }
 section.sec_post article div.wrap_content p {
 	line-height: 1.5;
@@ -808,10 +811,17 @@ section.sec_post article div.wrap_content div.wrap_video iframe {
 	height: 100%;
 }
 section.sec_post article div.wrap_content blockquote {
-	opacity: 0.8;
+	margin-top: 3.2rem;
+	margin-bottom: 3.2rem;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	border-top: 0.1rem solid $hsl_navy;
+	border-bottom: 0.1rem solid $hsl_navy;
 }
 section.sec_post article div.wrap_content blockquote p {
+	font-size: 1.5rem;
 	font-style: italic;
+	color: $hsl_navy-L;
 }
 section.sec_post article div.wrap_content blockquote p cite {
 	display: block;
@@ -820,7 +830,7 @@ section.sec_post article div.wrap_content blockquote p cite {
 	font-weight: 700;
 }
 section.sec_post article div.wrap_content blockquote p cite::before {
-	content: '\2014 ';
+	content: '\2014 \00a0'; // emdash + space
 }
 // + lists + \\
 section.sec_post article div.wrap_content li > ol,
@@ -828,27 +838,26 @@ section.sec_post article div.wrap_content li > ul {
 	margin-top: 2rem;
 }
 section.sec_post article div.wrap_content li {
-	position: relative;
 	margin-bottom: 1rem;
-	padding: 1rem 1rem 1rem 3.2rem;
 	color: $hsl_navy;
-	border: 0.1rem solid $hsl_L86;
+}
+section.sec_post article div.wrap_content li::before {
+	display: inline-block;
+	margin-right: 0.6rem;
 }
 section.sec_post article div.wrap_content ol {
 	counter-reset: ordered-counter;
 }
-section.sec_post article div.wrap_content ol li::before {
+section.sec_post article div.wrap_content ol > li::before {
 	content: counter(ordered-counter, decimal) ".";
 	counter-increment: ordered-counter;
-	position: absolute;
-	top: 1rem;
-	left: 1rem;
+	font-weight: 700;
+	font-size: 0.8em;
+	vertical-align: top;
 }
-section.sec_post article div.wrap_content ul li::before {
+section.sec_post article div.wrap_content ul > li::before {
 	content: "\2022"; // bullet
-	position: absolute;
-	top: 0.6rem;
-	left: 1rem;
+	transform: translateY(0.2rem);
 	font-size: 1.8rem;
 }
 // + tables + \\
@@ -875,7 +884,15 @@ section.sec_post article div.wrap_content table tbody tr:first-child th {
 	color: $hsl_L100;
 	background-color: $hsl_navy;
 }
-// + margin-bottom reset + \\
+// + margin resets + \\
+section.sec_post article div.wrap_content h1:first-child,
+section.sec_post article div.wrap_content h2:first-child,
+section.sec_post article div.wrap_content h3:first-child,
+section.sec_post article div.wrap_content h4:first-child,
+section.sec_post article div.wrap_content h5:first-child,
+section.sec_post article div.wrap_content h6:first-child {
+	margin-top: 0;
+}
 section.sec_post article div.wrap_content p:last-child,
 section.sec_post article div.wrap_content ol:last-child,
 section.sec_post article div.wrap_content ul:last-child,
@@ -916,12 +933,8 @@ div.pkry_container a.brick_image div.wrap_pkry-image {
 }
 div.pkry_container a.brick_image div.wrap_pkry-image div.wrap_read-more {
 	display: none;
-	position: absolute;
-	left: 0;
-	bottom: 0;
 	padding: 1rem 1.8rem 1.2rem 1.8rem;
 	background-color: $hsl_navy-D;
-	opacity: 0;
 }
 div.pkry_container a.brick_image div.wrap_pkry-image div.wrap_read-more p {
 	font-size: 1.8rem;
@@ -970,6 +983,19 @@ div.pkry_container a.brick_text:active {
 }
 div.pkry_container a.brick_text:active div.wrap_pkry-text p {
 	text-decoration-color: $hsl_pink;
+}
+// --- Next Page Link --- \\
+div.post_pagi {
+	margin-top: 4.8rem;
+	text-align: center;
+}
+div.post_pagi a {
+	margin-bottom: 0 !important;
+	padding: 0.6rem 1.4rem 0.8rem 1.4rem;
+	font-size: 1.3rem;
+}
+div.post_pagi a:first-child {
+	margin-right: 2rem;
 }
 // --- Image Loader --- \\
 div.pkry_loader {

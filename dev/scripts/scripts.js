@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
+	// there is a serious problem with most of the code:
+	// we need to wait for packery images to load before initializing packery...
+	// but then we need to be able to wait until packery has compelted layout before calculating height of blog section...
+	// this cannot be done in time and I have no good solution to occupying the user until this has finished.
+	// so, there is currently no on completion event for packery and scroll events are inacurate
+
+
 	// Global Variables
 	// ----------------------------------------------------------------------------
 	var elHTML       = document.documentElement,
@@ -12,10 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		elSales      = document.getElementById('sec_sales'),
 		elBgStripes  = document.getElementById('bg_stripes'),
 		elBlog       = document.getElementById('sec_blog'),
+		elPost       = document.getElementById('sec_post'),
 		objPkry;
 
 	// page booleans
-	var boolHomePage = classie.has(elBody, 'home') ? true : false;
+	var boolHomePage = classie.has(elBody, 'home') ? true : false,
+		boolBlogPage = classie.has(elBody, 'blog') ? true : false,
+		boolPostPage = classie.has(elBody, 'single') ? true : false;
 
 	// window measurement variables
 	var numScrollPos = window.pageYOffset,
@@ -38,10 +48,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		numIntroHeight,
 		numSalesHeight,
 		numBlogHeight,
+		numPostHeight,
+		numBeginSales,
 		numBeginBlog,
 		numBeginContact,
-		numSalesStart,
-		numSalesMiddle;
+		numStartStripes,
+		numAdjustedSalesScroll;
 
 
 	// onPageLoad: Main Function To Fire on Window Load
@@ -55,14 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		mailchimpAJAX();
 
 		if (numWinWidth >= 1200) {
-
 			measureSectionHeight();
 			fixedHeader();
 			navTrackSection();
 			parallaxAngels();
 			parallaxStripes();
 			initSmoothScrollJS();
-
 		}
 
 	}
@@ -141,8 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		});
 
-		// objPkry.bindResize();
-
 		function removeLoader(e) {
 
 			// only listen for the opacity property
@@ -156,6 +164,16 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 	}
+
+
+
+
+
+
+
+
+
+
 
 
 	// toggleModal: Open and Close modal popups
@@ -330,16 +348,31 @@ document.addEventListener('DOMContentLoaded', function() {
 		numBodyHeight   = elBody.clientHeight;
 		numHeaderHeight = elHeader.offsetHeight;
 
-		// the rest of the sections only matter if on the home page
 		if (boolHomePage) {
+
 			numIntroHeight  = elIntro.offsetHeight;
 			numSalesHeight  = elSales.offsetHeight;
 			numBlogHeight   = elBlog.offsetHeight;
-			numBeginBlog    = numHeaderHeight + numIntroHeight + numSalesHeight - numSectionOffset;
+			numBeginSales   = numHeaderHeight + numIntroHeight;
+			numBeginBlog    = numBeginSales + numSalesHeight - numSectionOffset;
 			numBeginContact = numBeginBlog + numBlogHeight - numSectionOffset;
-			numSalesStart   = numBodyHeight - numStripeWidth * 2;
-			numSalesMiddle  = numBodyHeight - numStripeWidth;
+
+		} else if (boolBlogPage) {
+
+			numBeginSales = numHeaderHeight;
+
+		} else if (boolPostPage) {
+
+			numPostHeight = elPost.offsetHeight;
+			numBeginSales = numHeaderHeight + numPostHeight;
+
+		} else {
+
+			numBeginSales = 0;
+
 		}
+
+		numStartStripes = numBeginSales / 2;
 
 	}
 
@@ -439,9 +472,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	// ----------------------------------------------------------------------------
 	function parallaxStripes() {
 
+		// really, what needs to happen is certain functions are executed only after Packery has completed layout for blog section
+		// then, we can always include the blog height in our math
+
+		// if we have scrolled past our point of calculating the stripes transform:
+		// start subtracting the start point from the scroll position:
+		// otherwise, leave the value at 0 so our X and Y positions will remain at -50%
+		numAdjustedSalesScroll = (numScrollPos > numStartStripes) ? (numScrollPos - numStartStripes) : 0;
+
 		// calculate X and Y positions... X needs to be more subtle than Y
-		numStripesPosX = numScrollPos / 120 - 50;
-		numStripesPosY = numScrollPos / 100 - 50;
+		numStripesPosX = numAdjustedSalesScroll / 120 - 50;
+		numStripesPosY = numAdjustedSalesScroll / 100 - 50;
 
 		// safari sucks and still doesn't support unprefixed transforms... so we need to use setProperty()
 		elBgStripes.style.setProperty('-webkit-transform', 'translate3d(' + numStripesPosX + '%, ' + numStripesPosY + '%, 0px)');
@@ -516,7 +557,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			}
 
-			// re-layout packery items on resize... only way to be sure it doesn't crap the bed
 			if (objPkry) {
 				objPkry.layout();
 			}

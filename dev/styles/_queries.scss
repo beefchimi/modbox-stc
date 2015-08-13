@@ -337,7 +337,8 @@
 	section.sec_post article div.wrap_content h4,
 	section.sec_post article div.wrap_content h5,
 	section.sec_post article div.wrap_content h6 {
-		margin-bottom: 4.4rem;
+		margin-top: 4.8rem;
+		margin-bottom: 3.2rem;
 	}
 	section.sec_post article div.wrap_content h1 {
 		font-size: 4rem;
@@ -361,12 +362,14 @@
 	section.sec_post article div.wrap_content p,
 	section.sec_post article div.wrap_content ol,
 	section.sec_post article div.wrap_content ul,
-	section.sec_post article div.wrap_content hr,
 	section.sec_post article div.wrap_content img,
 	section.sec_post article div.wrap_content div,
-	section.sec_post article div.wrap_content table,
-	section.sec_post article div.wrap_content blockquote {
+	section.sec_post article div.wrap_content table {
 		margin-bottom: 3.2rem;
+	}
+	section.sec_post article div.wrap_content hr {
+		margin-top: 4.8rem;
+		margin-bottom: 4.8rem;
 	}
 	section.sec_post article div.wrap_content p,
 	section.sec_post article div.wrap_content li,
@@ -379,6 +382,18 @@
 	section.sec_post article div.wrap_content table tbody tr td {
 		line-height: 1.3;
 	}
+	section.sec_post article div.wrap_content blockquote {
+		margin-top: 4.8rem;
+		margin-bottom: 4.8rem;
+		padding-top: 3.2rem;
+		padding-bottom: 3.2rem;
+	}
+	section.sec_post article div.wrap_content blockquote p {
+		font-size: 1.9rem;
+	}
+	section.sec_post article div.wrap_content blockquote p cite {
+		padding-top: 1.6rem;
+	}
 	// + lists + \\
 	section.sec_post article div.wrap_content li > ol,
 	section.sec_post article div.wrap_content li > ul {
@@ -386,15 +401,9 @@
 	}
 	section.sec_post article div.wrap_content li {
 		margin-bottom: 1.6rem;
-		padding: 1.6rem 1.6rem 1.6rem 3.2rem;
 	}
-	section.sec_post article div.wrap_content ol li::before {
-		top: 1.6rem;
-		left: 1.6rem;
-	}
-	section.sec_post article div.wrap_content ul li::before {
-		top: 1.6rem;
-		left: 1.6rem;
+	section.sec_post article div.wrap_content ul > li::before {
+		transform: none;
 	}
 	// + tables + \\
 	section.sec_post article div.wrap_content table tbody tr th,
@@ -440,6 +449,12 @@
 	}
 	div.pkry_container a.brick_image div.wrap_pkry-image div.wrap_read-more {
 		display: block;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		opacity: 0;
+		// transform: translate3d(0,0,0);
+		// backface-visibility: hidden;
 	}
 	div.pkry_container a.brick_image div.wrap_pkry-meta h4 {
 		margin-bottom: 2rem;
@@ -465,6 +480,12 @@
 	}
 	div.pkry_container a.brick_text div.wrap_pkry-text p {
 		font-size: 2.6rem;
+	}
+	// --- Next Page Link --- \\
+	div.post_pagi a {
+		margin-bottom: 0 !important;
+		padding: 1rem 1.8rem 1.2rem 1.8rem;
+		font-size: 1.6rem;
 	}
 
 	// Mailchimp
@@ -688,6 +709,9 @@
 	}
 	body.blog section.sec_blog {
 		padding-bottom: 10rem; // compensate for margin-bottom of packery elements
+	}
+	section.sec_blog article div.wrap_txt-recent {
+		margin-bottom: 8rem !important;
 	}
 	section.sec_blog article a.button {
 		margin-bottom: 10.8rem;

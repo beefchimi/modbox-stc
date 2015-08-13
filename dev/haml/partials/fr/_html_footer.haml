@@ -4,19 +4,19 @@
 
 		.footer_developer
 			%h6 Une r&eacute;alisation de Modbox
-			%a{:href => "http://modbox.ca/", :title => "Visitez Modbox.ca", :target => "_blank"}
+			%a{:href => "http://modbox.ca/", :title => "Visitez", :target => "_blank"}
 				%img{:src => "assets/img/logo_modbox.jpg", :alt => "Modbox Developments"}
 
 		.footer_partners.clearfix
 
 			.partner_architect
 				%h6 Architecte
-				%a{:href => "http://www.linebox.ca/", :title => "Visitez Linebox.ca", :target => "_blank"}
+				%a{:href => "http://www.linebox.ca/", :title => "Visitez", :target => "_blank"}
 					%img{:src => "assets/img/logo_linebox.jpg", :alt => "Linebox Studio"}
 
 			.partner_manager
 				%h6 Gestionnaires de projet et entrepreneurs g&eacute;n&eacute;raux
-				%a{:href => "http://www.tlpi.ca/", :title => "Visitez tlpi.ca", :target => "_blank"}
+				%a{:href => "http://www.tlpi.ca/", :title => "Visitez", :target => "_blank"}
 					%img{:src => "assets/img/logo_lake.jpg", :alt => "The Lake Partnership Inc."}
 
 = Haml::Engine.new(File.read("dev/haml/partials/fr/_form_mailchimp.haml")).render
