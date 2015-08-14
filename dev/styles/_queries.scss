@@ -95,14 +95,22 @@
 	a.link_updates {
 		display: block;
 		position: absolute;
-		top: 4.2rem;
 		left: -0.4rem; // visually compensate for curve
 	}
 	// --- Nav Social --- \\
 	nav.nav_social {
 		position: absolute;
-		top: 5.6rem;
 		right: 0;
+	}
+	// --- Link Lang --- \\
+	nav ul li.link_lang {
+		position: absolute;
+		top: -1rem;
+		right: 0;
+	}
+	nav ul li.link_lang a {
+		padding: 1rem 1.8rem 1.2rem 1.8rem;
+		font-size: 1.5rem;
 	}
 
 	// Header - Home
@@ -122,6 +130,14 @@
 	div.wrap_quote-mies {
 		margin-bottom: 0;
 	}
+	// --- Updates Button --- \\
+	header.header_home a.link_updates {
+		top: 4.2rem;
+	}
+	// --- Nav Social --- \\
+	header.header_home nav.nav_social {
+		top: 5.6rem;
+	}
 	// --- Nav Primary --- \\
 	nav.nav_primary {
 		position: absolute;
@@ -137,15 +153,6 @@
 	}
 	nav.nav_primary ul li.link_sec {
 		display: inline-block;
-	}
-	nav.nav_primary ul li.link_lang {
-		position: absolute;
-		top: -1rem;
-		right: 0;
-	}
-	nav.nav_primary ul li.link_lang a {
-		padding: 1rem 1.8rem 1.2rem 1.8rem;
-		font-size: 1.5rem;
 	}
 
 	// Header - Blog
@@ -163,11 +170,8 @@
 		top: 14.2rem;
 	}
 	// --- Nav Social --- \\
-	html[lang="en-US"] header.header_blog nav.nav_social {
-		right: 14rem;
-	}
-	html[lang="fr-FR"] header.header_blog nav.nav_social {
-		right: 11rem;
+	header.header_blog nav.nav_social {
+		top: 15.6rem;
 	}
 	// --- Nav Blog --- \\
 	nav.nav_blog {
@@ -178,7 +182,6 @@
 		right: 0;
 		padding: 2.4rem 3.2rem;
 		height: 6.6rem;
-		text-align: left;
 		background-color: hsla(0,0%,100%,0.9);
 	}
 	nav.nav_blog ul {
@@ -195,20 +198,13 @@
 	}
 	// + individual + \\
 	nav.nav_blog ul li.link_lang {
-		position: absolute;
-		top: -1rem;
-		right: 0;
 		margin-bottom: 0;
 	}
-	nav.nav_blog ul li.link_lang a.button {
-		padding: 0.8rem 1.6rem 1rem 1.6rem;
-		font-size: 1.4rem;
-	}
-	html[lang="en-US"] nav.nav_blog ul li.link_top,
+	// html[lang="en-US"] nav.nav_blog ul li.link_top,
 	html[lang="en-US"] nav.nav_blog ul li.link_blog {
 		margin-right: 4.2rem;
 	}
-	html[lang="fr-FR"] nav.nav_blog ul li.link_top,
+	// html[lang="fr-FR"] nav.nav_blog ul li.link_top,
 	html[lang="fr-FR"] nav.nav_blog ul li.link_blog {
 		margin-right: 3.2rem;
 	}
@@ -640,11 +636,8 @@
 		top: 16.8rem;
 	}
 	// --- Nav Social --- \\
-	html[lang="en-US"] header.header_blog nav.nav_social {
-		right: 16rem;
-	}
-	html[lang="fr-FR"] header.header_blog nav.nav_social {
-		right: 14rem;
+	header.header_blog nav.nav_social {
+		top: 18.2rem;
 	}
 	// --- Nav Blog --- \\
 	nav.nav_blog {
@@ -656,10 +649,7 @@
 		font-size: 1.8rem;
 	}
 	// + individual + \\
-	nav.nav_blog ul li.link_lang a.button {
-		padding: 1rem 1.8rem 1.2rem 1.8rem;
-		font-size: 1.5rem;
-	}
+/*
 	nav.nav_blog ul li.link_top {
 		display: inline-block;
 	}
@@ -672,13 +662,11 @@
 	nav.nav_blog ul li.link_top a:active {
 		color: $hsl_pink;
 	}
+*/
 	// + fixed header + \\
 	header.nav_fixed nav.nav_blog {
 		position: fixed;
 		top: 0;
-	}
-	header.nav_scrolled-social div.wrap_pos-abs {
-		z-index: 100;
 	}
 
 // ==|== main styles ==========================================================
@@ -744,6 +732,13 @@
 	// --- Single Post --- \\
 	section.sec_post article div.wrap_headlines h2 {
 		font-size: 6.4rem;
+	}
+
+	// Packery
+	// ----------------------------------------------------------------------------
+	// --- Next Page Link --- \\
+	div.post_pagi {
+		margin-bottom: 0;
 	}
 
 	// Footer

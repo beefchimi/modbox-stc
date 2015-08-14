@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		numStripesPosX = 50,    // default X % position
 		numStripesPosY = 50,    // default Y % position
 		numStripeWidth = 62,    // width of gradient stripe
-		numNavSocial   = 100,   // internal pages: distance to scroll until social nav is off-screen
 		numNavTopPos   = boolHomePage ? 910 : 36; // top position of nav as defined in CSS (should instead be retrieved from computed value instead)
 
 	// declare section heights (only required for 1200px and up... remeasured in window resize event)
@@ -164,16 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 	}
-
-
-
-
-
-
-
-
-
-
 
 
 	// toggleModal: Open and Close modal popups
@@ -397,16 +386,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				classie.remove(elHeader, 'nav_fixed-full');
 			}
 
-		} else {
-
-			// if we have scrolled enough distance for the social nav to be off screen...
-			// change the z-index on the div.wrap_pos-abs so our 'updates' button will pass underneath the nav bar
-			if (numScrollPos >= numNavSocial) {
-				classie.add(elHeader, 'nav_scrolled-social');
-			} else {
-				classie.remove(elHeader, 'nav_scrolled-social');
-			}
-
 		}
 
 	}
@@ -453,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (numScrollPos < numHeaderHeight) {
 
 				// calculate X and Y positions... X needs to be more subtle than Y
-				numAngelsPosX = numScrollPos / 260 - 50;
+				numAngelsPosX = numScrollPos / 220 - 50;
 				numAngelsPosY = numScrollPos / 80 - 50;
 
 				// safari sucks and still doesn't support unprefixed transforms... so we need to use setProperty()
