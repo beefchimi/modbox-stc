@@ -85,7 +85,7 @@ gulp.task('styles', function() {
 		}))
 */
 		.pipe(gulp.dest(paths.styles.dest))
-		// .pipe(plugins.livereload());
+		.pipe(plugins.livereload());
 
 });
 
@@ -106,7 +106,7 @@ gulp.task('scripts', function() { // ['copy-scripts'],
 		}))
 */
 		.pipe(gulp.dest(paths.scripts.dest))
-		// .pipe(plugins.livereload());
+		.pipe(plugins.livereload());
 
 });
 
@@ -181,7 +181,7 @@ gulp.task('haml', function() {
 			transform: fileContents
 		}))
 		.pipe(gulp.dest(paths.haml.dest))
-		// .pipe(plugins.livereload());
+		.pipe(plugins.livereload());
 
 });
 
@@ -218,7 +218,7 @@ gulp.task('deploy', function() {
 // Watch over specified files and run corresponding tasks...
 gulp.task('watch', function() {
 
-	// plugins.livereload.listen(); // start livereload server
+	plugins.livereload.listen(); // start livereload server
 
 	// watch dev files, rebuild when changed
 	gulp.watch(paths.haml.src + '**/*.haml', ['haml']);  // watch all HAML files, including partials (recursively)

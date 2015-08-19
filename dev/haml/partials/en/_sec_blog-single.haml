@@ -8,7 +8,7 @@
 				%use{"xlink:href" => "#txt_recent_en"}
 
 		-# home & single post page use class 'row_single', blog uses 'row_multi'
-		#pkry_container.pkry_container.row_single{"data-images" => "waiting"}
+		#pkry_container.pkry_container.row_single
 
 			- arrTitles = ['The Beacon is back. Here’s a timeline of events.', 'A new brand for a new beginning.', 'Vendors confirmed, and the list is growing.', 'Need a reason to move in? Here’s our 10 favourite late-night haunts.']
 			- numPosts = 0
@@ -33,10 +33,3 @@
 				- strCurrentTitle = arrTitles[numPosts]
 
 			.pkry_gutter
-
-			#pkry_loader.pkry_loader
-				.wrap_content
-					.wrap_svg.wrap_ui-loader
-						%svg.ui_loader{:viewBox => "0 0 64 64"}
-							%use{"xlink:href" => "#ui_loader"}
-					%p Loading Posts

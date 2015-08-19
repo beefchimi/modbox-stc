@@ -1,25 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 
-	// there is a serious problem with most of the code:
-	// we need to wait for packery images to load before initializing packery...
-	// but then we need to be able to wait until packery has compelted layout before calculating height of blog section...
-	// this cannot be done in time and I have no good solution to occupying the user until this has finished.
-	// so, there is currently no on completion event for packery and scroll events are inacurate
-
-
 	// Global Variables
 	// ----------------------------------------------------------------------------
-	var elHTML       = document.documentElement,
-		elBody       = document.body,
-		elHeader     = document.getElementsByTagName('header')[0],
-		elBgAngels   = document.getElementById('bg_angels'),
-		elNavPrimary = document.getElementById('nav_primary'),
-		elIntro      = document.getElementById('sec_intro'),
-		elSales      = document.getElementById('sec_sales'),
-		elBgStripes  = document.getElementById('bg_stripes'),
-		elBlog       = document.getElementById('sec_blog'),
-		elPost       = document.getElementById('sec_post'),
+	var elHTML          = document.documentElement,
+		elBody          = document.body,
+		elHeader        = document.getElementsByTagName('header')[0],
+		elBgAngels      = document.getElementById('bg_angels'),
+		elNavPrimary    = document.getElementById('nav_primary'),
+		elIntro         = document.getElementById('sec_intro'),
+		elSales         = document.getElementById('sec_sales'),
+		elBgStripes     = document.getElementById('bg_stripes'),
+		elBlog          = document.getElementById('sec_blog'),
+		elPost          = document.getElementById('sec_post'),
+		el404           = document.getElementById('sec_404'),
+		elPageLoader    = document.getElementById('page_loader'),
+		elPkryContainer = document.getElementById('pkry_container'),
 		objPkry;
 
 	// page booleans
@@ -28,8 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		boolPostPage = classie.has(elBody, 'single') ? true : false;
 
 	// window measurement variables
-	var numScrollPos = window.pageYOffset,
-		numWinWidth  = window.innerWidth;
+	var numScrollPos      = window.pageYOffset,
+		numWinWidth       = window.innerWidth,
+		numClientWidth    = document.documentElement.clientWidth,
+		numScrollbarWidth = numWinWidth - numClientWidth,
+		hasScrollbar      = numScrollbarWidth > 0 ? true : false;
 
 	// parallax header & stripes / fixed nav / smoothScroll
 	var boolEnabledSS  = false, // assumes below 1200px by default - smoothScroll is not initialized
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		numNavTopPos   = boolHomePage ? 910 : 36; // top position of nav as defined in CSS (should instead be retrieved from computed value instead)
 
 	// declare section heights (only required for 1200px and up... remeasured in window resize event)
-	var numSectionOffset = 65,
+	var numSectionOffset = 120,
 		numBodyHeight,
 		numHeaderHeight,
 		numIntroHeight,
@@ -54,16 +53,95 @@ document.addEventListener('DOMContentLoaded', function() {
 		numStartStripes,
 		numAdjustedSalesScroll;
 
+	// home page smoothscrolll variables
+	if (boolHomePage) {
+
+		var elIntroLink   = document.getElementById('link_intro').getElementsByTagName('a')[0],
+			elBlogLink    = document.getElementById('link_blog').getElementsByTagName('a')[0],
+			elContactLink = document.getElementById('link_contact').getElementsByTagName('a')[0],
+			strIntroOffset,
+			strBlogOffset,
+			strContactOffset;
+
+	}
+
+
+	// Helper: Lock / Unlock Body Scrolling
+	// ----------------------------------------------------------------------------
+	function lockBody() {
+
+		// enable overflow-y: hidden on <body>
+		elHTML.setAttribute('data-overflow', 'locked');
+
+		// if necessary, accomodate for scrollbar width
+		if (hasScrollbar) {
+			elBody.style.paddingRight = numScrollbarWidth + 'px';
+		}
+
+	}
+
+	function unlockBody() {
+
+		// disable overflow-y: hidden on <body>
+		elHTML.setAttribute('data-overflow', 'scrollable');
+
+		// if necessary, remove scrollbar width styles
+		// should be expanded to restore original padding if needed
+		if (hasScrollbar) {
+			elBody.style.paddingRight = '0px';
+		}
+
+	}
+
 
 	// onPageLoad: Main Function To Fire on Window Load
 	// ----------------------------------------------------------------------------
 	function onPageLoad() {
 
+		// load page at top of document...
+		window.scroll(0, 0);
+
+/*
+		// chrome remembers your scroll position on reload, so using pushState helps return us to the top of the page every time...
+		// problem is, we then have to his 'Back' twice... so not worth it
+		if (history.pushState) {
+			history.pushState(null, null, '');
+			window.scroll(0, 0);
+		}
+*/
+
+		// functions not dependant on document measurements
 		pageAnimate();
 		secretMail();
-		initPkry();
 		toggleModal();
 		mailchimpAJAX();
+
+		// after all images on the page have been loaded:
+		// unlock scrolling, layout Packery, measure all section heights
+		imagesLoaded(elBody, function(instance) {
+
+			elHTML.setAttribute('data-ready', 'ready');
+			unlockBody();
+
+			// determine whether or not to wait until packery layoutComplete to fire our primary functions
+			if (elPkryContainer == null) {
+				initPrimaryFunctions();
+			} else {
+				initPkry();
+			}
+
+		});
+
+	}
+
+
+	// initPrimaryFunctions: Initialize our primary functions
+	// ----------------------------------------------------------------------------
+	function initPrimaryFunctions() {
+
+		if (numWinWidth >= 768) {
+			initSmoothScrollJS();
+		}
 
 		if (numWinWidth >= 1200) {
 			measureSectionHeight();
@@ -71,8 +149,28 @@ document.addEventListener('DOMContentLoaded', function() {
 			navTrackSection();
 			parallaxAngels();
 			parallaxStripes();
-			initSmoothScrollJS();
 		}
+
+	}
+
+
+	// initPkry: Initialize Packery.js
+	// ----------------------------------------------------------------------------
+	function initPkry() {
+
+		objPkry = new Packery(elPkryContainer, {
+
+			itemSelector: 'a.pkry_brick',
+			columnWidth: 'a.pkry_brick',
+			gutter: 'div.pkry_gutter'
+
+		});
+
+		objPkry.once('layoutComplete', function() {
+			initPrimaryFunctions();
+		});
+
+		objPkry.layout(); // required in ordered for layoutComplete to be fired
 
 	}
 
@@ -87,13 +185,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		function removePageLoader(e) {
 
-			// listening for property name 'opacity' doesn't seem to work here...
+			// transition / animation events bubble, and we have a child element that animates as well...
+			// so we need to make sure that we are looking at the correct element
+			if (e.target === elPageLoader) {
 
-			elPageLoader.removeEventListener(animationEvent, removePageLoader);
-			elBody.removeChild(elPageLoader);
+				elPageLoader.removeEventListener(animationEvent, removePageLoader);
+				elBody.removeChild(elPageLoader);
 
-			// inform the document we are now ready
-			elHTML.setAttribute('data-ready', 'ready');
+				// inform the document we have removed the loader
+				elHTML.setAttribute('data-loader', 'removed');
+
+			}
 
 		}
 
@@ -111,56 +213,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			suffix    = 'com';
 
 		mailLink.setAttribute('href', prefix + ':' + local + '@' + domain + '.' + suffix);
-
-	}
-
-
-	// initPkry: Initialize Packery.js + imagesLoaded
-	// ----------------------------------------------------------------------------
-	function initPkry() {
-
-		var elPkryContainer = document.getElementById('pkry_container'),
-			elPkryLoader    = document.getElementById('pkry_loader');
-
-		// check if pkry_container exists
-		if (elPkryContainer == null) {
-			return;
-		}
-
-		// layout Packery after all images have loaded
-		imagesLoaded(elPkryContainer, function(instance) {
-
-			objPkry = new Packery(elPkryContainer, {
-
-				itemSelector: 'a.pkry_brick',
-				columnWidth: 'a.pkry_brick',
-				gutter: 'div.pkry_gutter'
-
-			});
-
-			elPkryContainer.setAttribute('data-images', 'loaded');
-
-			// IE9 does not support animations...
-			if ( !classie.has(elHTML, 'ie9') ) {
-
-				// listen for CSS transitionEnd before removing the element
-				elPkryLoader.addEventListener(transitionEvent, removeLoader);
-
-			}
-
-		});
-
-		function removeLoader(e) {
-
-			// only listen for the opacity property
-			if (e.propertyName == 'opacity') {
-
-				elPkryLoader.removeEventListener(transitionEvent, removeLoader);
-				elPkryContainer.removeChild(elPkryLoader);
-
-			}
-
-		}
 
 	}
 
@@ -336,28 +388,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		// measure section heights
 		numBodyHeight   = elBody.clientHeight;
 		numHeaderHeight = elHeader.offsetHeight;
+		numBlogHeight   = elBlog.offsetHeight;
 
 		if (boolHomePage) {
 
 			numIntroHeight  = elIntro.offsetHeight;
 			numSalesHeight  = elSales.offsetHeight;
-			numBlogHeight   = elBlog.offsetHeight;
 			numBeginSales   = numHeaderHeight + numIntroHeight;
 			numBeginBlog    = numBeginSales + numSalesHeight - numSectionOffset;
 			numBeginContact = numBeginBlog + numBlogHeight - numSectionOffset;
 
 		} else if (boolBlogPage) {
 
-			numBeginSales = numHeaderHeight;
-
-		} else if (boolPostPage) {
-
-			numPostHeight = elPost.offsetHeight;
-			numBeginSales = numHeaderHeight + numPostHeight;
+			numBeginSales = numHeaderHeight + numBlogHeight;
 
 		} else {
 
-			numBeginSales = 0;
+			numPostHeight = (boolPostPage) ? elPost.offsetHeight : el404.offsetHeight;
+			numBeginSales = numHeaderHeight + numPostHeight + numBlogHeight;
 
 		}
 
@@ -492,6 +540,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	// ----------------------------------------------------------------------------
 	function initSmoothScrollJS() {
 
+		// now only being used on home page
+		if (!boolHomePage) {
+			return;
+		}
+
+		adjustSmoothscrollOffset();
+
 		// exit function if smoothScroll has already been initialized
 		if (boolEnabledSS) {
 			return;
@@ -509,6 +564,27 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 
+	// adjustSmoothscrollOffset: Adjust the offsets for each home page nav link
+	// ----------------------------------------------------------------------------
+	function adjustSmoothscrollOffset() {
+
+		if (numWinWidth >= 1200) {
+			strIntroOffset   = '{"offset":-2}';
+			strBlogOffset    = '{"offset":65}';
+			strContactOffset = '{"offset":65}';
+		} else {
+			strIntroOffset   = '{"offset":0}';
+			strBlogOffset    = '{"offset":0}';
+			strContactOffset = '{"offset":0}';
+		}
+
+		elIntroLink.setAttribute('data-options', strIntroOffset);
+		elBlogLink.setAttribute('data-options', strBlogOffset);
+		elContactLink.setAttribute('data-options', strContactOffset);
+
+	}
+
+
 	// Window Events
 	// ----------------------------------------------------------------------------
 	window.addEventListener('resize', function(e) {
@@ -521,19 +597,18 @@ document.addEventListener('DOMContentLoaded', function() {
 			// re-measure window width on resize
 			numWinWidth = window.innerWidth;
 
-			if (numWinWidth >= 1200) {
+			if (numWinWidth >= 768) {
+				initSmoothScrollJS();
+			}
 
+			if (numWinWidth >= 1200) {
 				measureSectionHeight();
 				fixedHeader();
 				navTrackSection();
 				parallaxAngels();
 				parallaxStripes();
-				initSmoothScrollJS();
-
 			} else {
-
 				parallaxRemove();
-
 			}
 
 			if (objPkry) {
@@ -561,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 
 
-	// Initialize Primary Functions
+	// Initialize Page Load Functions
 	// ----------------------------------------------------------------------------
 	onPageLoad();
 

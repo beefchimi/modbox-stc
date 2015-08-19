@@ -17,11 +17,14 @@ body {
 ::-moz-placeholder {
 	opacity: 1;
 }
-// + page loader + \\
-div.page_loader {
-	@include pos_cover(fixed, 999);
-	background-color: $hsl_L100;
-	animation: animOpacity 800ms ease-in-out 100ms reverse forwards;
+// --- Lock Scrolling On Load --- \\
+html[data-overflow="locked"],
+html[data-overflow="locked"] body {
+	overflow-y: hidden;
+}
+html {
+	min-height: 100%;
+	overflow-y: scroll;
 }
 
 // Transitions & Animations
@@ -48,12 +51,6 @@ div.pkry_container a.brick_image div.wrap_pkry-image img {
 div.pkry_container a.brick_image div.wrap_pkry-image img,
 div.pkry_container a.brick_image div.wrap_pkry-image div.wrap_read-more {
 	transition: opacity 260ms ease-in-out;
-}
-div.pkry_loader {
-	transition: opacity 420ms ease-in-out;
-}
-div.pkry_loader div.wrap_content {
-	transition: transform 420ms ease-in-out;
 }
 // + fix for webkit delayed hover + \\
 div.pkry_container a.brick_text {
@@ -90,36 +87,49 @@ div.pkry_container a.brick_text div.wrap_pkry-meta time {
 .animate_shake {
 	animation: animShake 600ms ease-in-out both;
 }
-// --- Removed: Text Underline --- \\
-/*
-div.pkry_container a.brick_text div.wrap_pkry-text p,
-div.pkry_container a.brick_image div.wrap_pkry-meta h4 {
-	transition: text-decoration 260ms ease-in-out;
+
+// Page Loader
+// ----------------------------------------------------------------------------
+div.page_loader {
+	@include pos_cover(fixed, 998);
+	background-color: $hsl_L100;
+	overflow: hidden;
 }
-div.pkry_container a.brick_image div.wrap_pkry-meta h4 {
-	text-decoration-line: underline;
-	text-decoration-color: $hsl_L100;
+div.page_loader div.wrap_content {
+	position: absolute;
+	z-index: 999;
+	top: 10rem;
+	left: 0;
+	right: 0;
+	transform: translate3d(0,0,0); // I don't know why... but this is needed to prevent the content from disappearing
+	animation: animOpacity 420ms ease-in-out forwards;
 }
-div.pkry_container a.brick_image:hover div.wrap_pkry-meta h4 {
-	text-decoration-color: $hsl_navy-D;
+// --- Loading Spinner --- \\
+div.wrap_loader {
+	@include aspect-ratio(103, 67);
 }
-div.pkry_container a.brick_image:active div.wrap_pkry-meta h4 {
-	text-decoration-color: $hsl_navy;
+div.wrap_loader div.wrap_aspect-ratio div.wrap_ui-loader {
+	@include pos_cover(absolute, 2);
+	width: 4.4rem;
+	height: 4.4rem;
+	animation: anim360 800ms linear infinite forwards;
 }
-div.pkry_container a.brick_text div.wrap_pkry-text p {
-	text-decoration-line: underline;
-	text-decoration-color: $hsl_L100;
+div.page_loader div.wrap_content div.wrap_logo-wordmark {
+	margin-bottom: 0;
 }
-div.pkry_container a.brick_text:hover div.wrap_pkry-text p {
-	text-decoration-color: $hsl_pink-D;
+div.wrap_loader div.wrap_aspect-ratio div.wrap_ui-loader svg,
+div.page_loader div.wrap_content div.wrap_logo-wordmark div.wrap_svg svg {
+	fill: $hsl_navy;
 }
-div.pkry_container a.brick_text:active div.wrap_pkry-text p {
-	text-decoration-color: $hsl_pink;
+// + page ready + \\
+html[data-ready="ready"] div.page_loader {
+	animation: animOpacity 800ms ease-in-out 260ms reverse forwards;
 }
-div.pkry_container a.brick_text:active {
-	color: $hsl_pink;
+// + internet explorer + \\
+html.ie9 div.page_loader {
+	display: none;
+	visibility: hidden;
 }
-*/
 
 // General Styles
 // ----------------------------------------------------------------------------
@@ -208,6 +218,7 @@ div.wrap_pos-abs {
 	right: 0;
 }
 // --- Main Logo --- \\
+div.wrap_loader,
 div.wrap_logo-wordmark,
 div.wrap_logo-wordmark div.wrap_svg {
 	margin-left: auto;
@@ -217,6 +228,7 @@ div.wrap_logo-wordmark {
 	margin-bottom: 4.8rem;
 	width: 50%;
 }
+div.wrap_loader,
 div.wrap_logo-wordmark div.wrap_logo {
 	margin-bottom: 14%;
 	width: 76%;
@@ -327,14 +339,15 @@ div.bg_angels {
 	transform: translate3d(0,0,0);
 }
 // --- Main Logo --- \\
-header.header_home div.wrap_logo-wordmark,
-header.header_home div.wrap_logo-wordmark div.wrap_wordmark {
+body.home div.wrap_logo-wordmark,
+body.home div.wrap_logo-wordmark div.wrap_wordmark {
 	max-width: 27.2rem;
 }
-header.header_home div.wrap_logo-wordmark div.wrap_logo {
+body.home div.wrap_loader,
+body.home div.wrap_logo-wordmark div.wrap_logo {
 	max-width: 20.6rem;
 }
-header.header_home div.wrap_logo-wordmark div.wrap_svg svg {
+body.home div.wrap_logo-wordmark > div.wrap_svg svg {
 	fill: $hsl_L100;
 }
 // --- Quotation --- \\
@@ -390,8 +403,9 @@ header.header_blog {
 	padding-bottom: 1rem;
 }
 // --- Main Logo --- \\
-body:not(.error404) header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
-	margin-bottom: 10%;
+body.blog div.wrap_logo-wordmark div.wrap_txt-blog,
+body.single div.wrap_logo-wordmark div.wrap_txt-blog {
+	margin-top: 10%;
 }
 header.header_blog div.wrap_logo-wordmark div.wrap_logo svg,
 header.header_blog div.wrap_logo-wordmark div.wrap_wordmark svg {
@@ -401,33 +415,38 @@ header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog svg {
 	fill: $hsl_pink-D;
 }
 // --- Main Logo Blog --- \\
-body:not(.single) header.header_blog div.wrap_logo-wordmark,
-body:not(.single) header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
+body.blog div.wrap_logo-wordmark,
+body.error404 div.wrap_logo-wordmark,
+body.blog div.wrap_logo-wordmark div.wrap_wordmark,
+body.error404 div.wrap_logo-wordmark div.wrap_wordmark {
 	max-width: 20.6rem;
 }
-body:not(.single) header.header_blog div.wrap_logo-wordmark div.wrap_logo {
+body.blog div.wrap_logo-wordmark div.wrap_logo,
+body.error404 div.wrap_logo-wordmark div.wrap_logo {
 	max-width: 15.6rem;
 }
-html[lang="en-US"] body:not(.single) header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+html[lang="en-US"] body.blog div.wrap_logo-wordmark div.wrap_txt-blog,
+html[lang="en-US"] body.error404 div.wrap_logo-wordmark div.wrap_txt-blog {
 	width: 42%;
 	max-width: 8.2rem;
 }
-html[lang="fr-FR"] body:not(.single) header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+html[lang="fr-FR"] body.blog div.wrap_logo-wordmark div.wrap_txt-blog,
+html[lang="fr-FR"] body.error404 div.wrap_logo-wordmark div.wrap_txt-blog {
 	width: 60%;
 	max-width: 13.2rem;
 }
 // --- Main Logo Single --- \\
-body.single header.header_blog div.wrap_logo-wordmark,
-body.single header.header_blog div.wrap_logo-wordmark div.wrap_wordmark {
+body.single div.wrap_logo-wordmark,
+body.single div.wrap_logo-wordmark div.wrap_wordmark {
 	max-width: 11rem;
 }
-body.single header.header_blog div.wrap_logo-wordmark div.wrap_logo {
+body.single div.wrap_logo-wordmark div.wrap_logo {
 	max-width: 8.4rem;
 }
-html[lang="en-US"] body.single header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+html[lang="en-US"] body.single div.wrap_logo-wordmark div.wrap_txt-blog {
 	max-width: 4.8rem;
 }
-html[lang="fr-FR"] body.single header.header_blog div.wrap_logo-wordmark div.wrap_txt-blog {
+html[lang="fr-FR"] body.single div.wrap_logo-wordmark div.wrap_txt-blog {
 	max-width: 7.2rem;
 }
 // --- Nav Social --- \\
@@ -459,12 +478,6 @@ nav.nav_blog ul li.link_lang {
 nav.nav_blog ul li.link_blog {
 	margin-bottom: 2rem;
 }
-/*
-nav.nav_blog ul li.link_top,
-body.blog nav.nav_blog ul li.link_blog {
-	display: none;
-}
-*/
 
 // Footer
 // ----------------------------------------------------------------------------
@@ -711,6 +724,7 @@ section.sec_404 article div.wrap_txt-error {
 
 // Single Post
 // ----------------------------------------------------------------------------
+section.sec_404,
 section.sec_post {
 	border-bottom: 0.2rem solid $hsl_navy;
 }
@@ -723,6 +737,10 @@ section.sec_post article div.wrap_headlines,
 section.sec_post article div.wrap_image,
 section.sec_post article div.wrap_content {
 	margin-bottom: 3.2rem;
+}
+section.sec_post article div.wrap_image img {
+	margin-left: auto;
+	margin-right: auto;
 }
 section.sec_post article div.wrap_headlines h2 {
 	margin-bottom: 2rem;
@@ -816,6 +834,7 @@ section.sec_post article div.wrap_content table {
 section.sec_post article div.wrap_content hr {
 	margin-top: 3.2rem;
 	margin-bottom: 3.2rem;
+	border-color: $hsl_navy;
 }
 section.sec_post article div.wrap_content p {
 	line-height: 1.5;
@@ -831,8 +850,9 @@ section.sec_post article div.wrap_content table tbody tr th,
 section.sec_post article div.wrap_content table tbody tr td {
 	line-height: 1.2;
 }
-section.sec_post article div.wrap_content hr {
-	border-color: $hsl_navy;
+section.sec_post article div.wrap_content img {
+	margin-left: auto;
+	margin-right: auto;
 }
 section.sec_post article div.wrap_content div.wrap_video {
 	position: relative;
@@ -858,7 +878,6 @@ section.sec_post article div.wrap_content blockquote {
 section.sec_post article div.wrap_content blockquote p {
 	font-size: 1.5rem;
 	font-style: italic;
-	color: $hsl_navy-L;
 }
 section.sec_post article div.wrap_content blockquote p cite {
 	display: block;
@@ -1028,42 +1047,6 @@ div.post_pagi a {
 div.post_pagi a:first-child {
 	margin-right: 2rem;
 }
-// --- Image Loader --- \\
-div.pkry_loader {
-	@include pos_cover(absolute,200);
-	background-color: $hsl_L100;
-	overflow: hidden;
-}
-div.pkry_loader div.wrap_content {
-	transform: translate3d(0,0,0);
-}
-div.pkry_loader div.wrap_content div.wrap_svg {
-	margin-left: auto;
-	margin-right: auto;
-	width: 4.4rem;
-	height: 4.4rem;
-	animation: anim360 800ms linear infinite forwards;
-}
-div.pkry_loader div.wrap_content div.wrap_svg svg {
-	fill: $hsl_navy;
-}
-div.pkry_loader div.wrap_content p {
-	margin-top: 2rem;
-	font-size: 1.4rem;
-	color: $hsl_navy;
-}
-// + ready + \\
-[data-images="loaded"] div.pkry_loader {
-	opacity: 0;
-}
-[data-images="loaded"] div.pkry_loader div.wrap_content {
-	transform: translate3d(0,6rem,0);
-}
-// + internet explorer + \\
-html.ie9 div.pkry_loader {
-	display: none;
-	visibility: hidden;
-}
 
 // Mailchimp
 // ----------------------------------------------------------------------------
@@ -1075,7 +1058,6 @@ html.ie9 div.pkry_loader {
 	height: 100%;
 	background-color: $hsl_L100;
 	overflow: hidden;
-	visibility: hidden; // requires visibility in order to hide animation on initial page load... set to 'visible' via JS class 'loaded'
 }
 [data-modal] div.wrap_content {
 	@include pos_cover(absolute, 901);
@@ -1086,17 +1068,20 @@ html.ie9 div.pkry_loader {
 	flex-direction: column;
 	text-align: center;
 }
-html[data-ready="ready"] [data-modal] {
+html[data-loader="visible"] [data-modal] {
+	visibility: hidden; // requires visibility in order to hide animation on initial page load... set to 'visible' via JS class 'loaded'
+}
+html[data-loader="removed"] [data-modal] {
 	visibility: visible;
 }
 // + show / hide modal + \\
 [data-modal="active"] {
 	left: 0;
-	animation: animOpacity 0.4s ease-in-out;
+	animation: animOpacity 420ms ease-in-out;
 }
 [data-modal="inactive"] {
 	left: -200%;
-	animation: animHide 0.4s ease-in-out forwards;
+	animation: animHide 420ms ease-in-out forwards;
 }
 html.ie9 [data-modal="active"] {
 	display: block;
@@ -1207,3 +1192,75 @@ div.wrap_response {
 form.form_response div.wrap_response {
 	@include toggle_visibility(on);
 }
+
+// --- Removed: Image Loader --- \\
+/*
+div.pkry_loader {
+	@include pos_cover(absolute,200);
+	background-color: $hsl_L100;
+	overflow: hidden;
+	transition: opacity 420ms ease-in-out;
+}
+div.pkry_loader div.wrap_content {
+	transform: translate3d(0,0,0);
+	transition: transform 420ms ease-in-out;
+}
+div.pkry_loader div.wrap_content div.wrap_svg {
+	margin-left: auto;
+	margin-right: auto;
+	width: 4.4rem;
+	height: 4.4rem;
+	animation: anim360 800ms linear infinite forwards;
+}
+div.pkry_loader div.wrap_content div.wrap_svg svg {
+	fill: $hsl_navy;
+}
+div.pkry_loader div.wrap_content p {
+	margin-top: 2rem;
+	font-size: 1.4rem;
+	color: $hsl_navy;
+}
+// + ready + \\
+[data-images="loaded"] div.pkry_loader {
+	opacity: 0;
+}
+[data-images="loaded"] div.pkry_loader div.wrap_content {
+	transform: translate3d(0,6rem,0);
+}
+// + internet explorer + \\
+html.ie9 div.pkry_loader {
+	display: none;
+	visibility: hidden;
+}
+*/
+
+// --- Removed: Text Underline --- \\
+/*
+div.pkry_container a.brick_text div.wrap_pkry-text p,
+div.pkry_container a.brick_image div.wrap_pkry-meta h4 {
+	transition: text-decoration 260ms ease-in-out;
+}
+div.pkry_container a.brick_image div.wrap_pkry-meta h4 {
+	text-decoration-line: underline;
+	text-decoration-color: $hsl_L100;
+}
+div.pkry_container a.brick_image:hover div.wrap_pkry-meta h4 {
+	text-decoration-color: $hsl_navy-D;
+}
+div.pkry_container a.brick_image:active div.wrap_pkry-meta h4 {
+	text-decoration-color: $hsl_navy;
+}
+div.pkry_container a.brick_text div.wrap_pkry-text p {
+	text-decoration-line: underline;
+	text-decoration-color: $hsl_L100;
+}
+div.pkry_container a.brick_text:hover div.wrap_pkry-text p {
+	text-decoration-color: $hsl_pink-D;
+}
+div.pkry_container a.brick_text:active div.wrap_pkry-text p {
+	text-decoration-color: $hsl_pink;
+}
+div.pkry_container a.brick_text:active {
+	color: $hsl_pink;
+}
+*/

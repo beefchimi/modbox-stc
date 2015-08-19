@@ -1,7 +1,7 @@
 !!!
 /[if IE 9] <html class="ie9" lang="en">
 <!--[if gt IE 9]><!-->
-%html{:lang => "en-US", "data-ready" => "waiting"}<>
+%html{:lang => "en-US", "data-ready" => "waiting", "data-loader" => "visible", "data-overflow" => "locked"}<>
 	<!--<![endif]-->
 
 	= Haml::Engine.new(File.read("dev/haml/partials/cmn/_doc_head.haml")).render
@@ -12,6 +12,7 @@
 			/ inject:svg
 			/ endinject
 
+		= Haml::Engine.new(File.read("dev/haml/partials/cmn/_html_page-loader.haml")).render
 		= Haml::Engine.new(File.read("dev/haml/partials/en/_html_header-blog.haml")).render
 
 		%main{:role => "main"}

@@ -8,7 +8,7 @@
 				%use{"xlink:href" => "#txt_recent_fr"}
 
 		-# home & single post page use class 'row_single', blog uses 'row_multi'
-		#pkry_container.pkry_container.row_single{"data-images" => "waiting"}
+		#pkry_container.pkry_container.row_single
 
 			- arrTitles = ['Le Beacon est de retour. Voici une chronologie des &eacute;v&eacute;nements.', 'Une nouvelle marque pour un nouveau d&eacute;part.', 'Les vendeurs confirm&eacute;s, et la liste est en croissance.', 'Besoin d\'une raison de se d&eacute;placer dans? Voici nos 10 pr&eacute;f&eacute;r&eacute;s repaires nocturnes.']
 			- numPosts = 0
@@ -33,10 +33,3 @@
 				- strCurrentTitle = arrTitles[numPosts]
 
 			.pkry_gutter
-
-			#pkry_loader.pkry_loader
-				.wrap_content
-					.wrap_svg.wrap_ui-loader
-						%svg.ui_loader{:viewBox => "0 0 64 64"}
-							%use{"xlink:href" => "#ui_loader"}
-					%p Chargement messages
