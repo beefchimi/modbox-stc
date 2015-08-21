@@ -599,8 +599,11 @@ section.sec_intro article div.wrap_stc-angel {
 	margin-bottom: 4.8rem;
 	width: 15rem;
 }
-section.sec_intro article div.wrap_txt-holy {
+html[lang="en-US"] section.sec_intro article div.wrap_txt-holy {
 	width: 13.1rem;
+}
+html[lang="fr-FR"] section.sec_intro article div.wrap_txt-holy {
+	width: 14.9rem;
 }
 // --- Sales --- \\
 section.sec_sales {

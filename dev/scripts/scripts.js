@@ -332,7 +332,14 @@ document.addEventListener('DOMContentLoaded', function() {
 					},
 					success: function(data) {
 
-						$elResponse.html(data.msg);
+						// $elResponse.html(data.msg);
+
+						if (elHTML.getAttribute('lang') == 'en-US') {
+							$elResponse.html('Almost finished... We need to confirm your email address. To complete the subscription process, please click the link in the email we just sent you.');
+						} else {
+							$elResponse.html('Vous avez presque termin&eacute;... Nous devons confirmer votre adresse courriel. Pour terminer le processus d’inscription, veuillez cliquer sur le lien dans le courriel que nous venons de vous envoyer.');
+						}
+
 						$elForm.addClass('form_response');
 						// $(this)[0].reset();
 
