@@ -95,6 +95,9 @@ div.page_loader {
 	background-color: $hsl_L100;
 	overflow: hidden;
 }
+html.has_scrollbar div.page_loader {
+	padding-right: 1.5rem; // arbitrary measurement
+}
 div.page_loader div.wrap_content {
 	position: absolute;
 	z-index: 999;

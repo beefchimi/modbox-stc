@@ -98,12 +98,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	// ----------------------------------------------------------------------------
 	function onPageLoad() {
 
+		// add 'has_scrollbar' class to document for styling
+		if (hasScrollbar) {
+			classie.add(elHTML, 'has_scrollbar');
+		}
+
 		// load page at top of document...
 		window.scroll(0, 0);
 
 /*
 		// chrome remembers your scroll position on reload, so using pushState helps return us to the top of the page every time...
-		// problem is, we then have to his 'Back' twice... so not worth it
+		// problem is, we then have to hit 'Back' twice... so, not worth it
 		if (history.pushState) {
 			history.pushState(null, null, '');
 			window.scroll(0, 0);

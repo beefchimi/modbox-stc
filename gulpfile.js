@@ -23,9 +23,10 @@ var paths = {
 		dest: 'build/assets/css/'
 	},
 	scripts: {
-		src : 'dev/scripts/*.js',
-		// vndr: 'dev/scripts/vendor/*.js',
-		dest: 'build/assets/js/'
+		src  : 'dev/scripts/scripts.js',
+		vndr : 'dev/scripts/vendor/*.js',
+		plgn : 'dev/scripts/plugins/*.js',
+		dest : 'build/assets/js/'
 	},
 	maps: {
 		src : 'build/assets/maps/src/'
@@ -40,9 +41,13 @@ var paths = {
 		en  : 'dev/media/svg/en/*.svg',
 		fr  : 'dev/media/svg/fr/*.svg'
 	},
-	extra: {
+	misc: {
 		root : 'dev/extra/root/',
 		dest : 'build/'
+	},
+	fonts: {
+		src  : 'dev/extra/fonts/*',
+		dest : 'build/assets/fonts/'
 	}
 
 };
@@ -63,7 +68,7 @@ if (argv.cmn) {
 // Compile and Output Styles
 gulp.task('styles', function() {
 
-	// external sourcemaps not working, for whatever fucking reason
+	// external sourcemaps not working, for whatever reason
 
 	return plugins.rubySass(paths.styles.src + 'styles.scss', {
 			sourcemap: true,
@@ -78,27 +83,31 @@ gulp.task('styles', function() {
 				suffix: '.min'
 			}))
 		.pipe(plugins.sourcemaps.write('../maps'))
+
 /*
 		.pipe(plugins.sourcemaps.write('../maps', {
+			debug: true,
 			includeContent: false,
-			sourceRoot: 'src'
+			sourceRoot: 'src' // http://localhost/sandwich/build/assets/maps/src
 		}))
 */
+
 		.pipe(gulp.dest(paths.styles.dest))
 		.pipe(plugins.livereload());
 
 });
 
 
-// Concat and Output Scripts
-gulp.task('scripts', function() { // ['copy-scripts'],
+// Concat and output plugins scripts
+gulp.task('plugins', function() {
 
-	// sourcemaps not working, for whatever fucking reason
+	// external sourcemaps don't work :(
 
-	return gulp.src(paths.scripts.src)
-		// .pipe(plugins.sourcemaps.init())
-			.pipe(plugins.concat('scripts.min.js'))
-			.pipe(plugins.uglify())
+	return gulp.src(paths.scripts.plgn)
+		.pipe(plugins.sourcemaps.init())
+			.pipe(plugins.concat('plugins.min.js'))
+			.pipe(plugins.uglify()) // firefox doesn't play nice, but Chrome is fine
+		.pipe(plugins.sourcemaps.write('../maps'))
 /*
 		.pipe(plugins.sourcemaps.write('../maps', {
 			includeContent: false,
@@ -111,22 +120,44 @@ gulp.task('scripts', function() { // ['copy-scripts'],
 });
 
 
-// Copy dev scripts to source maps folder
-gulp.task('copy-scripts', function() {
+// Concat and output custom scripts
+gulp.task('scripts', function() { // ['copy-scripts'],
+
+	// external sourcemaps don't work :(
 
 	return gulp.src(paths.scripts.src)
-		.pipe(gulp.dest(paths.maps.src));
+		.pipe(plugins.sourcemaps.init())
+			.pipe(plugins.concat('scripts.min.js'))
+			.pipe(plugins.uglify()) // firefox doesn't play nice, but Chrome is fine
+		.pipe(plugins.sourcemaps.write('../maps'))
+/*
+		.pipe(plugins.sourcemaps.write('../maps', {
+			includeContent: false,
+			sourceRoot: 'src'
+		}))
+*/
+		.pipe(gulp.dest(paths.scripts.dest))
+		.pipe(plugins.livereload());
 
 });
 
 
-/*
 // Copy (if changed) all of our vendor scripts to the build js folder
 gulp.task('vendor', function() {
 
 	return gulp.src(paths.scripts.vndr)
 		.pipe(plugins.changed(paths.scripts.dest))
 		.pipe(gulp.dest(paths.scripts.dest));
+
+});
+
+
+/*
+// Copy dev scripts to source maps folder
+gulp.task('copy-scripts', function() {
+
+	return gulp.src(paths.scripts.src)
+		.pipe(gulp.dest(paths.maps.src));
 
 });
 */
@@ -147,7 +178,7 @@ gulp.task('images', function() {
 });
 
 
-// Compress and built SVG sprite, then inject into build .html files (only after running HAML task)
+// Compress and build SVG sprite (make ready for injection)
 gulp.task('svg', function() {
 
 	return gulp.src(svgType)
@@ -165,10 +196,11 @@ gulp.task('svg', function() {
 });
 
 
-// Compile only main HAML files (ignore partials - included via the main files)
+// Compile only main HAML files (ignore partials - included via the main files), then inject SVG sprite
 gulp.task('haml', function() {
 
 	// should use an if statement to skip the injection if no SVGs are found
+
 	var svgSource = gulp.src(paths.images.dest + 'svg/svg.svg');
 
 	function fileContents(filePath, file) {
@@ -187,12 +219,21 @@ gulp.task('haml', function() {
 
 
 // Copy (if changed) all of our miscellaneous files to the build folder
-gulp.task('extras', function() {
+gulp.task('misc', ['fonts'], function() {
 
-	// currently manually copying fonts folder into assets
-	return gulp.src([paths.extra.root + '*.*', paths.extra.root + '.htaccess'])
-		.pipe(plugins.changed(paths.extra.dest)) // not sure how to check if this is working or not
-		.pipe(gulp.dest(paths.extra.dest));
+	return gulp.src([paths.misc.root + '*', paths.misc.root + '.htaccess']) // paths.misc.root + '*'
+		.pipe(plugins.changed(paths.misc.dest))
+		.pipe(gulp.dest(paths.misc.dest));
+
+});
+
+
+// Copy (if changed) all of our fonts to the build folder
+gulp.task('fonts', function() {
+
+	return gulp.src(paths.fonts.src)
+		.pipe(plugins.changed(paths.fonts.dest))
+		.pipe(gulp.dest(paths.fonts.dest));
 
 });
 
@@ -223,10 +264,11 @@ gulp.task('watch', function() {
 	// watch dev files, rebuild when changed
 	gulp.watch(paths.haml.src + '**/*.haml', ['haml']);  // watch all HAML files, including partials (recursively)
 	gulp.watch(paths.styles.src + '*.scss', ['styles']); // watch all SCSS files, including partials
-	gulp.watch(paths.scripts.src, ['scripts']); // watch all JS files
+	gulp.watch(paths.scripts.src, ['scripts']); // watch main javascript file
+	gulp.watch(paths.scripts.plgn, ['plugins']); // watch all plugin files
 
 });
 
 
 // Default gulp task
-gulp.task('default', ['svg', 'styles', 'scripts', 'extras', 'haml']); // remove 'images' task as it takes LONG
+gulp.task('default', ['svg', 'styles', 'plugins', 'scripts', 'vendor', 'misc', 'haml']); // haml comes last so SVGs can compile | remove 'images' task as it takes LONG
